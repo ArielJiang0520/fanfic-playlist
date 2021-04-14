@@ -8,6 +8,9 @@ from scipy.sparse import *
 from nltk import word_tokenize
 from nltk.corpus import words, stopwords
 
+nltk.download('words')
+nltk.download('stopwords')
+
 from collections import defaultdict, Counter
 
 DICTIONARY = set(words.words())
