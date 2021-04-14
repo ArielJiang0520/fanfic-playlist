@@ -5,6 +5,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import *
 
+import nltk
 from nltk import word_tokenize
 from nltk.corpus import words, stopwords
 
