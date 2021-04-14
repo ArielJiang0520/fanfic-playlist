@@ -1,10 +1,2 @@
-venv
-*.pyc
-migrations 
-vagrant/.vagrant
-vagrant/site.retry
-vagrant/a4keypair.pem
-.idea/
-*.iml
-requirements.txt
+
 /.vscode
