@@ -1,28 +1,49 @@
-# FanFicPlaylist
+# Fanfiction Playlist
 
-## Music API
+## Tasks
 
-- Genius API: https://docs.genius.com/#resources-h1
-    - Good for getting annotations of the lyrics
+- Scraping / Dataset management (next week)
+    1. add more contemporary artists from more diverse genres (27.5k right now -> aim for 50k next week)
+        - R&B, indie rock, 60s & 70s, or 2021
+        - a list of artists by Wednesday -> Natalie
+    2. get rid of non-English artists from the database ascii 
+        - Ariel
 
-- Million Song Dataset: http://millionsongdataset.com/
-    - The musiXmatch Dataset of MSD: http://millionsongdataset.com/musixmatch/
-        - Note: only bag of words, not actually lyrics because of copyrights
-        - 237,662 tracks; words are **stemmed**
-    - The Last.fm Dataset: http://millionsongdataset.com/lastfm/
-        - contains tags and similar songs
-    - Musixmatch AI: https://developer.musixmatch.com/ai
-        - have features such as word2vec to support Neural Network training
+- Algorithm Develop:
+    1. improve accuracy by doing more text pre-preocessing to the query (aka query adjustment)
+    2. try 2 or 3 ngram models (require larger dataset)
+    3. properly handle unknown words in the query
+    4. try experiment with tfidf hyperparameters
+    5. try lemmatization and stemming before processing
+
+- Evaluation:
+    1. need more fanfictions and human labeled outputs for evaluation
+    - Google search on fanfictions that already have playlists
+    - Antonio -> get a google doc by Wed
+
+- Prototype (due in a week)
+    1. front-end: build basic code to get the app running on flask for next week's prototype
+      - Kirk -> Wednesday meetup
+    2. back-end: cosine similarity (done)
+    3. back-end: data storing (need more efficient methods)
 
 
-## Fanfiction Websites
+## Google Docs
 
-- Archive of Our Own (AO3): https://archiveofourown.org/
-    - 7 million works in over 40,000 fandoms
-    - works are tagged by authors
-    - scrapper: https://github.com/radiolarian/AO3Scraper
+- Milestone 1: https://docs.google.com/document/u/1/d/1QLxoHpTPv7k2OQORvqrx0RigP7ZP4b5U4pkzfo7gMRY/edit#
 
-- Wattpad: https://www.wattpad.com/
-    - over 665 million story uploads in total
-    - not all of them are fanfics
-    - scrapper: https://github.com/BugliL/Wattpad-scraper
+- Milestone 2: https://docs.google.com/document/d/1Mu9OH3U1hEjumE7u8JbBw8I3q32aiL-8lpYx33WPai4/edit?ts=60722c4a
+
+- Fanfiction labels: 
+
+## Spreadsheets
+
+- Divison of Work: https://docs.google.com/spreadsheets/d/1FMk8vNsaYrSIfqNa_jxdY17XYg23vgXzZWGdQrZACdk/edit?ts=6074c2b3
+
+## Resources:
+
+- Flask: https://flask.palletsprojects.com/en/1.1.x/
+
+- Genius API: https://docs.genius.com/
+
+- See more in `/data` folder

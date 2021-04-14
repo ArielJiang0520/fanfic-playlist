@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/bootstrap.min.css">
+        <link rel="stylesheet" href="/static/main.css">
+    </head>
+    <body>
+        <div class="topcorner">
+            <p>Project Name: {{ name }}</p>
+            <p>Student Name: ({{ netid }})</p>
+        </div>
+        <form class="form-inline global-search">
+            <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
+                FanFiction Playlist Generator
+            </h1>
+            
+            <br><br>
+            
+            <!-- <div class="form-group">
+                <input id="input" type="text" name="search" class="form-control" placeholder="Input Your Text Here">
+            </div>
+            <button type="submit" class="btn btn-info"> Go! </button> -->
+        </form>
+        <form class="form-inline global-search">
+        {% if data %}
+            <p>{{output_message}}</p>
+            
+            {% for d in data %}  
+                <br>
+                <p>{{d}}</p>
+            {% endfor %}
+        {% endif %}
+        </form>
+    </body>
+
+</html>
