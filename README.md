@@ -8,6 +8,8 @@
         - a list of artists by Wednesday -> Natalie
     2. get rid of non-English artists from the database ascii 
         - Ariel
+    3. dataset scraping
+        - Natalie
 
 - Algorithm Develop:
     1. improve accuracy by doing more text pre-preocessing to the query (aka query adjustment)
@@ -15,6 +17,10 @@
     3. properly handle unknown words in the query
     4. try experiment with tfidf hyperparameters
     5. try lemmatization and stemming before processing
+  
+- Front End
+    1. html -> Kirk
+    2. spotify -> Antonio
 
 - Evaluation:
     1. need more fanfictions and human labeled outputs for evaluation
@@ -39,6 +45,10 @@
 ## Spreadsheets
 
 - Divison of Work: https://docs.google.com/spreadsheets/d/1FMk8vNsaYrSIfqNa_jxdY17XYg23vgXzZWGdQrZACdk/edit?ts=6074c2b3
+
+## UI design
+
+- Google slides: 
 
 ## Resources:
 
