@@ -7,22 +7,16 @@ from werkzeug.utils import secure_filename
 from flask import current_app, send_from_directory
 import sys
 
-
 project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
 
-
+ALLOWED_EXTENSIONS = {'txt'}
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():
-    query = request.args.get('file')
-    # if not query:
-    result = []
-    output_message = ''
-
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
@@ -34,7 +28,7 @@ def search():
             flash('No selected file')
             return redirect(request.url)
 
-        if file:
+        if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
 

@@ -14,8 +14,12 @@ app = Flask(__name__, template_folder='templates')
 app.config.from_object(os.environ["APP_SETTINGS"])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
-UPLOAD_FOLDER = os.getcwd() + '\\app\irsystem\models'
-ALLOWED_EXTENSIONS = {'txt'}
+UPLOAD_FOLDER = os.path.dirname(__file__) + '\input'
+# print(UPLOAD_FOLDER)
+try:
+    os.mkdir(UPLOAD_FOLDER)
+except FileExistsError:
+    pass
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # DB

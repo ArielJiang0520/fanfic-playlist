@@ -22,13 +22,12 @@
         </form>
         <form class="form-inline global-search">
         {% if data %}
-            <p>{{output_message}}</p>
-            
             {% for d in data %}  
                 <br>
                 <p>{{d}}</p>
             {% endfor %}
         {% endif %}
+        <p>{{output_message}}</p>
         </form>
     </body>
 
