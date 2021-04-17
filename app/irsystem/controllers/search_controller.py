@@ -1,7 +1,7 @@
 from . import *  
 from app.irsystem.models.helpers import *
 from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
-from app.irsystem.models.search import cosine_sim_search
+from app.irsystem.models.search import text_search, get_rand_artists, get_rand_genres
 import os
 from werkzeug.utils import secure_filename
 from flask import current_app, send_from_directory
@@ -38,7 +38,7 @@ def search():
                 os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 'r+', encoding='utf-8'
             ).read()
 
-            result = cosine_sim_search(text)
+            result = text_search(text)
             output_message = "Your search: " + text
 
             return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=result)

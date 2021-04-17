@@ -1,7 +1,7 @@
 import pickle
 import os
 import sys
-from random import random
+import random as rand
 
 
 def text_search(query: str, k=10) -> [tuple]:
@@ -12,7 +12,7 @@ def text_search(query: str, k=10) -> [tuple]:
     return:
         list: songs in (artist, song_name) tuple
     """
-    return [(f'Example Artist {random.randint(1000)}', f'Example Song {random.randint(1000)}') for _ in range(k)]
+    return [(f'Example Artist {rand.randint(0, 1000)}', f'Example Song {rand.randint(0, 1000)}') for _ in range(k)]
 
 
 def get_rand_genres(t=10) -> [str]:
@@ -21,7 +21,7 @@ def get_rand_genres(t=10) -> [str]:
         list: t number of random genres
     """
     
-    return [f'Genre {random.randint(1000)}' for _ in range(t)]
+    return [f'Genre {rand.randint(0, 1000)}' for _ in range(t)]
 
 
 def get_rand_artists(t=10) -> [str]:
@@ -29,4 +29,4 @@ def get_rand_artists(t=10) -> [str]:
     return:
         list: t number of random artists from the database
     """
-    return [f'Artist {random.randint(1000)}' for _ in range(t)]
+    return [f'Artist {rand.randint(0, 1000)}' for _ in range(t)]
