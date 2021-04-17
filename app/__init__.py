@@ -28,12 +28,6 @@ db = SQLAlchemy(app)
 import sys
 import pickle
 
-DB_NAME = '/preload28k.p'
-DATASET_PATH = os.getcwd() + '/dataset'
-DB_PATH = DATASET_PATH + DB_NAME
-sys.path.append(DATASET_PATH)
-DB = pickle.load(open(DB_PATH, 'rb'))
-
 # Import + Register Blueprints
 from app.accounts import accounts as accounts
 app.register_blueprint(accounts)
