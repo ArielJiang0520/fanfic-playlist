@@ -25,8 +25,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # DB
 db = SQLAlchemy(app)
 
-import sys
-import pickle
+from app.dataloader import Dataloader
+DB = Dataloader()
 
 # Import + Register Blueprints
 from app.accounts import accounts as accounts

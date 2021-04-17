@@ -1,4 +1,4 @@
-from app import db # Grab the db from the top-level app
+from app import db, DB # Grab the db from the top-level app
 
 from marshmallow_sqlalchemy import ModelSchema # Needed for serialization in each model
 from werkzeug import check_password_hash, generate_password_hash # Hashing
