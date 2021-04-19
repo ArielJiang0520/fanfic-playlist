@@ -12,7 +12,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 class Dataloader:
     def __init__(self):
         print('DB initialized')
-        PICKLE_FOLDER = os.path.dirname(__file__) + '\\pickle\\'
+        PICKLE_FOLDER = os.path.dirname(__file__) + '/pickle/'
 
         package = pickle.load(open(PICKLE_FOLDER + 'package.p', 'rb'))
         A, G = pickle.load(open(PICKLE_FOLDER + 'pca.p', 'rb'))

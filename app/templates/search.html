@@ -8,19 +8,35 @@
             <p>Project Name: {{ name }}</p>
             <p>Student Name: ({{ netid }})</p>
         </div>
-        <form class="form-inline global-search">
-            <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
-                FanFiction Playlist Generator
-            </h1>
+        <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
+            FanFiction Playlist Generator
+        </h1>
+        <!-- <form class="form-inline global-search">
+            
             
             <br><br>
             
-            <!-- <div class="form-group">
+             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="Input Your Text Here">
             </div>
-            <button type="submit" class="btn btn-info"> Go! </button> -->
-        </form>
-        <form class="form-inline global-search">
+            <button type="submit" class="btn btn-info"> Go! </button> 
+        </form> -->
+
+        <title>Upload new File</title>
+     <h1>Upload new File</h1>
+     <form method=post enctype=multipart/form-data>
+       <input type=file name=file>
+       <input type=submit value=Upload>
+     </form>
+
+
+    <form method=post>
+        <input name="text" type="textarea">
+        <input type="submit">
+    </form>
+
+
+        <div>
         {% if data %}
             {% for d in data %}  
                 <br>
@@ -28,7 +44,8 @@
             {% endfor %}
         {% endif %}
         <p>{{output_message}}</p>
-        </form>
+        </div>
+
     </body>
 
 </html>
