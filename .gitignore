@@ -3,6 +3,7 @@ venv
 migrations 
 vagrant/.vagrant
 vagrant/site.retry
+/fanfic-venv
 vagrant/a4keypair.pem
 .idea/
 *.iml

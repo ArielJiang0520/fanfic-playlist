@@ -59,7 +59,7 @@ h2{
     cursor: pointer;
     font-size: 0px;
     display: inline-block;
-    height: 50px;
+    height: 80px;
     width: 150;
   
   }
@@ -79,7 +79,7 @@ h2{
     position: absolute;
     top: 0;
     left: 0;
-    height: 50px;
+    height: 80px;
     width: 150px;
     background-color: #eee;
     font-size:22px;

@@ -12,8 +12,7 @@ project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
 
 #fix so changes when refreshed
-genres=get_rand_genres()
-artists=get_rand_artists()
+
 
 ALLOWED_EXTENSIONS = {'txt'}
 def allowed_file(filename):
@@ -23,6 +22,8 @@ def allowed_file(filename):
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():
 
+    genres=get_rand_genres()
+    artists=get_rand_artists()
     text_input = request.form.to_dict()
 
     if request.method == 'POST':
@@ -52,16 +53,16 @@ def search():
             result = text_search(text)
             output_message = "Your search: " + text
 
-            return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=result,genres=genres)
+            return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=result,genres=genres,artists=artists)
 
         if 'text' in text_input.keys():
             text = request.form.to_dict()['text']
             result = text_search(text)
             output_message = "Your search: " + text
-            return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=result,genres=genres)
+            return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=result,genres=genres,artists=artists)
 
     
-    return render_template('search.html', name=project_name, netid=net_id, output_message='', data='',genres=genres)
+    return render_template('search.html', name=project_name, netid=net_id, output_message='', data='',genres=genres,artists=artists)
     
     # return '''
     # <!doctype html>
