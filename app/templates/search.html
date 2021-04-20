@@ -2,6 +2,7 @@
     <head>
         <link rel="stylesheet" href="/static/bootstrap.min.css">
         <link rel="stylesheet" href="/static/main.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Montserrat">
     </head>
     <body>
         <div class="topcorner">
@@ -9,20 +10,9 @@
             <p>Student Name: ({{ netid }})</p>
         </div>
         <h1>
-            FanFiction Playlist Generator
+            FanFiction Playlist
         </h1>
-        <!-- <form class="form-inline -search">
-            
-            
-            <br><br>
-            
-             <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" placeholder="Input Your Text Here">
-            </div>
-            <button type="submit" class="
-            btn-info"> Go! </button> 
-        </form> -->
-
+        
     <title>Upload new File</title>
      <h2>Upload .txt file or paste text in the space below:</h2>
 
@@ -34,33 +24,39 @@
 
 
     <form method=post>
-        <textarea class = 'user-text' name="text" type="textarea"> </textarea>
-       
-        {% for genre in genres %}  
+        <textarea class ='user-text' name="text" type="textarea"> </textarea>
+
+            <input type="submit" value="REFRESH">
+            {% for genre in genres %}  
                 <label class="contain">{{genre}}
-                    <input type="checkbox" name="{{genre}}" >
+                    <input type="checkbox" name="genre_box" value="{{genre}}">
                     <span class="checkmark">{{genre}}</span>
                 </label>
             {% endfor %}
             <br>
+
+            <input type="submit" value="REFRESH">
             {% for artist in artists %}  
                 <label class="contain">{{artist}}
-                    <input type="checkbox" name="{{artist}}" >
+                    <input type="checkbox" name="artist_box" value="{{artist}}">
                     <span class="checkmark">{{artist}}</span>
                 </label>
             {% endfor %}
             <br>
+
         <input class = 'submit' type="submit">
     </form>
 
         <div class='output'>
+        <P>Your preferred genres: {{sel_genres}}</P>
+        <P>Your preferred artists: {{sel_artists}}</P>
+
         {% if data %}
             {% for d in data %}  
                 <br>
                 <p>{{d}}</p>
             {% endfor %}
         {% endif %}
-        <p>{{output_message}}</p>
         </div>
 
         

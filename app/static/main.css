@@ -26,13 +26,29 @@ textarea.user-text{
 h1{
     font-size: 60px;
     text-align: center;
-    color: orange ;
+    color: #ffa500 ;
+    font-family: "Pacifico", serif;
     
 }
 
 h2{
     font-size: 20px;
     text-align: center;
+    font-family: "Montserrat", serif;
+}
+
+.user-text{
+    font-family: "Montserrat", serif;
+    font-size: 18px;
+}
+
+input[type=submit] {
+  padding:5px 15px; 
+  background:#ccc; 
+  border:0 none;
+  cursor:pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px; 
 }
 
 .user-file{
@@ -49,6 +65,8 @@ h2{
 
 .output{
     text-align: center;
+    font-family: "Montserrat", serif;
+    font-size: 22px;
 }
 
 .contain {
@@ -81,16 +99,18 @@ h2{
     left: 0;
     height: 80px;
     width: 150px;
+    text-align: center;
     background-color: #eee;
-    font-size:22px;
+    font-size: 18px;
+    font-family: "Montserrat", serif;
   }
   
   /* On mouse-over, add a grey background color */
   .contain:hover input ~ .checkmark {
-    background-color: #ccc;
+    background-color: rgb(192, 192, 192);
   }
   
   /* When the checkbox is checked, add a blue background */
   .contain input:checked ~ .checkmark {
-    background-color: #2196F3;
+    background-color: #ffa500;
   }
