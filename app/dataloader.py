@@ -14,11 +14,13 @@ class Dataloader:
         print('DB initialized')
         PICKLE_FOLDER = os.path.dirname(__file__) + '/pickle/'
 
-        package = pickle.load(open(PICKLE_FOLDER + 'package.p', 'rb'))
-        A = pickle.load(open(PICKLE_FOLDER + 'A.p', 'rb'))
-        G = pickle.load(open(PICKLE_FOLDER + 'G.p', 'rb'))
-        X = scipy.sparse.load_npz(PICKLE_FOLDER + 'X.npz')
+        self.A = pickle.load(open(PICKLE_FOLDER + 'A.p', 'rb'))
+        self.G = pickle.load(open(PICKLE_FOLDER + 'G.p', 'rb'))
+        self.X = scipy.sparse.load_npz(PICKLE_FOLDER + 'X.npz')
+        self.a_pool = pickle.load(open(PICKLE_FOLDER + 'a_pool.p', 'rb'))
+        self.g_pool = pickle.load(open(PICKLE_FOLDER + 'g_pool.p', 'rb'))
 
+        package = pickle.load(open(PICKLE_FOLDER + 'package.p', 'rb'))
         self.word_to_ix = {word: i for i, word in enumerate(package['vocab'])}
         self.V = len(self.word_to_ix)
         self.matadata = package['matadata']
@@ -28,11 +30,6 @@ class Dataloader:
         self.a_to_ix = {a: i for i, a in enumerate(package['artists'])}
         self.g_to_ix = {g: i for i, g in enumerate(package['genres'])}
 
-        self.A = A
-        self.G = G
-
-        self.X = X
-    
     def __parse_input(self, text):
         LEM = WordNetLemmatizer()
         tokens = re.findall(r'[A-Za-z]+', text)
@@ -75,17 +72,23 @@ class Dataloader:
         return [candidates[doc_id] for doc_id in np.argsort(-scores).flatten()]
     
 
-    def generate_genres(self, t):
-        pool = self.genres.copy()
-        random.shuffle(pool)
-        return pool[:t]
-    
+    def generate_pool(self, group, t):
+        pool = []
+        if group == 'g':
+            group = self.g_pool
+        else:
+            group = self.a_pool
 
-    def generate_artists(self, t):
-        pool = self.artists.copy()
-        random.shuffle(pool)
-        return pool[:t]
+        for i in range(len(group)):
+            pick = random.choice(group[i])
+            while pick in pool:
+                pick = random.choice(group[i])
+            pool.append(pick)
+            
+            if len(pool) == t:
+                break
 
-        
+        random.shuffle(pool)
+        return pool
 
 

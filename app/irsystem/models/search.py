@@ -19,7 +19,7 @@ def get_rand_genres(t=8) -> [str]:
     return:
         list: t number of random genres
     """
-    return DB.generate_genres(t)
+    return DB.generate_pool(group='g', t=t)
 
 
 def get_rand_artists(t=8) -> [str]:
@@ -27,5 +27,5 @@ def get_rand_artists(t=8) -> [str]:
     return:
         list: t number of random artists from the database
     """
-    return DB.generate_artists(t)
+    return DB.generate_pool(group='a', t=t)
   

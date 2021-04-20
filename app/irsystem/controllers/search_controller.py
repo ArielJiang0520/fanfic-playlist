@@ -43,7 +43,7 @@ def search():
         sel_genres = request.form.getlist('genre_box')
         sel_artists = request.form.getlist('artist_box')
 
-        result = text_search(text)
+        result = text_search(text, target_genres=sel_genres, target_artists=sel_artists)
 
         return render_template('search.html', name=project_name, netid=net_id,
             data=result, genres=genre_list, artists=artist_list,
