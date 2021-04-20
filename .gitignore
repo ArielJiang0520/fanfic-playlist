@@ -10,4 +10,3 @@ vagrant/a4keypair.pem
 /.vscode
 /app/input/
 **/__pycache__
-*.p

@@ -15,7 +15,8 @@ class Dataloader:
         PICKLE_FOLDER = os.path.dirname(__file__) + '/pickle/'
 
         package = pickle.load(open(PICKLE_FOLDER + 'package.p', 'rb'))
-        A, G = pickle.load(open(PICKLE_FOLDER + 'pca.p', 'rb'))
+        A = pickle.load(open(PICKLE_FOLDER + 'A.p', 'rb'))
+        G = pickle.load(open(PICKLE_FOLDER + 'G.p', 'rb'))
         X = scipy.sparse.load_npz(PICKLE_FOLDER + 'X.npz')
 
         self.word_to_ix = {word: i for i, word in enumerate(package['vocab'])}
