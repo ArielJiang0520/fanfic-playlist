@@ -7,8 +7,13 @@ from werkzeug.utils import secure_filename
 from flask import current_app, send_from_directory, Flask, request, render_template
 import sys
 
+
 project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
+
+#fix so changes when refreshed
+genres=get_rand_genres()
+artists=get_rand_artists()
 
 ALLOWED_EXTENSIONS = {'txt'}
 def allowed_file(filename):
@@ -47,16 +52,16 @@ def search():
             result = text_search(text)
             output_message = "Your search: " + text
 
-            return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=result)
+            return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=result,genres=genres)
 
         if 'text' in text_input.keys():
             text = request.form.to_dict()['text']
             result = text_search(text)
             output_message = "Your search: " + text
-            return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=result)
+            return render_template('search.html', name=project_name, netid=net_id, output_message=output_message, data=result,genres=genres)
 
     
-    return render_template('search.html', name=project_name, netid=net_id, output_message='', data='')
+    return render_template('search.html', name=project_name, netid=net_id, output_message='', data='',genres=genres)
     
     # return '''
     # <!doctype html>

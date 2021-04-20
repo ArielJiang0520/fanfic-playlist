@@ -35,6 +35,21 @@
 
     <form method=post>
         <textarea class = 'user-text' name="text" type="textarea"> </textarea>
+       
+        {% for genre in genres %}  
+                <label class="contain">{{genre}}
+                    <input type="checkbox" name="{{genre}}" >
+                    <span class="checkmark">{{genre}}</span>
+                </label>
+            {% endfor %}
+            <br>
+            {% for artist in artists %}  
+                <label class="contain">{{artist}}
+                    <input type="checkbox" name="{{artist}}" >
+                    <span class="checkmark">{{artist}}</span>
+                </label>
+            {% endfor %}
+            <br>
         <input class = 'submit' type="submit">
     </form>
 
@@ -47,6 +62,8 @@
         {% endif %}
         <p>{{output_message}}</p>
         </div>
+
+        
 
     </body>
 

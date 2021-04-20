@@ -4,10 +4,14 @@ import os
 import re
 import random
 import nltk
+nltk.download('all')
 from nltk.stem import WordNetLemmatizer
 import numpy as np
 from collections import Counter, defaultdict
 from sklearn.metrics.pairwise import cosine_similarity
+
+
+
 
 class Dataloader:
     def __init__(self):

@@ -26,7 +26,8 @@ textarea.user-text{
 h1{
     font-size: 60px;
     text-align: center;
-    color: #5ca8db ;
+    color: orange ;
+    
 }
 
 h2{
@@ -49,3 +50,47 @@ h2{
 .output{
     text-align: center;
 }
+
+.contain {
+    display: block;
+    position: relative;
+    padding-left: 0px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 0px;
+    display: inline-block;
+    height: 50px;
+    width: 150;
+  
+  }
+  
+  /* Hide the browser's default checkbox */
+  .contain input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    
+  }
+  
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 50px;
+    width: 150px;
+    background-color: #eee;
+    font-size:22px;
+  }
+  
+  /* On mouse-over, add a grey background color */
+  .contain:hover input ~ .checkmark {
+    background-color: #ccc;
+  }
+  
+  /* When the checkbox is checked, add a blue background */
+  .contain input:checked ~ .checkmark {
+    background-color: #2196F3;
+  }
