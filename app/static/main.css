@@ -17,6 +17,9 @@ textarea.user-text{
     display: block;
     font-family: "Montserrat", serif;
     font-size: 10px;
+    border-color: #ffa500 ;
+    border-style: double;
+    border-width: 7px;
 }
 
 ::placeholder {
