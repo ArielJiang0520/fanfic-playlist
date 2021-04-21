@@ -11,10 +11,12 @@ text-align: right;
 
 textarea.user-text{
     width: 100%;
-    height: 200px;
+    height: 500px;
     max-width: 500px;
     margin: 0 auto;
     display: block;
+    font-family: "Montserrat", serif;
+    font-size: 10px;
 }
 
 .submit{
@@ -35,11 +37,6 @@ h2{
     font-size: 20px;
     text-align: center;
     font-family: "Montserrat", serif;
-}
-
-.user-text{
-    font-family: "Montserrat", serif;
-    font-size: 18px;
 }
 
 input[type=submit] {
