@@ -1,10 +1,8 @@
 from . import *  
-from app.irsystem.models.helpers import *
-from app.irsystem.models.helpers import NumpyEncoder as NumpyEncoder
-from app.irsystem.models.search import text_search, get_rand_artists, get_rand_genres
+from app.irsystem.models.model import text_search, get_rand_artists, get_rand_genres
 import os
 from werkzeug.utils import secure_filename
-from flask import current_app, send_from_directory, Flask, request, render_template
+from flask import current_app, Flask, request, render_template
 import sys
 
 project_name = "FanFiction Playlist Generator"
@@ -41,7 +39,9 @@ def search():
             text = request.form.to_dict()['text']
 
         sel_genres = request.form.getlist('genre_box')
+        print('selected genres', sel_genres)
         sel_artists = request.form.getlist('artist_box')
+        print('selected artists', sel_artists)
 
         result = text_search(text, target_genres=sel_genres, target_artists=sel_artists)
 

@@ -27,20 +27,18 @@
         <textarea class ='user-text' name="text" type="textarea" placeholder="Input text here"> 
         </textarea>
 
-            <input type="submit" value="REFRESH">
-            {% for genre in genres %}  
-                <label class="contain">{{genre}}
-                    <input type="checkbox" name="genre_box" value="{{genre}}">
-                    <span class="checkmark">{{genre}}</span>
-                </label>
-            {% endfor %}
-            <br>
-
-            <input type="submit" value="REFRESH">
             {% for artist in artists %}  
                 <label class="contain">{{artist}}
                     <input type="checkbox" name="artist_box" value="{{artist}}">
                     <span class="checkmark">{{artist}}</span>
+                </label>
+            {% endfor %}
+            <br>
+
+            {% for genre in genres %}  
+                <label class="contain">{{genre}}
+                    <input type="checkbox" name="genre_box" value="{{genre}}">
+                    <span class="checkmark">{{genre}}</span>
                 </label>
             {% endfor %}
             <br>
