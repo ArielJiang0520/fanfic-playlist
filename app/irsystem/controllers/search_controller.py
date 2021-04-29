@@ -48,8 +48,17 @@ def search():
         sel_artists = request.form.getlist('artist_box')
         print('selected artists', sel_artists)
 
-        result = text_search(text, target_genres=sel_genres, target_artists=sel_artists, popular=True)
-        data = [s['artist']+' - '+s['title'] for s in result['songs']]
+        result = text_search(text, target_genres=sel_genres, target_artists=sel_artists, popular=True, link=False)
+
+        if result['status'] == '000':
+            ## fetch result here
+            data = [s['artist']+' - '+s['title'] for s in result['songs']]
+
+        else: 
+            # handle response error
+            print('error code:', result['status']['code'])
+            print('error message:', result['status']['msg'])
+            raise AssertionError
 
         return render_template('search.html', name=project_name, netid=net_id,
             data=data, genres=genre_list, artists=artist_list,
