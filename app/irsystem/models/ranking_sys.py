@@ -5,6 +5,7 @@ import numpy as np
 
 from . import DB
 
+
 alpha = 1.0 # base weight
 beta = 0.8 # preference weight
 gamma = 0.5 # audio weight
@@ -14,8 +15,6 @@ tb = 0.85 # preference clipping threshold
 
 f = 0.7 # popularity clipping threshold
 
-t = 0.03 # tfidf clipping
-b = 0.9 # base threshold
 
 def sentiment_score(q, threshold=ta):
     cs = cosine_similarity(q, DB.M).flatten()

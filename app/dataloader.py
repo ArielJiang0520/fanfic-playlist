@@ -90,21 +90,6 @@ class Dataloader:
 
         assert self.M.shape == (len(self.MATADATA), 6)
 
-        ### LOAD TF-IDF VECTORIZER
-
-        # TFIDF_FOLDER = f'{PRELOAD_FOLDER}/tfidf'
-
-        # self.VECTORIZER = dill.load(open(f'{TFIDF_FOLDER}/vectorizer.p', 'rb'))
-
-        # self.WORD_TO_IX = self.VECTORIZER.vocabulary_
-        # self.IDF = self.VECTORIZER.idf_
-        # self.VOCABULARY = ['' for _ in range(len(self.WORD_TO_IX))]
-        # for word, index in self.WORD_TO_IX.items():
-        #     self.VOCABULARY[index] = word
-
-        # self.L = scipy.sparse.load_npz(f'{TFIDF_FOLDER}/L.npz')
-        # assert self.L.shape == (len(df), len(self.WORD_TO_IX))
-
         ### 
 
         print('finished loading everything!')
