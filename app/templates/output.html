@@ -1,0 +1,15 @@
+<h1>The output</h1>
+<div class='output'>
+  <P>Your preferred genres: {{sel_genres}}</P>
+  <P>Your preferred artists: {{sel_artists}}</P>
+
+  {% if data %}
+  {% for d in data %}
+  <br>
+  <p>{{d}}</p>
+  {% endfor %}
+  {% endif %}
+</div>
+
+
+<p align="center"><a href= /><button class=grey style="height:75px;width:150px">New search</button></a></p>

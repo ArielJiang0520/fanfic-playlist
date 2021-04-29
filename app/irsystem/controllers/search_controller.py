@@ -1,4 +1,4 @@
-from . import *  
+from . import *
 from app.irsystem.models.model import text_search, get_rand_artists, get_rand_genres
 import os
 from werkzeug.utils import secure_filename
@@ -9,9 +9,12 @@ project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
 
 ALLOWED_EXTENSIONS = {'txt'}
+
+
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():
@@ -23,18 +26,20 @@ def search():
         if 'file' in request.files:
             file = request.files['file']
 
-            if not allowed_file(file.filename): pass
+            if not allowed_file(file.filename):
+                pass
 
             filename = secure_filename(file.filename)
-            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            file.save(os.path.join(
+                current_app.config['UPLOAD_FOLDER'], filename))
 
             print(f'file id {filename} is received.', file=sys.stderr)
 
             text = open(
-                os.path.join(current_app.config['UPLOAD_FOLDER'], filename), 
+                os.path.join(current_app.config['UPLOAD_FOLDER'], filename),
                 'r+', encoding='unicode_escape'
             ).read()
-        
+
         if 'text' in text_input.keys():
             text = request.form.to_dict()['text']
 
@@ -50,5 +55,5 @@ def search():
             data=data, genres=genre_list, artists=artist_list,
             sel_genres=sel_genres, sel_artists=sel_artists)
 
-    return render_template('search.html', name=project_name, netid=net_id, output_message='', 
-        data='', genres=genre_list, artists=artist_list)
+    return render_template('search.html', name=project_name, netid=net_id, output_message='',
+                           data='', genres=genre_list, artists=artist_list)
