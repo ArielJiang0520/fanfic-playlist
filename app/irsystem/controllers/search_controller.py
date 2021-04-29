@@ -48,12 +48,13 @@ def search():
         sel_artists = request.form.getlist('artist_box')
         print('selected artists', sel_artists)
 
-        result = text_search(text, target_genres=sel_genres, target_artists=sel_artists, popular=True)
+        result = text_search(text, target_genres=sel_genres,
+                             target_artists=sel_artists, popular=True)
         data = [s['artist']+' - '+s['title'] for s in result['songs']]
 
-        return render_template('search.html', name=project_name, netid=net_id,
-            data=data, genres=genre_list, artists=artist_list,
-            sel_genres=sel_genres, sel_artists=sel_artists)
+        return render_template('output.html', name=project_name, netid=net_id,
+                               data=data, genres=genre_list, artists=artist_list,
+                               sel_genres=sel_genres, sel_artists=sel_artists)
 
     return render_template('search.html', name=project_name, netid=net_id, output_message='',
                            data='', genres=genre_list, artists=artist_list)
