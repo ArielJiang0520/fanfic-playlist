@@ -1,6 +1,6 @@
 from . import DB
-from .input_handler import tokenize_input, embed_input, concat_proba, sent_analysis, advance_tokenize
-from .ranking_sys import sentiment_score, pref_score, audio_score, tfidf_score, rank, generate_url
+from .input_handler import tokenize_input, embed_input, concat_proba, sent_analysis
+from .ranking_sys import sentiment_score, pref_score, audio_score, lyrics_score, rank, generate_url
 
 from bs4 import BeautifulSoup
 import requests
@@ -71,7 +71,6 @@ def text_search(query: str, target_genres=[], target_artists=[],
             'preference': 0.0,
             'lyrics': 0.0
         },
-        'matching_words': [],
         'genius_link': ''
     }
 
@@ -106,24 +105,30 @@ def text_search(query: str, target_genres=[], target_artists=[],
     result['fanfic']['analysis']['top_sentences'] = top_sentences
     
     ##
-    tokenized_q_tfidf = advance_tokenize(' '.join(top_sentences))
-    q_f = DB.VECTORIZER.transform([tokenized_q_tfidf])
+    tokenized_q_lyrics = tokenize_input(' '.join(top_sentences))
+    
+    if len(tokenized_q_lyrics) <= 0:
+        result['status']['code'] = '002'
+        result['status']['msg'] = f'input was: {query}'
+        return result
+    
+    q_e = embed_input(tokenized_q_lyrics)
     
     ##
     sentiment = sentiment_score(q)
     pref = pref_score(target_artists, target_genres, popular)
     audio = audio_score(q)
-    ir = tfidf_score(q_f)
+    lyrics = lyrics_score(q_e)
 
     ##
-    rankings = rank(tokenized_q_tfidf, sentiment, pref, audio, ir, k)
+    rankings = rank(sentiment, pref, audio, lyrics, k)
 
     if len(rankings) != k:
         result['status']['code'] = '003'
         result['status']['msg'] = f'fetched result: {len(rankings)}'
         return result
 
-    for doc_id, words in rankings:
+    for doc_id in rankings:
         song_result = song_form.copy()
         song_result['id'] = DB.ID[doc_id]
 
@@ -133,15 +138,14 @@ def text_search(query: str, target_genres=[], target_artists=[],
         song_result['scores']['sentiment'] = sentiment[doc_id]
         song_result['scores']['preference'] = pref[doc_id]
         song_result['scores']['audio'] = audio[doc_id]
-        song_result['scores']['tfidf'] = ir[doc_id]
-
-        song_result['matching_words'] = words
+        song_result['scores']['lyrics'] = lyrics[doc_id]
 
         song_result['genius_link'] = generate_url(doc_id)
 
         result['songs'].append(song_result)
 
-    result['status'] = '000'
+    result['status']['code'] = '000'
+    result['status']['msg'] = 'okay'
 
     return result
     

@@ -55,52 +55,32 @@ def pref_score(artists=[], genres=[], popular=False):
 def audio_score(q):
     return minmax_scale(np.array(
         [
-            float(1.0 - abs(DB.AUDIO_FEATURES[i][0] - q[:, -2])) + \
-            float(1.0 - abs(DB.AUDIO_FEATURES[i][1] - q[:, -2])) \
+            np.log2(float(1.0 - abs(DB.AUDIO_FEATURES[i][0] - q[:, -2]))) + \
+            np.log2(float(1.0 - abs(DB.AUDIO_FEATURES[i][1] - q[:, -2]))) \
                 for i in range(len(DB.AUDIO_FEATURES))
         ]
     ))
 
 
-def tfidf_score(q_f):
-    tfidf = cosine_similarity(q_f, DB.L).flatten()
-    return tfidf
+def lyrics_score(q_e):
+    return cosine_similarity(q_e.reshape(1, -1), DB.L).flatten()
 
 
-def rank(tokenized_q, sentiment, pref, audio, ir, k):
-    base = alpha * sentiment + beta * pref + gamma * audio
+def rank(sentiment, pref, audio, lyrics, k):
+    final = lyrics + alpha * sentiment + beta * pref + gamma * audio
 
     output = []
-    for doc_id in np.argsort(-ir):
+    for doc_id in np.argsort(-final):
         if DB.ID[doc_id] == '': continue # skip missing ids
 
-        if ir[doc_id] > t and base[doc_id] > (alpha + beta + gamma) * b:
-            same_words = list(set(get_content(DB.L, doc_id)) & set(tokenized_q))
-            output.append((doc_id, same_words))
-
-        if len(output) >= k:
-            break
-    
-    if len(output) < k:
-        for doc_id in np.argsort(-base):
-            if DB.ID[doc_id] == '': continue # skip missing ids
-
-            artist = DB.MATADATA[doc_id][0]
-            if artist not in [DB.MATADATA[i][0] for i, _ in output]:
-                same_words = list(set(get_content(DB.L, doc_id)) & set(tokenized_q))
-                output.append((doc_id, same_words))
-
+        artist, title = DB.MATADATA[doc_id]
+        if artist not in [DB.MATADATA[i][0] for i in output] \
+            and title not in [DB.MATADATA[i][1] for i in output]:
+            output.append(doc_id)
             if len(output) >= k:
                 break
     
     return output
-
-
-def get_content(mat, i):
-    output = []
-    for idx in mat[i].indices:
-        output.append(DB.VOCABULARY[idx])
-    return sorted(output, key=lambda x:-DB.IDF[DB.WORD_TO_IX[x]])
 
 
 def generate_url(i):

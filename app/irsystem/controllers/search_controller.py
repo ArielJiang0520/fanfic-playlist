@@ -50,16 +50,15 @@ def search():
 
         result = text_search(text, target_genres=sel_genres,
                              target_artists=sel_artists, popular=True, link=False)
+        print(result)
 
-        if result['status'] == '000':
+        if result['status']['code'] == '000':
             # fetch result here
             data = [s['artist']+' - '+s['title'] for s in result['songs']]
 
         else:
             # handle response error
-            print('error code:', result['status']['code'])
-            print('error message:', result['status']['msg'])
-            raise AssertionError
+            data = [f"error code: {result['status']['code']}", f"error message: {result['status']['msg']}"]
 
         return render_template('output.html', name=project_name, netid=net_id,
                                data=data, genres=genre_list, artists=artist_list,
