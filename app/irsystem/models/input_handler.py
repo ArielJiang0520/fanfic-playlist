@@ -51,6 +51,19 @@ def tokenize_input(text):
     return list(chain.from_iterable(tokenized_sent))
 
 
+def advance_tokenize(text):
+    tokenized_sent = sent_tokenize(text)
+    output = []
+    for sent in tokenized_sent:
+        sent = re.findall(r'[A-Za-z]+', sent)
+        sent = [word for word, tag in nltk.pos_tag(sent) \
+                  if (tag in ['NN', 'NNS'])]
+        sent = [LEM.lemmatize(token.lower()) for token in sent if token.lower() not in STOPWORDS]
+        output.append(tokenize_input(' '.join(sent)))
+        
+    return list(chain.from_iterable(output))
+
+
 def embed_input(tokenized_query):
     vec = np.zeros(shape=(len(tokenized_query), DB.EMBED_SIZE))
 

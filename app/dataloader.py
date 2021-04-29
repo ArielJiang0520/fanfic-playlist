@@ -25,6 +25,7 @@ class Dataloader:
         a_df = pickle.load(open(f'{DATA_FOLDER}/artist_info.p', 'rb'))
 
         self.MATADATA = list(zip(df['artist'].tolist(), df['title'].tolist()))
+        self.ID = np.nan_to_num(df['id'].tolist(), nan='')
 
         self.SONG_POPULARITY = np.nan_to_num(df['popularity'].tolist(), nan=10)
         self.ARTIST_POPULARITY = np.nan_to_num(a_df['popularity'].tolist(), nan=10)
@@ -94,9 +95,12 @@ class Dataloader:
 
         self.WORD_TO_IX = self.VECTORIZER.vocabulary_
         self.IDF = self.VECTORIZER.idf_
+        self.VOCABULARY = ['' for _ in range(len(self.WORD_TO_IX))]
+        for word, index in self.WORD_TO_IX.items():
+            self.VOCABULARY[index] = word
 
         self.L = scipy.sparse.load_npz(f'{TFIDF_FOLDER}/L.npz')
-        self.ANNO = scipy.sparse.load_npz(f'{TFIDF_FOLDER}/ANNO.npz')
+        assert self.L.shape == (len(df), len(self.WORD_TO_IX))
 
         ### 
 
@@ -107,10 +111,8 @@ class Dataloader:
         if group == 'a':
             return sorted(self.ARTIST_POOL, key=lambda x:-self.ARTIST_POPULARITY[self.A_TO_IX[x]])[:t]
         else:
-            return ['pop', 'folk', 'rock', 'blues', 'hip hop', 'jazz', 'r&b', 'country']
+            return ['pop', 'folk', 'rock', 'blues', 'hip hop', 'jazz', 'punk', 'r&b', 'country', 'easy listening', 'electro']
         
-
-
 
     
     
