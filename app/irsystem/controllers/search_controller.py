@@ -25,9 +25,9 @@ def search():
             link = True
 
         sel_genres = request.form.getlist('genre_box')
-        print('selected genres', sel_genres)
+        # print('selected genres', sel_genres)
         sel_artists = request.form.getlist('artist_box')
-        print('selected artists', sel_artists)
+        # print('selected artists', sel_artists)
 
         result = text_search(text, target_genres=sel_genres,
                              target_artists=sel_artists, popular=True, link=link)
@@ -108,7 +108,7 @@ def spotify_generator(song_uris):
     response1 = requests.post(url=endpoint_url, data=request1_body, headers={"Content-Type": "application/json",
                                                                              "Authorization": "Bearer " + token})
 
-    print(response1)
+    # print(response1)
 
     if ('id' not in response1.json().keys()):
         return None
