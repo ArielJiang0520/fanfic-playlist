@@ -15,10 +15,14 @@ def search():
     genre_list = get_rand_genres()
     artist_list = get_rand_artists()
     text_input = request.form.to_dict()
-
+    link = False
     if request.method == 'POST':
         if 'text' in text_input.keys():
             text = request.form.to_dict()['text']
+            link = False
+        if 'link' in text_input.keys():
+            text = request.form.to_dict()['link']
+            link = True
 
         sel_genres = request.form.getlist('genre_box')
         print('selected genres', sel_genres)
@@ -26,7 +30,7 @@ def search():
         print('selected artists', sel_artists)
 
         result = text_search(text, target_genres=sel_genres,
-                             target_artists=sel_artists, popular=True, link=False)
+                             target_artists=sel_artists, popular=True, link=link)
         # print(result)
 
         playlistid = ""
@@ -36,19 +40,21 @@ def search():
             data = [result['fanfic']] + [s for s in result['songs']]
             songs = ["spotify:track:" + x['id'] for x in result['songs']]
             playlistid = spotify_generator(songs)
-            result['fanfic']['scores']['Sexual'] = round(
-                result['fanfic']['scores']['Sexual'], 2)
-            result['fanfic']['scores']['Romance'] = round(
-                result['fanfic']['scores']['Romance'], 2)
-            result['fanfic']['scores']['Emo'] = round(
-                result['fanfic']['scores']['Emo'], 2)
+            result['fanfic']['scores']['Sexual'] = int((
+                result['fanfic']['scores']['Sexual'])*100)
+            result['fanfic']['scores']['Romance'] = int((
+                result['fanfic']['scores']['Romance'])*100)
+            result['fanfic']['scores']['Emo'] = int((
+                result['fanfic']['scores']['Emo'])*100)
             for song in result['songs']:
-                song['scores']['sentiment'] = round(
-                    song['scores']['sentiment'], 2)
-                song['scores']['audio'] = round(song['scores']['audio'], 2)
-                song['scores']['preference'] = round(
-                    song['scores']['preference'], 2)
-                song['scores']['lyrics'] = round(song['scores']['lyrics'], 2)
+                song['scores']['sentiment'] = int((
+                    song['scores']['sentiment'])*100)
+                song['scores']['audio'] = int(
+                    (song['scores']['audio'])*100)
+                song['scores']['preference'] = int((
+                    song['scores']['preference'])*100)
+                song['scores']['lyrics'] = int(
+                    (song['scores']['lyrics'])*100)
 
         else:
             # handle response error
