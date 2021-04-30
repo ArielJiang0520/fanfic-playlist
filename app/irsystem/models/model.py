@@ -43,8 +43,8 @@ def get_rand_genres(t=8) -> [str]:
     """
     return DB.generate_pool(group='g', t=t)
 
-
-def get_rand_artists(t=8) -> [str]:
+#t=8
+def get_rand_artists(t=3000) -> [str]:
     """
     return:
         list: t number of random artists from the database
