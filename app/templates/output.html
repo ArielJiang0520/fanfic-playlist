@@ -10,9 +10,8 @@
 <div class='output'>
   <h1 class='result'>Results</h1>
   {% if result %}
-  <button class='spotify-placeholder'>
-    Spotify player placeholder
-  </button>
+  <iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
+    allowtransparency="true" allow="encrypted-media"></iframe>
   <!-- <div class='flex-container'>-->
 
   <!--<div class='flex-child'>-->
@@ -94,8 +93,7 @@
 
 </div>
 
-<iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
-  allowtransparency="true" allow="encrypted-media"></iframe>
+
 
 
 
