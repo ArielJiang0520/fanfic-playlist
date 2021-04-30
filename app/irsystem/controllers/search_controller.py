@@ -53,6 +53,19 @@ def search():
         result = text_search(text, target_genres=sel_genres,
                              target_artists=sel_artists, popular=True, link=False)
         # print(result)
+        result['fanfic']['scores']['Sexual'] = round(
+            result['fanfic']['scores']['Sexual'], 2)
+        result['fanfic']['scores']['Romance'] = round(
+            result['fanfic']['scores']['Romance'], 2)
+        result['fanfic']['scores']['Emo'] = round(
+            result['fanfic']['scores']['Emo'], 2)
+        for song in result['songs']:
+            song['scores']['sentiment'] = round(
+                song['scores']['sentiment'], 2)
+            song['scores']['audio'] = round(song['scores']['audio'], 2)
+            song['scores']['preference'] = round(
+                song['scores']['preference'], 2)
+            song['scores']['lyrics'] = round(song['scores']['lyrics'], 2)
 
         if result['status']['code'] == '000':
             songs = []

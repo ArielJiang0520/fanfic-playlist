@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 import requests
 import numpy as np
 
-cat_name = {0: 'sexual', 1: 'romance', 2: 'sad'}
+cat_name = {0: 'Sexual', 1: 'Romance', 2: 'Emo'}
 
 
 def scrape_link(url: str):
@@ -47,13 +47,13 @@ def text_search(query: str, target_genres=[], target_artists=[],
         'songs': [],  # list of k song_results
         'fanfic': {
             'scores': {
-                'sexual': 0.0,
-                'romance': 0.0,
-                'emo': 0.0
+                'Sexual': 0.0,
+                'Romance': 0.0,
+                'Emo': 0.0
             },
             'analysis':
             {
-                'sel_cat': '',  # [romance | emo | sexual]
+                'sel_cat': '',  # [Romance | Emo | Sexual]
                 'top_sentences': []  # 30 sentences
             }
         },
@@ -96,9 +96,9 @@ def text_search(query: str, target_genres=[], target_artists=[],
     pred = q.reshape(-1, )[[1, 3, 5]]
     sel_cat = np.argmax(pred)
 
-    result['fanfic']['scores']['sexual'] = pred[0]
-    result['fanfic']['scores']['romance'] = pred[1]
-    result['fanfic']['scores']['emo'] = pred[2]
+    result['fanfic']['scores']['Sexual'] = pred[0]
+    result['fanfic']['scores']['Romance'] = pred[1]
+    result['fanfic']['scores']['Emo'] = pred[2]
 
     result['fanfic']['analysis']['sel_cat'] = cat_name[sel_cat]
 

@@ -9,84 +9,133 @@
 
 <div class='output'>
   <h1 class='result'>Results</h1>
+  <p class='info'>The playlist was created based on sentiment analysis of your fanfiction and the song lyrics
+    and Genius lyric annotations in our database, along consideration of your preferred genres and artists.
+    Click on the song buttons below to learn how each song compares to the fanfiction in sentiment, audio quality,
+    and lyric similarity, and if the song is related to your preferred genres and artists. Below that is a short
+    analysis
+    of the fanfiction itself.
+  </p>
+  <br>
+
   {% if result %}
-  <iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
-    allowtransparency="true" allow="encrypted-media"></iframe>
-  <!-- <div class='flex-container'>-->
+  <button class='spotify-placeholder'>
+    Spotify player placeholder
+  </button>
+  <!--uncomment this when the spotify thing works, for now have a button there to show where it will be-->
+  <!--<iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
+    allowtransparency="true" allow="encrypted-media"></iframe>-->
 
-  <!--<div class='flex-child'>-->
-  <div class='button-flex1'>
-    {% for song in result['songs'][:5] %}
-    <br>
-    <div class='song-card'>
-      <div class="popup" onclick="showSongInfo2({{song}},event)">
-        <div class='popup-flex-child'>
-          <button class='return-button'>
-            "{{song['title']}}" by {{song['artist']}}
-          </button>
-        </div>
-        <div class='popup-flex-child'>
-          <span class="popuptext" id={{song['id']}}>
-            Sentiment Score: {{song['scores']['sentiment']}}
-            <br>
-            Audio Score: {{song['scores']['audio']}}
-            <br>
-            Preference Score: {{song['scores']['preference']}}
-            <br>
-            Lyrics Score: {{song['scores']['lyrics']}}
-            <br>
-            Matching Words: {{song['matching_words']}}
-          </span>
-        </div>
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-  <div class='button-flex2'>
-    {% for song in result['songs'][5:] %}
-    <br>
-    <div class='song-card2'>
-      <div class="popup" onclick="showSongInfo2({{song}},event)">
-        <div class='popup-flex-child'>
-          <button class='return-button'>
-            "{{song['title']}}" by {{song['artist']}}
-          </button>
-        </div>
-        <div class='popup-flex-child'>
-          <span class="popuptext" id={{song['id']}}>
-            Sentiment Score: {{song['scores']['sentiment']}}
-            <br>
-            Audio Score: {{song['scores']['audio']}}
-            <br>
-            Preference Score: {{song['scores']['preference']}}
-            <br>
-            Lyrics Score: {{song['scores']['lyrics']}}
-            <br>
-            Matching Words: {{song['matching_words']}}
-          </span>
+  <br>
+  <div class='background-square'>
+    <div class='button-flex1'>
+      {% for song in result['songs'][:5] %}
+      <br>
+      <div class='song-card'>
+        <div class="popup" onclick="showSongInfo2({{song}},event)">
+          <div class='popup-flex-child'>
+            <button class='return-button'>
+              "{{song['title']}}" by {{song['artist']}}
+            </button>
+          </div>
+          <div class='popup-flex-child'>
+            <span class="popuptext" id={{song['id']}}>
+              Sentiment Score: {{song['scores']['sentiment']}}
+              <br>
+              Audio Score: {{song['scores']['audio']}}
+              <br>
+              Preference Score: {{song['scores']['preference']}}
+              <br>
+              Lyrics Score: {{song['scores']['lyrics']}}
+              <br>
+            </span>
+          </div>
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
+    <div class='button-flex2'>
+      {% for song in result['songs'][5:] %}
+      <br>
+      <div class='song-card2'>
+        <div class="popup" onclick="showSongInfo2({{song}},event)">
+          <div class='popup-flex-child'>
+            <button class='return-button'>
+              "{{song['title']}}" by {{song['artist']}}
+            </button>
+          </div>
+          <div class='popup-flex-child'>
+            <span class="popuptext" id={{song['id']}}>
+              Sentiment Score: {{song['scores']['sentiment']}}
+              <br>
+              Audio Score: {{song['scores']['audio']}}
+              <br>
+              Preference Score: {{song['scores']['preference']}}
+              <br>
+              Lyrics Score: {{song['scores']['lyrics']}}
+              <br>
+            </span>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
   </div>
+  <br>
+  <div class='background-square-ga'>
+    <h2 class='preferred'>Your preferred genres:</h2>
+    <div class='genre-list'>
+      {% if sel_genres %}
+      {% for genre in sel_genres %}
+      <div class='genre'>
+        <p class='genre-text'>{{genre}}</p>
+      </div>
+      {%endfor%}
+      {%else%}
+      <p>No genres selected</p>
+      {% endif %}
+    </div>
+    <h2 class='preferred'>Your preferred artists:</h2>
+    <div class='genre-list'>
+      {% for artist in sel_artists %}
+      <div class='genre'>
+        <p class='genre-text'>{{artist}}</p>
+      </div>
+      {%endfor%}
+    </div>
+  </div>
+  <div class='background-square-ga'>
+    <h2 class='preferred'>Fanfic category scores:</h2>
+    <div class='fic-score-wrapper'>
+      <div class='fic-score-item'>
+        <h3 class='score-label'>Sexual: </h3>
+        <p class='score-num'>{{result['fanfic']['scores']['Sexual']}}</p>
+      </div>
+      <div class='fic-score-item'>
+        <h3 class='score-label'>Romance: </h3>
+        <p class='score-num'>{{result['fanfic']['scores']['Romance']}}</p>
+      </div>
+      <div class='fic-score-item'>
+        <h3 class='score-label'>Emo: </h3>
+        <p class='score-num'>{{result['fanfic']['scores']['Emo']}}</p>
+      </div>
+    </div>
 
-  <div>
-    <P>Your preferred genres: {{sel_genres}}</P>
-    <P>Your preferred artists: {{sel_artists}}</P>
+    <h2 class='preferred'>Fanfic overall category:</h2>
+    <p class='category'>{{result['fanfic']['analysis']['sel_cat']}}</p>
 
+    <h2 class='preferred'>Most important sentences:</h2>
+    <div class='sentence-box'>
+      <ul>
+        {% for sent in result['fanfic']['analysis']['top_sentences'][:10]%}
+        <li>
+          <p class='sentences'>{{sent}}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
 
-    <h2>Your fanfic was evaluated with these scores:</h2>
-    <p>{{result['fanfic']['scores']}}</p>
-
-    <h2>The overall category your fanfic fell into was:</h2>
-    <p>{{result['fanfic']['analysis']['sel_cat']}}</p>
-
-    <h2>These were the most important sentences:</h2>
-    {% for sent in result['fanfic']['analysis']['top_sentences'][:10]%}
-    <p>{{sent}}</p>
-    {% endfor %}
-
-    <!--</div>-->
 
     {% endif %}
   </div>
@@ -119,6 +168,9 @@
       box.style.display = "none";
     });
     */
+  function roundNumber(num, places) {
+    return Math.round(num * Math.pow(10, places)) / Math.pow(10, places);
+  }
 </script>
 
 

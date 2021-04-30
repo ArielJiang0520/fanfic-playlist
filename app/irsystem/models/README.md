@@ -21,12 +21,12 @@ response format (refer to error code):
 {
     'fanfic': {
         'scores': {
-                'sexual': 0.0,
-                'romance': 0.0,
-                'emo': 0.0
+                'Sexual': 0.0,
+                'Romance': 0.0,
+                'Emo': 0.0
             },
         'analysis': {
-            'sel_cat': '', # [romance | emo | sexual] 
+            'sel_cat': '', # [Romance | Emo | Sexual] 
             'top_sentences': [] # 30 sentences (truncate if you want)
         }
     },
