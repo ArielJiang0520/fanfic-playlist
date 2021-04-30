@@ -1,15 +1,127 @@
-<h1>The output</h1>
-<div class='output'>
-  <P>Your preferred genres: {{sel_genres}}</P>
-  <P>Your preferred artists: {{sel_artists}}</P>
+<html>
 
-  {% if data %}
-  {% for d in data %}
-  <br>
-  <p>{{d}}</p>
-  {% endfor %}
-  {% endif %}
+<head>
+  <link rel="stylesheet" href="/static/output.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Montserrat">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+</head>
+
+
+<div class='output'>
+  <h1 class='result'>Results</h1>
+  {% if result %}
+  <button class='spotify-placeholder'>
+    Spotify player placeholder
+  </button>
+  <!-- <div class='flex-container'>-->
+
+  <!--<div class='flex-child'>-->
+  <div class='button-flex1'>
+    {% for song in result['songs'][:5] %}
+    <br>
+    <div class='song-card'>
+      <div class="popup" onclick="showSongInfo2({{song}},event)">
+        <div class='popup-flex-child'>
+          <button class='return-button'>
+            "{{song['title']}}" by {{song['artist']}}
+          </button>
+        </div>
+        <div class='popup-flex-child'>
+          <span class="popuptext" id={{song['id']}}>
+            Sentiment Score: {{song['scores']['sentiment']}}
+            <br>
+            Audio Score: {{song['scores']['audio']}}
+            <br>
+            Preference Score: {{song['scores']['preference']}}
+            <br>
+            Lyrics Score: {{song['scores']['lyrics']}}
+            <br>
+            Matching Words: {{song['matching_words']}}
+          </span>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class='button-flex2'>
+    {% for song in result['songs'][5:] %}
+    <br>
+    <div class='song-card2'>
+      <div class="popup" onclick="showSongInfo2({{song}},event)">
+        <div class='popup-flex-child'>
+          <button class='return-button'>
+            "{{song['title']}}" by {{song['artist']}}
+          </button>
+        </div>
+        <div class='popup-flex-child'>
+          <span class="popuptext" id={{song['id']}}>
+            Sentiment Score: {{song['scores']['sentiment']}}
+            <br>
+            Audio Score: {{song['scores']['audio']}}
+            <br>
+            Preference Score: {{song['scores']['preference']}}
+            <br>
+            Lyrics Score: {{song['scores']['lyrics']}}
+            <br>
+            Matching Words: {{song['matching_words']}}
+          </span>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div>
+    <P>Your preferred genres: {{sel_genres}}</P>
+    <P>Your preferred artists: {{sel_artists}}</P>
+
+
+    <h2>Your fanfic was evaluated with these scores:</h2>
+    <p>{{result['fanfic']['scores']}}</p>
+
+    <h2>The overall category your fanfic fell into was:</h2>
+    <p>{{result['fanfic']['analysis']['sel_cat']}}</p>
+
+    <h2>These were the most important sentences:</h2>
+    {% for sent in result['fanfic']['analysis']['top_sentences'][:10]%}
+    <p>{{sent}}</p>
+    {% endfor %}
+
+    <!--</div>-->
+
+    {% endif %}
+  </div>
+
 </div>
 
 
-<p align="center"><a href= /><button class=grey style="height:75px;width:150px">New search</button></a></p>
+
+
+
+<script>
+  var box = document.querySelector('.popup');
+
+  // When the user clicks to open modal
+  function showSongInfo(song, event) {
+    var elem = event.target;
+    console.log(elem.classList);
+    elem.classList.toggle("show");
+    box.querySelector('h3').innerText = 'Popup Box ' + elem.id;
+    box.querySelector('p').innerText = 'You are currently viewing popup box ' + elem.id + '.';
+  }
+  function showSongInfo2(song, event) {
+    var popup = document.getElementById(song['id']);
+    popup.classList.toggle("show");
+  }
+  // When the user clicks to close modal
+  /*
+    document.querySelector('.close-box').addEventListener('click', function (event) {
+      box.style.display = "none";
+    });
+    */
+</script>
+
+
+<p align="center"><a href= /><button class="return-button">New search</button></a></p>
+
+</html>

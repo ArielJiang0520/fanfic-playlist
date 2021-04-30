@@ -63,7 +63,7 @@ def search():
 
         return render_template('output.html', name=project_name, netid=net_id,
                                data=data, genres=genre_list, artists=artist_list,
-                               sel_genres=sel_genres, sel_artists=sel_artists)
+                               sel_genres=sel_genres, sel_artists=sel_artists, result=result)
 
     return render_template('search.html', name=project_name, netid=net_id, output_message='',
                            data='', genres=genre_list, artists=artist_list)

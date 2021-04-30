@@ -67,12 +67,6 @@ input[type=submit] {
     display: inline;
 }
 
-.output{
-    text-align: center;
-    font-family: "Montserrat", serif;
-    font-size: 22px;
-}
-
 .contain {
     display: block;
     position: relative;

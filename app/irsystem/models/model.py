@@ -8,28 +8,30 @@ import numpy as np
 
 cat_name = {0: 'sexual', 1: 'romance', 2: 'sad'}
 
+
 def scrape_link(url: str):
     headers = {'user-agent': 'bot (sj784@cornell.edu)'}
-    
+
     r = requests.get(url, headers=headers)
     soup = BeautifulSoup(r.text)
-    
+
     output = ''
     if soup.find_all('div', class_="userstuff module", role='article'):
         for chapter in soup.find_all('div', class_="userstuff module", role='article'):
             output += chapter.get_text()+'\n'
-    
+
     elif soup.find('div', class_='userstuff'):
         output += soup.find('div', class_='userstuff').get_text()
-    
+
     else:
         # print(f'can not find text for {url}')
         raise AssertionError
-        
+
     return output
 
-def text_search(query: str, target_genres=[], target_artists=[], 
-        popular=True, k=10, link=False) -> [dict]:
+
+def text_search(query: str, target_genres=[], target_artists=[],
+                popular=True, k=10, link=False) -> [dict]:
     """
     param:
         query: fanfiction
@@ -42,7 +44,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
     """
 
     result = {
-        'songs': [], # list of k song_results
+        'songs': [],  # list of k song_results
         'fanfic': {
             'scores': {
                 'sexual': 0.0,
@@ -51,14 +53,14 @@ def text_search(query: str, target_genres=[], target_artists=[],
             },
             'analysis':
             {
-                'sel_cat': '', # [romance | emo | sexual]
-                'top_sentences': [] # 30 sentences
+                'sel_cat': '',  # [romance | emo | sexual]
+                'top_sentences': []  # 30 sentences
             }
         },
         'status': {
             'code': '',
             'msg': ''
-        }            
+        }
     }
 
     song_form = {
@@ -104,11 +106,11 @@ def text_search(query: str, target_genres=[], target_artists=[],
     _, top_sentences = sent_analysis(sel_cat, query)
 
     result['fanfic']['analysis']['top_sentences'] = top_sentences
-    
+
     ##
     tokenized_q_tfidf = advance_tokenize(' '.join(top_sentences))
     q_f = DB.VECTORIZER.transform([tokenized_q_tfidf])
-    
+
     ##
     sentiment = sentiment_score(q)
     pref = pref_score(target_artists, target_genres, popular)
@@ -130,10 +132,10 @@ def text_search(query: str, target_genres=[], target_artists=[],
         song_result['artist'] = DB.MATADATA[doc_id][0]
         song_result['title'] = DB.MATADATA[doc_id][1]
 
-        song_result['scores']['sentiment'] = sentiment[doc_id]
-        song_result['scores']['preference'] = pref[doc_id]
-        song_result['scores']['audio'] = audio[doc_id]
-        song_result['scores']['tfidf'] = ir[doc_id]
+        song_result['scores']['sentiment'] = round(sentiment[doc_id], 2)
+        song_result['scores']['preference'] = round(pref[doc_id], 2)
+        song_result['scores']['audio'] = round(audio[doc_id], 2)
+        song_result['scores']['lyrics'] = round(ir[doc_id], 2)
 
         song_result['matching_words'] = words
 
@@ -144,7 +146,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
     result['status'] = '000'
 
     return result
-    
+
 
 def get_rand_genres(t=8) -> [str]:
     """
