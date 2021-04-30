@@ -1,7 +1,6 @@
 from . import *
 from app.irsystem.models.model import text_search, get_rand_artists, get_rand_genres
 import os
-from werkzeug.utils import secure_filename
 from flask import current_app, Flask, request, render_template
 import sys
 import requests
@@ -9,13 +8,6 @@ import json
 
 project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
-
-ALLOWED_EXTENSIONS = {'txt'}
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 @irsystem.route('/', methods=['GET', 'POST'])
@@ -25,23 +17,6 @@ def search():
     text_input = request.form.to_dict()
 
     if request.method == 'POST':
-        if 'file' in request.files:
-            file = request.files['file']
-
-            if not allowed_file(file.filename):
-                pass
-
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(
-                current_app.config['UPLOAD_FOLDER'], filename))
-
-            print(f'file id {filename} is received.', file=sys.stderr)
-
-            text = open(
-                os.path.join(current_app.config['UPLOAD_FOLDER'], filename),
-                'r+', encoding='unicode_escape'
-            ).read()
-
         if 'text' in text_input.keys():
             text = request.form.to_dict()['text']
 
@@ -70,9 +45,8 @@ def search():
         if result['status']['code'] == '000':
             songs = []
             # fetch result here
-            data = [s['artist']+' - '+s['title'] for s in result['songs']]
-            for x in result['songs']:
-                songs.append("spotify:track:" + x['id'])
+            data = [result['fanfic']] + [s for s in result['songs']]
+            songs = ["spotify:track:" + x['id'] for x in result['songs']]
             playlistid = spotify_generator(songs)
 
         else:
@@ -126,6 +100,8 @@ def spotify_generator(song_uris):
     })
     response1 = requests.post(url=endpoint_url, data=request1_body, headers={"Content-Type": "application/json",
                                                                              "Authorization": "Bearer " + token})
+
+    print(response1)
 
     if ('id' not in response1.json().keys()):
         return None
