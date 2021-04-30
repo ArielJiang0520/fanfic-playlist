@@ -108,14 +108,24 @@ def text_search(query: str, target_genres=[], target_artists=[],
 
     ##
     tokenized_q_lyrics = tokenize_input(' '.join(top_sentences))
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> cec60e264b81b7647dc568f542fdab78d14f40e4
     if len(tokenized_q_lyrics) <= 0:
         result['status']['code'] = '002'
         result['status']['msg'] = f'input was: {query}'
         return result
+<<<<<<< HEAD
 
     q_e = embed_input(tokenized_q_lyrics)
 
+=======
+    
+    q_e = embed_input(tokenized_q_lyrics)
+    
+>>>>>>> cec60e264b81b7647dc568f542fdab78d14f40e4
     ##
     sentiment = sentiment_score(q)
     pref = pref_score(target_artists, target_genres, popular)
