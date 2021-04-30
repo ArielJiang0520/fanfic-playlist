@@ -1,39 +1,152 @@
 from . import DB
-from .input_handler import tokenize_input, embed_input, concat_proba
-from .ranking_sys import base_score, pref_score, audio_score
+from .input_handler import tokenize_input, embed_input, concat_proba, sent_analysis
+from .ranking_sys import sentiment_score, pref_score, audio_score, lyrics_score, rank, generate_url
 
+from bs4 import BeautifulSoup
+import requests
 import numpy as np
 
-def text_search(query: str, target_genres=[], target_artists=[], k=10) -> [tuple]:
+cat_name = {0: 'sexual', 1: 'romance', 2: 'sad'}
+
+def scrape_link(url: str):
+    headers = {'user-agent': 'bot (sj784@cornell.edu)'}
+    
+    r = requests.get(url, headers=headers)
+    soup = BeautifulSoup(r.text)
+    
+    output = ''
+    if soup.find_all('div', class_="userstuff module", role='article'):
+        for chapter in soup.find_all('div', class_="userstuff module", role='article'):
+            output += chapter.get_text()+'\n'
+    
+    elif soup.find('div', class_='userstuff'):
+        output += soup.find('div', class_='userstuff').get_text()
+    
+    else:
+        # print(f'can not find text for {url}')
+        raise AssertionError
+        
+    return output
+
+def text_search(query: str, target_genres=[], target_artists=[], 
+        popular=True, k=10, link=False) -> [dict]:
     """
     param:
         query: fanfiction
         target_genres: a list of user selected genres
         target_artist: a list of user selected artists
+        popular: bool
         k: number of resulst to return
     return:
-        list: songs in (artist, song_name) tuple
+        see below
     """
-    tokenized_q = tokenize_input(query)
-    q = concat_proba(embed_input(tokenized_q))
 
-    # classifier score
-    base = base_score(q)
-    alpha = 1.0
+    result = {
+        'songs': [], # list of k song_results
+        'fanfic': {
+            'scores': {
+                'sexual': 0.0,
+                'romance': 0.0,
+                'emo': 0.0
+            },
+            'analysis':
+            {
+                'sel_cat': '', # [romance | emo | sexual]
+                'top_sentences': [] # 30 sentences
+            }
+        },
+        'status': {
+            'code': '',
+            'msg': ''
+        }            
+    }
 
-    # user preference score
-    pref = pref_score(artists=target_artists, genres=target_genres, popular=True)
-    beta = 0.5
+    if link:
+        try:
+            query = scrape_link(query)
+        except:
+            result['status']['code'] = '001'
+            result['status']['msg'] = f'link was: {query}'
+            return result
 
-    # audio feature score
+    try:
+        tokenized_q = tokenize_input(query)
+        q = concat_proba(embed_input(tokenized_q))
+    except:
+        result['status']['code'] = '002'
+        result['status']['msg'] = f'input was: {query}'
+        return result
+
+    ##
+    pred = q.reshape(-1, )[[1, 3, 5]]
+    sel_cat = np.argmax(pred)
+
+    result['fanfic']['scores']['sexual'] = pred[0]
+    result['fanfic']['scores']['romance'] = pred[1]
+    result['fanfic']['scores']['emo'] = pred[2]
+
+    result['fanfic']['analysis']['sel_cat'] = cat_name[sel_cat]
+
+    _, top_sentences = sent_analysis(sel_cat, query)
+
+    result['fanfic']['analysis']['top_sentences'] = top_sentences
+    
+    ##
+    tokenized_q_lyrics = tokenize_input(' '.join(top_sentences))
+    
+    if len(tokenized_q_lyrics) <= 0:
+        result['status']['code'] = '002'
+        result['status']['msg'] = f'input was: {query}'
+        return result
+    
+    q_e = embed_input(tokenized_q_lyrics)
+    
+    ##
+    sentiment = sentiment_score(q)
+    pref = pref_score(target_artists, target_genres, popular)
     audio = audio_score(q)
-    gamma = 0.5
+    lyrics = lyrics_score(q_e)
+    
+    ##
+    rankings = rank(sentiment, pref, audio, lyrics, k)
 
-    assert base.shape[0] == pref.shape[0] == audio.shape[0]
+    if len(rankings) != k:
+        result['status']['code'] = '003'
+        result['status']['msg'] = f'fetched result: {len(rankings)}'
+        return result
 
-    final = alpha * base + beta * pref + gamma * audio
+    for doc_id in rankings:
+        song_result = {
+            'id': '',
+            'artist': '',
+            'title': '',
+            'scores': {
+                'sentiment': 0.0,
+                'audio': 0.0,
+                'preference': 0.0,
+                'lyrics': 0.0
+            },
+            'genius_link': ''
+        }
 
-    return [(DB.MATADATA[doc_id], round(final[doc_id],4)) for doc_id in np.argsort(-final)[:10]]
+        song_result['id'] = DB.ID[doc_id]
+
+        song_result['artist'] = DB.MATADATA[doc_id][0]
+        song_result['title'] = DB.MATADATA[doc_id][1]
+
+        song_result['scores']['sentiment'] = sentiment[doc_id]
+        song_result['scores']['preference'] = pref[doc_id]
+        song_result['scores']['audio'] = audio[doc_id]
+        song_result['scores']['lyrics'] = lyrics[doc_id]
+
+        song_result['genius_link'] = generate_url(doc_id)
+
+        result['songs'].append(song_result)
+
+    result['status']['code'] = '000'
+    result['status']['msg'] = 'okay'
+
+    return result
     
 
 def get_rand_genres(t=8) -> [str]:
@@ -50,4 +163,3 @@ def get_rand_artists(t=3000) -> [str]:
         list: t number of random artists from the database
     """
     return DB.generate_pool(group='a', t=t)
-  

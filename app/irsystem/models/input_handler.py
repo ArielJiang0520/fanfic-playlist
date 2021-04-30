@@ -6,11 +6,6 @@ import re
 
 import nltk
 from nltk.tokenize import sent_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer 
-
-LEM = WordNetLemmatizer()
-STOPWORDS = set(stopwords.words('english'))
 
 PATTERN = r'''(?x)          # set flag to allow verbose regexps
     (?:[a-z]\.)+        # abbreviations, e.g. U.S.A.
@@ -71,10 +66,12 @@ def concat_proba(input_):
 
 def sent_analysis(cat, text):
     cat1, cat2 = {}, {}
+
     sentences = sent_tokenize(text)
     for sent in sentences:
         tokenized_s = tokenize_input(sent)
-        if len(tokenized_s) > 3:
+
+        if len(tokenized_s) > 5:
             s = concat_proba(embed_input(tokenized_s))
             cat1[sent] = s[:, cat*2]
             cat2[sent] = s[:, cat*2+1]

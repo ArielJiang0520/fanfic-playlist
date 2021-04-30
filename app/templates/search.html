@@ -1,27 +1,22 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="/static/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/main.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Montserrat">
-    </head>
-    <body>
-        <div class="topcorner">
-            <p>Project Name: {{ name }}</p>
-            <p>Student Name: ({{ netid }})</p>
-        </div>
-        <h1>
-            FanFiction Playlist
-        </h1>
-        
+
+<head>
+    <link rel="stylesheet" href="/static/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/main.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Montserrat">
+</head>
+
+<body>
+    <div class="topcorner">
+        <p>Project Name: {{ name }}</p>
+        <p>Student Name: ({{ netid }})</p>
+    </div>
+    <h1>
+        FanFiction Playlist
+    </h1>
+
     <title>Upload new File</title>
-     <h2>Upload .txt file or paste text in the space below:</h2>
-
-
-     <form class = 'user-file' method=post enctype=multipart/form-data>
-       <input type=file name=file>
-       <input type=submit value=Upload>
-     </form>
-
+    <h2>Paste an AO3 link or fanfiction text in the space below:</h2>
 
      
     <style>
@@ -97,23 +92,40 @@ input[type=submit] {
         
             
 
-        <input class = 'submit' type="submit">
+    <form method=post class='form'>
+        <div class='text-container'>
+            <div class='flex-child'>
+                <h2>Paste Text:</h2>
+            </div>
+            <div class='flex-child'>
+                <h2>Paste Link:</h2>
+            </div>
+        </div>
+        <div class='text-container'>
+            <textarea id='text-paste' class='user-text' name="text" type="textarea" placeholder="Input text here"></textarea>
+            <textarea id='link-paste' class='user-text' name="text" type="textarea" placeholder="Input link here"></textarea>
+        </div>
+
+        {% for artist in artists %}
+        <label class="contain">{{artist}}
+            <input type="checkbox" name="artist_box" value="{{artist}}">
+            <span class="checkmark">{{artist}}</span>
+        </label>
+        {% endfor %}
+        <br>
+
+        {% for genre in genres %}
+        <label class="contain">{{genre}}
+            <input type="checkbox" name="genre_box" value="{{genre}}">
+            <span class="checkmark">{{genre}}</span>
+        </label>
+        {% endfor %}
+        <br>
+
+        <input class='submit' type="submit">
     </form>
     
 
-        <div class='output'>
-        <P>Your preferred genres: {{sel_genres}}</P>
-        <P>Your preferred artists: {{sel_artists}}</P>
-
-        {% if data %}
-            {% for d in data %}  
-                <br>
-                <p>{{d}}</p>
-            {% endfor %}
-        {% endif %}
-        </div>
-
-        
 
     </body>
     <script>
