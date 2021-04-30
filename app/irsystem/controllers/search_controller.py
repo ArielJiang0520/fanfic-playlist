@@ -4,6 +4,8 @@ import os
 from werkzeug.utils import secure_filename
 from flask import current_app, Flask, request, render_template
 import sys
+import requests
+import json
 
 project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
@@ -50,11 +52,16 @@ def search():
 
         result = text_search(text, target_genres=sel_genres,
                              target_artists=sel_artists, popular=True, link=False)
-        print(result)
+        # print(result)
+
 
         if result['status']['code'] == '000':
+            songs=[]
             # fetch result here
             data = [s['artist']+' - '+s['title'] for s in result['songs']]
+            for x in result['songs']:
+                songs.append("spotify:track:" + x['id'])
+            playlistid = spotify_generator(songs)
 
         else:
             # handle response error
@@ -62,7 +69,65 @@ def search():
 
         return render_template('output.html', name=project_name, netid=net_id,
                                data=data, genres=genre_list, artists=artist_list,
-                               sel_genres=sel_genres, sel_artists=sel_artists)
+                               sel_genres=sel_genres, sel_artists=sel_artists, playlist=playlistid)
 
     return render_template('search.html', name=project_name, netid=net_id, output_message='',
                            data='', genres=genre_list, artists=artist_list)
+
+
+
+# @irsystem.route('/spotify/', methods=['GET', 'POST'])
+def song_list(result):
+    list1=[]
+    for tuple1 in result:
+        list1.append(tuple1[1])
+    return list1
+
+
+def spotify_generator(song_uris):
+
+    user_id = "gxemvx4lf4a2z1bvo33bkxul4"
+    # TOKEN = requests.post("https://accounts.spotify.com/api/token", data = {
+    #     "grant_type": "client_credentials"}, headers = {
+    # "Authorization":"Basic MzFjZmFiZmM4ZGM4NDIzNmE2ZGU3OGM1N2ExYTg4NmI6NmViZjg4ZjA3ZjgwNGY3MTgxOGUxNGU3NmZlNDU0YzY="
+    # })
+    # token = json.loads(TOKEN.text)['access_token']
+    token = "BQCl1U0H-YFgGfOU6nAFMQtiCp3FnLs7g0WZMrO63iqGbSCQA_AGLPDAR8sEcqY5Uxg2RvJn0JCcovS6hRUkW0easJuttuhBKZ_GX0AA6Hog0E6IxU2ER5NU6Ol29chKiyosWLBjyiJKekWkg-PCM2-uVYrOjnMheK1bsChUwaQ0i0CcE_h0XEnJtb35UaB7RBvP0VAalliXBbQb7seYKTAlpIYkH_fgEVKaJVAC-Z5rjOWFWmRw-Y642SGFq30xZQGqKA5w2xv57kyFKDAbdDVgbqcPziSSC2SqeaFZ"
+    
+    # for song in song_names:
+    #     payload = {'q': song, 'type': 'track'}
+    #     response = requests.get('https://api.spotify.com/v1/search', params=payload, headers={"Content-Type":"application/json", 
+    #                         "Authorization":"Bearer " + token})
+    #     # response = requests.get("https://api.spotify.com/v1/search?"+song+"&type=track")
+    #     results = response.json()
+        
+    #     for song in results['tracks']['items']:
+    #         uris.append(song['uri'])
+    # # uris.append("spotify:track:39QWEcx4aFKyx7mCQYD2Pv")
+    # print(uris)
+    endpoint_url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
+    request1_body = json.dumps({
+            "name": "Fanfiction Playlist",
+            "description": "Most similar songs to the input.",
+            "public": True
+            })
+    response1 = requests.post(url = endpoint_url, data = request1_body, headers={"Content-Type":"application/json", 
+                            "Authorization":"Bearer " + token})
+
+    if ('id' not in response1.json().keys()):
+        return None
+
+    playlist_id = response1.json()['id']
+    endpoint_url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+
+    # for s in song_uris:
+    #     uris.append(s)
+    # print(uris)
+
+    request2_body = json.dumps({
+          "uris" : song_uris
+        })
+
+    requests.post(url = endpoint_url, data = request2_body, headers={"Content-Type":"application/json", 
+                        "Authorization":"Bearer " + token})  
+    return playlist_id
