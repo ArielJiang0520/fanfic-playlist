@@ -6,11 +6,6 @@ import re
 
 import nltk
 from nltk.tokenize import sent_tokenize
-from nltk.corpus import stopwords
-from nltk.stem import WordNetLemmatizer 
-
-LEM = WordNetLemmatizer()
-STOPWORDS = set(stopwords.words('english'))
 
 PATTERN = r'''(?x)          # set flag to allow verbose regexps
     (?:[a-z]\.)+        # abbreviations, e.g. U.S.A.
@@ -49,19 +44,6 @@ def tokenize_input(text):
     tokenized_sent = convert_phrases(tokenize_corpus([text]))
     tokenized_sent = convert_unk(tokenized_sent)
     return list(chain.from_iterable(tokenized_sent))
-
-
-def advance_tokenize(text):
-    tokenized_sent = sent_tokenize(text)
-    output = []
-    for sent in tokenized_sent:
-        sent = re.findall(r'[A-Za-z]+', sent)
-        sent = [word for word, tag in nltk.pos_tag(sent) \
-                  if (tag in ['NN', 'NNS'])]
-        sent = [LEM.lemmatize(token.lower()) for token in sent if token.lower() not in STOPWORDS]
-        output.append(tokenize_input(' '.join(sent)))
-        
-    return list(chain.from_iterable(output))
 
 
 def embed_input(tokenized_query):

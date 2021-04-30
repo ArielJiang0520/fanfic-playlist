@@ -6,12 +6,12 @@ function input:
 
 ```
 
-        query: text or link
-        target_genres: a list of user selected genres
-        target_artist: a list of user selected artists
-        popular: bool
-        k: number of resulst to return  
-        link: if the query is a link or not
+query: text or link
+target_genres: a list of user selected genres
+target_artist: a list of user selected artists
+popular: bool
+k: number of resulst to return  
+link: if the query is a link or not
 
 ```
 
@@ -42,7 +42,6 @@ response format (refer to error code):
                 'preference': 0.0,
                 'lyrics': 0.0
             },
-            'matching_words': [],
             'genius_link': ''
         },
 

@@ -31,9 +31,11 @@ class Dataloader:
         self.ARTIST_POPULARITY = np.nan_to_num(a_df['popularity'].tolist(), nan=10)
 
         self.AUDIO_FEATURES = np.nan_to_num(
-            np.vstack([df['valence'].tolist(), 
-                    df['energy'].tolist(), 
-                    df['danceability'].tolist()]),
+            np.vstack([
+                df['valence'].tolist(), 
+                df['energy'].tolist(), 
+                df['danceability'].tolist()
+            ]),
             nan=0.5
         ).T
 
@@ -84,23 +86,9 @@ class Dataloader:
         assert len(self.GENRE_POOL) == self.G.shape[0]
 
         self.M = np.load(f'{MAT_FOLDER}/M_anno.npy')
+        self.L = np.load(f'{MAT_FOLDER}/L.npy')
 
         assert self.M.shape == (len(self.MATADATA), 6)
-
-        ### LOAD TF-IDF VECTORIZER
-
-        TFIDF_FOLDER = f'{PRELOAD_FOLDER}/tfidf'
-
-        self.VECTORIZER = dill.load(open(f'{TFIDF_FOLDER}/vectorizer.p', 'rb'))
-
-        self.WORD_TO_IX = self.VECTORIZER.vocabulary_
-        self.IDF = self.VECTORIZER.idf_
-        self.VOCABULARY = ['' for _ in range(len(self.WORD_TO_IX))]
-        for word, index in self.WORD_TO_IX.items():
-            self.VOCABULARY[index] = word
-
-        self.L = scipy.sparse.load_npz(f'{TFIDF_FOLDER}/L.npz')
-        assert self.L.shape == (len(df), len(self.WORD_TO_IX))
 
         ### 
 
