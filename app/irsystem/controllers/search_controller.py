@@ -63,7 +63,7 @@ def spotify_generator(song_uris):
     # "Authorization":"Basic MzFjZmFiZmM4ZGM4NDIzNmE2ZGU3OGM1N2ExYTg4NmI6NmViZjg4ZjA3ZjgwNGY3MTgxOGUxNGU3NmZlNDU0YzY="
     # })
     # token = json.loads(TOKEN.text)['access_token']
-    token = "BQBKMrf3gKXRZKtJnhZrDk4JXZmJFflXGdYE3bIOoyk2s467x6fSBc2eaA4yM1phLl1XpwSyd-fYsig0kovFSAzkju51Lu-UIAa3dDFUUBN01YMCGYMEt8h38xV_YGpKz4SyLj54wfNjjOOnP2bbjSpw7vXm7Jvk2-OvYGhxrJRzsStRYj8OMh2cckXXOf-_pSNxFqxZhKnDZlolakvpm0GOln8TLvYCW4VmUDxJ0tYANS0_NTe26lH0YFkKq3V7UBXyCqMOdQBt19KxLK3LxA"
+    token = "BQCujFE2g76NHklpEv6YLKpj7e-WTPvTIGlC4MNfzdUZoJ3omlrNY1RSao9mcTaG6G-J9BW_APOrwAugIlgGfyaQKKJFkAoE_7et1atOnnj8GTbOBBpb5onD1vZqFX39Njqc4pJhgnm2B5BxNkyOkZaZa2HFpu-dIP6RrEEkcMVOCZObVg9qiDv3DhpzbaNwNsWkEVHY0RzulKjel14pg2oLWlWmwcG6P2Vcyd-fwlhqagDo92LU3ichbiWqFN0PckQavVdNb4FpFZKUbOCLl21cBDtOZ_iCjEibvYmi"
     
     # for song in song_names:
     #     payload = {'q': song, 'type': 'track'}
