@@ -61,19 +61,6 @@ def text_search(query: str, target_genres=[], target_artists=[],
         }            
     }
 
-    song_form = {
-        'id': '',
-        'artist': '',
-        'title': '',
-        'scores': {
-            'sentiment': 0.0,
-            'audio': 0.0,
-            'preference': 0.0,
-            'lyrics': 0.0
-        },
-        'genius_link': ''
-    }
-
     if link:
         try:
             query = scrape_link(query)
@@ -119,7 +106,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
     pref = pref_score(target_artists, target_genres, popular)
     audio = audio_score(q)
     lyrics = lyrics_score(q_e)
-
+    
     ##
     rankings = rank(sentiment, pref, audio, lyrics, k)
 
@@ -129,7 +116,19 @@ def text_search(query: str, target_genres=[], target_artists=[],
         return result
 
     for doc_id in rankings:
-        song_result = song_form.copy()
+        song_result = {
+            'id': '',
+            'artist': '',
+            'title': '',
+            'scores': {
+                'sentiment': 0.0,
+                'audio': 0.0,
+                'preference': 0.0,
+                'lyrics': 0.0
+            },
+            'genius_link': ''
+        }
+
         song_result['id'] = DB.ID[doc_id]
 
         song_result['artist'] = DB.MATADATA[doc_id][0]

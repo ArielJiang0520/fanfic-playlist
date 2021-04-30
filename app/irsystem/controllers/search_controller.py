@@ -1,7 +1,6 @@
 from . import *
 from app.irsystem.models.model import text_search, get_rand_artists, get_rand_genres
 import os
-from werkzeug.utils import secure_filename
 from flask import current_app, Flask, request, render_template
 import sys
 import requests
@@ -10,14 +9,6 @@ import json
 project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
 
-ALLOWED_EXTENSIONS = {'txt'}
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():
     genre_list = get_rand_genres()
@@ -25,23 +16,6 @@ def search():
     text_input = request.form.to_dict()
 
     if request.method == 'POST':
-        if 'file' in request.files:
-            file = request.files['file']
-
-            if not allowed_file(file.filename):
-                pass
-
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(
-                current_app.config['UPLOAD_FOLDER'], filename))
-
-            print(f'file id {filename} is received.', file=sys.stderr)
-
-            text = open(
-                os.path.join(current_app.config['UPLOAD_FOLDER'], filename),
-                'r+', encoding='unicode_escape'
-            ).read()
-
         if 'text' in text_input.keys():
             text = request.form.to_dict()['text']
 
@@ -54,13 +28,10 @@ def search():
                              target_artists=sel_artists, popular=True, link=False)
         # print(result)
 
-
         if result['status']['code'] == '000':
-            songs=[]
             # fetch result here
-            data = [s['artist']+' - '+s['title'] for s in result['songs']]
-            for x in result['songs']:
-                songs.append("spotify:track:" + x['id'])
+            data = [result['fanfic']] + [s for s in result['songs']]
+            songs = ["spotify:track:" + x['id'] for x in result['songs']]                
             playlistid = spotify_generator(songs)
 
         else:
@@ -92,7 +63,7 @@ def spotify_generator(song_uris):
     # "Authorization":"Basic MzFjZmFiZmM4ZGM4NDIzNmE2ZGU3OGM1N2ExYTg4NmI6NmViZjg4ZjA3ZjgwNGY3MTgxOGUxNGU3NmZlNDU0YzY="
     # })
     # token = json.loads(TOKEN.text)['access_token']
-    token = "BQCl1U0H-YFgGfOU6nAFMQtiCp3FnLs7g0WZMrO63iqGbSCQA_AGLPDAR8sEcqY5Uxg2RvJn0JCcovS6hRUkW0easJuttuhBKZ_GX0AA6Hog0E6IxU2ER5NU6Ol29chKiyosWLBjyiJKekWkg-PCM2-uVYrOjnMheK1bsChUwaQ0i0CcE_h0XEnJtb35UaB7RBvP0VAalliXBbQb7seYKTAlpIYkH_fgEVKaJVAC-Z5rjOWFWmRw-Y642SGFq30xZQGqKA5w2xv57kyFKDAbdDVgbqcPziSSC2SqeaFZ"
+    token = "BQBKMrf3gKXRZKtJnhZrDk4JXZmJFflXGdYE3bIOoyk2s467x6fSBc2eaA4yM1phLl1XpwSyd-fYsig0kovFSAzkju51Lu-UIAa3dDFUUBN01YMCGYMEt8h38xV_YGpKz4SyLj54wfNjjOOnP2bbjSpw7vXm7Jvk2-OvYGhxrJRzsStRYj8OMh2cckXXOf-_pSNxFqxZhKnDZlolakvpm0GOln8TLvYCW4VmUDxJ0tYANS0_NTe26lH0YFkKq3V7UBXyCqMOdQBt19KxLK3LxA"
     
     # for song in song_names:
     #     payload = {'q': song, 'type': 'track'}
@@ -113,6 +84,8 @@ def spotify_generator(song_uris):
             })
     response1 = requests.post(url = endpoint_url, data = request1_body, headers={"Content-Type":"application/json", 
                             "Authorization":"Bearer " + token})
+
+    print(response1)
 
     if ('id' not in response1.json().keys()):
         return None

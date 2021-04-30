@@ -10,8 +10,8 @@ alpha = 1.0 # base weight
 beta = 0.8 # preference weight
 gamma = 0.5 # audio weight
 
-ta = 0.97 # base clipping threshold
-tb = 0.85 # preference clipping threshold
+ta = 0 # base clipping threshold
+tb = 0 # preference clipping threshold
 
 f = 0.7 # popularity clipping threshold
 
@@ -70,20 +70,21 @@ def rank(sentiment, pref, audio, lyrics, k):
 
     output = []
     for doc_id in np.argsort(-final):
-        if DB.ID[doc_id] == '': continue # skip missing ids
+        if DB.ID[doc_id] == 'nan': continue # skip missing ids
 
         artist, title = DB.MATADATA[doc_id]
         if artist not in [DB.MATADATA[i][0] for i in output] \
             and title not in [DB.MATADATA[i][1] for i in output]:
             output.append(doc_id)
-            if len(output) >= k:
-                break
+
+        if len(output) >= k:
+            break
     
     return output
 
 
 def generate_url(i):
-    artist = DB.MATADATA[i][0].replace("’",'')
-    title = DB.MATADATA[i][1].replace("’",'')
+    artist = re.sub(r'[^A-Za-z0-9\s]', '', DB.MATADATA[i][0])
+    title = re.sub(r'[^A-Za-z0-9\s]', '', DB.MATADATA[i][1])
     content = '-'.join(re.findall(r"[A-Za-z0-9]+", artist+' '+title))
     return 'https://genius.com/'+content+'-lyrics'

@@ -9,7 +9,6 @@ from gensim.models.phrases import Phrases
 
 import dill
 import scipy.sparse
-from sklearn.feature_extraction.text import TfidfVectorizer
 
 class Dataloader:
     def __init__(self):
@@ -25,7 +24,7 @@ class Dataloader:
         a_df = pickle.load(open(f'{DATA_FOLDER}/artist_info.p', 'rb'))
 
         self.MATADATA = list(zip(df['artist'].tolist(), df['title'].tolist()))
-        self.ID = np.nan_to_num(df['id'].tolist(), nan='')
+        self.ID = np.nan_to_num(df['id'].tolist(), nan='nan')
 
         self.SONG_POPULARITY = np.nan_to_num(df['popularity'].tolist(), nan=10)
         self.ARTIST_POPULARITY = np.nan_to_num(a_df['popularity'].tolist(), nan=10)
