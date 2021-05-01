@@ -105,12 +105,12 @@
 
 
         <br>
-        <!-- <div class='artistdiv'>
+        <div class='artistdiv'>
             <div class='input-group'>
                 <input id="autocomplete" class='form-control' type='text' name='artist_search'
                     placeholder='Enter artists' />
             </div>
-        </div> -->
+        </div>
 
 
         {% for genre in genres %}
@@ -131,7 +131,7 @@
 
 
 </body>
-<!-- <script>
+<script>
     //autocomplete code source: https://dev.to/brunooliveira/flask-series-part-6-improving-user-input-with-autocomplete-4e06
     function autocomplete(inp, arr) {
         /*the autocomplete function takes two arguments,
@@ -234,6 +234,6 @@
 
     var ingredients = [{%for artist in artists %} "{{artist}}", {% endfor %} "All"];
     autocomplete(document.getElementById("autocomplete"), ingredients);
-</script> -->
+</script>
 
 </html>

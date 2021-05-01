@@ -1,5 +1,5 @@
 from . import *
-from app.irsystem.models.model import text_search, get_rand_genres
+from app.irsystem.models.model import text_search, get_rand_genres, get_rand_artists
 import os
 from flask import current_app, Flask, request, render_template
 import sys
@@ -13,6 +13,7 @@ net_id = "sj784, kjh233, asd247, nk435"
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():
     genre_list = get_rand_genres()
+    artists = get_rand_artists(t=3000)
 
     text_input = request.form.to_dict()
     link = False
@@ -37,7 +38,7 @@ def search():
         if result['status']['code'] == '000':
             songs = []
             # fetch result here
-            data = [result['fanfic']] + [s for s in result['songs']]
+            # data = [result['fanfic']] + [s for s in result['songs']]
             songs = ["spotify:track:" + x['id'] for x in result['songs']]
             playlistid = spotify_generator(songs)
             result['fanfic']['scores']['Sexual'] = int((
@@ -62,12 +63,12 @@ def search():
                     f"error message: {result['status']['msg']}")
 
         return render_template('output.html', name=project_name, netid=net_id,
-                               data=data, genres=genre_list, artists=[],
+                               genres=genre_list, artists=artists,
                                sel_genres=sel_genres, sel_artists=sel_artists, playlist=playlistid,
                                result=result)
 
     return render_template('search.html', name=project_name, netid=net_id, output_message='',
-                           data='', genres=genre_list, artists=[])
+                           data='', genres=genre_list, artists=artists)
 
 
 # @irsystem.route('/spotify/', methods=['GET', 'POST'])

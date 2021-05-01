@@ -85,7 +85,7 @@ class Dataloader:
         assert len(self.GENRE_POOL) == self.G.shape[0]
 
         self.M = np.load(f'{MAT_FOLDER}/M_anno.npy')
-        self.L = np.load(f'{MAT_FOLDER}/L.npy')
+        # self.L = np.load(f'{MAT_FOLDER}/L.npy')
 
         assert self.M.shape == (len(self.MATADATA), 6)
 
