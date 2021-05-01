@@ -151,7 +151,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
     return result
 
 
-def get_rand_genres(t=8) -> [str]:
+def get_rand_genres(t=200) -> [str]:
     """
     return:
         list: t number of random genres
