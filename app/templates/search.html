@@ -20,9 +20,7 @@
 
 
     <style>
-        body {
-            font: 16px Arial;
-        }
+        
 
         .autocomplete {
             /*the container must be positioned relative:*/
@@ -30,23 +28,8 @@
             display: inline-block;
         }
 
-        input {
-            border: 1px solid transparent;
-            background-color: #f1f1f1;
-            padding: 10px;
-            font-size: 16px;
-
-        }
-
-        input[type=text] {
-            background-color: #f1f1f1;
-            width: 100%;
-        }
-
-        input[type=submit] {
-            background-color: DodgerBlue;
-            color: #fff;
-        }
+        
+        
 
         .autocomplete-items {
             position: absolute;
@@ -58,6 +41,7 @@
             top: 100%;
             left: 0;
             right: 0;
+            
         }
 
         .autocomplete-items div {
@@ -81,6 +65,10 @@
 
         .input-group {
             margin: auto;
+            width: 500px;
+        }
+        .autocomplete1{
+            width: 1000px;
         }
     </style>
 
@@ -117,13 +105,6 @@
        
 
 
-        {% for genre in genres %}
-        <label class="contain">{{genre}}
-            <input type="checkbox" name="genre_box" value="{{genre}}">
-            <span class="checkmark">{{genre}}</span>
-        </label>
-        {% endfor %}
-        <br>
 
         <input class='submit' type="submit">
 
