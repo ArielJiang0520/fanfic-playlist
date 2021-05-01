@@ -1,5 +1,5 @@
 from . import *
-from app.irsystem.models.model import text_search, get_rand_artists, get_rand_genres
+from app.irsystem.models.model import text_search, get_rand_genres
 import os
 from flask import current_app, Flask, request, render_template
 import sys
@@ -13,7 +13,7 @@ net_id = "sj784, kjh233, asd247, nk435"
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():
     genre_list = get_rand_genres()
-    artist_list = get_rand_artists()
+
     text_input = request.form.to_dict()
     link = False
     if request.method == 'POST':
@@ -58,16 +58,16 @@ def search():
 
         else:
             # handle response error
-            data = [f"error code: {result['status']['code']}",
-                    f"error message: {result['status']['msg']}"]
+            print(f"error code: {result['status']['code']}",
+                    f"error message: {result['status']['msg']}")
 
         return render_template('output.html', name=project_name, netid=net_id,
-                               data=data, genres=genre_list, artists=artist_list,
+                               data=data, genres=genre_list, artists=[],
                                sel_genres=sel_genres, sel_artists=sel_artists, playlist=playlistid,
                                result=result)
 
     return render_template('search.html', name=project_name, netid=net_id, output_message='',
-                           data='', genres=genre_list, artists=artist_list)
+                           data='', genres=genre_list, artists=[])
 
 
 # @irsystem.route('/spotify/', methods=['GET', 'POST'])
