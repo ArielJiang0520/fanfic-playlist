@@ -19,8 +19,12 @@ def search():
     if request.method == 'POST':
         if 'text' in text_input.keys():
             text = request.form.to_dict()['text']
-            link = False
-        if 'link' in text_input.keys():
+            if text == "" and 'link' in text_input.keys():
+                text = request.form.to_dict()['link']
+                link = True
+            else:
+                link = False
+        elif 'link' in text_input.keys():
             text = request.form.to_dict()['link']
             link = True
 
