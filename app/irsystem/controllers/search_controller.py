@@ -1,10 +1,11 @@
 from . import *
-from app.irsystem.models.model import text_search, get_rand_genres, get_rand_artists
+from app.irsystem.models.model import text_search, get_artists, get_genres
 import os
 from flask import current_app, Flask, request, render_template
 import sys
 import requests
 import json
+import re
 
 project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
@@ -12,10 +13,7 @@ net_id = "sj784, kjh233, asd247, nk435"
 
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():
-    genre_list = get_rand_genres()
-    artists = get_rand_artists(t=3000)
-
-    text_input = request.form.to_dict()
+    text_input = request.form.to_dict() 
     link = False
     if request.method == 'POST':
         if 'text' in text_input.keys():
@@ -29,14 +27,21 @@ def search():
             text = request.form.to_dict()['link']
             link = True
 
-        sel_genres = request.form.getlist('genre_box')
-        # print('selected genres', sel_genres)
-        sel_artists = request.form.getlist('artist_box')
-        # print('selected artists', sel_artists)
+        artist_input = request.form.to_dict()
+        if 'artist_search' in artist_input.keys():
+            sel_artists = request.form.to_dict()['artist_search'] # 'a,b,
+            sel_artists = sel_artists.split(',') if len(sel_artists) > 0 else []
+        
+        genre_input = request.form.to_dict()
+        if 'genre_search' in genre_input.keys():
+            sel_genres = request.form.to_dict()['genre_search']
+            sel_genres = sel_genres.split(',') if len(sel_genres) > 0 else []
+        
+        print(sel_artists, sel_genres)
+
 
         result = text_search(text, target_genres=sel_genres,
                              target_artists=sel_artists, popular=True, link=link)
-        # print(result)
 
         playlistid = ""
         if result['status']['code'] == '000':
@@ -67,12 +72,12 @@ def search():
                     f"error message: {result['status']['msg']}")
 
         return render_template('output.html', name=project_name, netid=net_id,
-                               genres=genre_list, artists=artists,
+                               genres=get_genres(), artists=get_artists(),
                                sel_genres=sel_genres, sel_artists=sel_artists, playlist=playlistid,
                                result=result)
 
     return render_template('search.html', name=project_name, netid=net_id, output_message='',
-                           data='', genres=genre_list, artists=artists)
+                           data='', genres=get_genres(), artists=get_artists())
 
 
 # @irsystem.route('/spotify/', methods=['GET', 'POST'])

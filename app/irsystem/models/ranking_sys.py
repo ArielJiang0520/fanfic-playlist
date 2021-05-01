@@ -62,8 +62,7 @@ def audio_score(q):
 
 
 def lyrics_score(q_e):
-    return np.zeros(len(DB.MATADATA))
-    # return cosine_similarity(q_e.reshape(1, -1), DB.L).flatten()
+    return cosine_similarity(q_e.reshape(1, -1), DB.L).flatten()
 
 
 def rank(sentiment, pref, audio, lyrics, k):

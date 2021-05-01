@@ -85,21 +85,11 @@ class Dataloader:
         assert len(self.GENRE_POOL) == self.G.shape[0]
 
         self.M = np.load(f'{MAT_FOLDER}/M_anno.npy')
-        # self.L = np.load(f'{MAT_FOLDER}/L.npy')
+        self.L = np.load(f'{MAT_FOLDER}/L.npy')
 
         assert self.M.shape == (len(self.MATADATA), 6)
 
         ### 
 
         print('finished loading everything!')
-
-    
-    def generate_pool(self, group, t):
-        if group == 'a':
-            return sorted(self.ARTIST_POOL, key=lambda x:-self.ARTIST_POPULARITY[self.A_TO_IX[x]])[:t]
-        else:
-            return ['pop', 'folk', 'rock', 'blues', 'hip hop', 'jazz', 'punk', 'r&b', 'country', 'easy listening', 'electro']
-        
-
-    
     

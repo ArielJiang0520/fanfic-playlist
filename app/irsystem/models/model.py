@@ -151,17 +151,16 @@ def text_search(query: str, target_genres=[], target_artists=[],
     return result
 
 
-def get_rand_genres(t=200) -> [str]:
+def get_genres() -> [str]:
     """
     return:
-        list: t number of random genres
+        all genres
     """
-    return DB.generate_pool(group='g', t=t)
+    return DB.GENRE_POOL
 
-#t=8
-def get_rand_artists(t=8) -> [str]:
+def get_artists() -> [str]:
     """
     return:
-        list: t number of random artists from the database
+        all artists
     """
-    return DB.generate_pool(group='a', t=t)
+    return DB.ARTIST_POOL
