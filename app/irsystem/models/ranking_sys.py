@@ -23,7 +23,7 @@ def sentiment_score(q, threshold=ta):
 
 def pref_score(artists=[], genres=[], popular=False):
     if not artists and not genres and not popular:
-        return np.ones(shape=(DB.L.shape[0], ))
+        return np.ones(shape=len(DB.MATADATA))
 
     default = np.zeros(shape=(DB.A.shape[0], ))
     
@@ -62,7 +62,8 @@ def audio_score(q):
 
 
 def lyrics_score(q_e):
-    return cosine_similarity(q_e.reshape(1, -1), DB.L).flatten()
+    return np.zeros(len(DB.MATADATA))
+    # return cosine_similarity(q_e.reshape(1, -1), DB.L).flatten()
 
 
 def rank(sentiment, pref, audio, lyrics, k):
