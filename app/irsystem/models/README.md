@@ -42,6 +42,9 @@ response format (refer to error code):
                 'preference': 0.0,
                 'lyrics': 0.0
             },
+            'artist_genre': '',
+            'artist_popularity': '',
+            'song_popularity': 0,
             'genius_link': ''
         },
 
