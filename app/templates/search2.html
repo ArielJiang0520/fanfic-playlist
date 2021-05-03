@@ -1,0 +1,216 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet" href="/static/main2.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Montserrat">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Montserrat:wght@900&display=swap">
+</head>
+
+<body class="background">
+  <div style="background-color:#fff1d3; width: 800px; height: 700px; margin: auto;">
+
+    <div class="topcorner">
+      <p>Project Name: {{ name }}</p>
+      <p>Student Name: ({{ netid }})</p>
+    </div>
+    <h1>
+      FanFiction Playlist
+    </h1>
+
+    <h2>We generate music playlist for your favorite fanfictions! Having playlists for every type
+      of mood can set the tone for whatever output you're creating. Instead of playing songs on
+      shuffle, curate mood playlists that flow well.</h2>
+
+  </div>
+
+
+
+  <form method=post class='form' autocomplete="off">
+    <ul class="text-or-link-button">
+      <li>
+        <input type="radio" id="link" name="text-or-link" value="link" checked>
+        <label for="link">LINK INPUT</label><br>
+      </li>
+      <li>
+        <input type="radio" id="text" name="text-or-link" value="text">
+        <label for="text">TEXT INPUT</label><br>
+      </li>
+    </ul>
+    <div class="user-text-box">
+      <textarea id='text-paste' class='user-text' name="text" type="textarea"></textarea>
+    </div>
+
+    <br>
+
+    <div class='artist-box'>
+      <h2 class="prefered-heading">PREFERRED ARTISTS</h2>
+      <div class="autocomplete-group">
+        <input id="autocomplete1" class='form-control' type='text' name='artist_search' />
+      </div>
+    </div>
+    <br>
+    <div class='genre-box'>
+      <h2 class="prefered-heading">PREFERRED GENRES</h2>
+      <div class="autocomplete-group">
+        <input id="autocomplete2" class='form-control' type='text' name='genre_search' />
+      </div>
+    </div>
+
+    <div class="check-and-text">
+      <h2 class="prefered-heading check-text">DO YOU WANT THE ARTISTS OR THE SONGS TO BE POPULAR?</h2>
+      <input class="checkbox-custom" type="checkbox" id="popular" name="popular" value="Popular">
+    </div>
+
+    <div class='submit-box'>
+      <input class='submit' type="submit" value=&#10140;>
+    </div>
+
+
+
+  </form>
+
+
+
+</body>
+<script>
+  //autocomplete code source: https://dev.to/brunooliveira/flask-series-part-6-improving-user-input-with-autocomplete-4e06
+  function autocomplete(inp, arr) {
+    /*the autocomplete function takes two arguments,
+    the text field element and an array of possible autocompleted values:*/
+    var currentFocus;
+    /*execute a function when someone writes in the text field:*/
+    inp.addEventListener("input", function (e) {
+      var a, b, i, val = this.value;
+      /*close any already open lists of autocompleted values*/
+      closeAllLists();
+      if (!val) { return false; }
+      currentFocus = -1;
+      /*create a DIV element that will contain the items (values):*/
+      a = document.createElement("DIV");
+      a.setAttribute("id", this.id + "autocomplete-list");
+      a.setAttribute("class", "autocomplete-items");
+      /*append the DIV element as a child of the autocomplete container:*/
+      this.parentNode.appendChild(a);
+      /*for each item in the array...*/
+      for (i = 0; i < arr.length; i++) {
+        /*check if the item starts with the same letters as the text field value:*/
+        var lastcomma = val.lastIndexOf(",");
+        if (lastcomma !== -1) {
+          if (val.length > lastcomma + 1) {
+            var newval = val.substr(lastcomma + 1, val.length);
+            var oldval = val.substr(0, lastcomma + 1);
+
+
+
+            if (arr[i].substr(0, newval.length).toUpperCase() == newval.toUpperCase()) {
+
+              /*create a DIV element for each matching element:*/
+              b = document.createElement("DIV");
+              /*make the matching letters bold:*/
+              b.innerHTML = "<strong>" + arr[i].substr(0, newval.length) + "</strong>";
+              b.innerHTML += arr[i].substr(newval.length);
+              /*insert a input field that will hold the current array item's value:*/
+              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+              /*execute a function when someone clicks on the item value (DIV element):*/
+              b.addEventListener("click", function (e) {
+                /*insert the value for the autocomplete text field:*/
+
+                inp.value = oldval.concat(this.getElementsByTagName("input")[0].value);
+                /*close the list of autocompleted values,
+                (or any other open lists of autocompleted values:*/
+                closeAllLists();
+              });
+              a.appendChild(b);
+            }
+
+          }
+
+        }//actual code below
+        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          /*create a DIV element for each matching element:*/
+          b = document.createElement("DIV");
+          /*make the matching letters bold:*/
+          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+          b.innerHTML += arr[i].substr(val.length);
+          /*insert a input field that will hold the current array item's value:*/
+          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+          /*execute a function when someone clicks on the item value (DIV element):*/
+          b.addEventListener("click", function (e) {
+            /*insert the value for the autocomplete text field:*/
+            inp.value = this.getElementsByTagName("input")[0].value;
+            /*close the list of autocompleted values,
+            (or any other open lists of autocompleted values:*/
+            closeAllLists();
+          });
+          a.appendChild(b);
+        }
+      }
+    });
+    /*execute a function presses a key on the keyboard:*/
+    inp.addEventListener("keydown", function (e) {
+      var x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) {
+        /*If the arrow DOWN key is pressed,
+        increase the currentFocus variable:*/
+        currentFocus++;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 38) { //up
+        /*If the arrow UP key is pressed,
+        decrease the currentFocus variable:*/
+        currentFocus--;
+        /*and and make the current item more visible:*/
+        addActive(x);
+      } else if (e.keyCode == 13) {
+        /*If the ENTER key is pressed, prevent the form from being submitted,*/
+        e.preventDefault();
+        if (currentFocus > -1) {
+          /*and simulate a click on the "active" item:*/
+          if (x) x[currentFocus].click();
+        }
+      }
+    });
+    function addActive(x) {
+      /*a function to classify an item as "active":*/
+      if (!x) return false;
+      /*start by removing the "active" class on all items:*/
+      removeActive(x);
+      if (currentFocus >= x.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (x.length - 1);
+      /*add class "autocomplete-active":*/
+      x[currentFocus].classList.add("autocomplete-active");
+    }
+    function removeActive(x) {
+      /*a function to remove the "active" class from all autocomplete items:*/
+      for (var i = 0; i < x.length; i++) {
+        x[i].classList.remove("autocomplete-active");
+      }
+    }
+    function closeAllLists(elmnt) {
+      /*close all autocomplete lists in the document,
+      except the one passed as an argument:*/
+      var x = document.getElementsByClassName("autocomplete-items");
+      for (var i = 0; i < x.length; i++) {
+        if (elmnt != x[i] && elmnt != inp) {
+          x[i].parentNode.removeChild(x[i]);
+        }
+      }
+    }
+    /*execute a function when someone clicks in the document:*/
+    document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+    });
+  }
+
+
+
+  var artist_list = [{%for artist in artists %} "{{artist}}", {% endfor %} "All"];
+  var genre_list = [{%for genre in genres %} "{{genre}}", {% endfor %} "All"];
+  autocomplete(document.getElementById("autocomplete1"), artist_list);
+  autocomplete(document.getElementById("autocomplete2"), genre_list);
+</script>
+
+</html>

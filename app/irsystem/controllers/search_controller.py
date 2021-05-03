@@ -13,35 +13,33 @@ net_id = "sj784, kjh233, asd247, nk435"
 
 @irsystem.route('/', methods=['GET', 'POST'])
 def search():
-    text_input = request.form.to_dict() 
+    text_input = request.form.to_dict()
     link = False
+    popular = False
     if request.method == 'POST':
-        if 'text' in text_input.keys():
-            text = request.form.to_dict()['text']
-            if text == "" and 'link' in text_input.keys():
-                text = request.form.to_dict()['link']
-                link = True
-            else:
-                link = False
-        elif 'link' in text_input.keys():
-            text = request.form.to_dict()['link']
+        if text_input['text-or-link'] == "link":
             link = True
-
+            text = text_input['text']
+        if text_input['text-or-link'] == "text":
+            link = False
+            text = text_input['text']
+        if 'popular' in text_input.keys() and text_input["popular"] == "Popular":
+            popular = True
         artist_input = request.form.to_dict()
         if 'artist_search' in artist_input.keys():
-            sel_artists = request.form.to_dict()['artist_search'] # 'a,b,
-            sel_artists = sel_artists.split(',') if len(sel_artists) > 0 else []
-        
+            sel_artists = request.form.to_dict()['artist_search']  # 'a,b,
+            sel_artists = sel_artists.split(
+                ',') if len(sel_artists) > 0 else []
+
         genre_input = request.form.to_dict()
         if 'genre_search' in genre_input.keys():
             sel_genres = request.form.to_dict()['genre_search']
             sel_genres = sel_genres.split(',') if len(sel_genres) > 0 else []
-        
+
         print(sel_artists, sel_genres)
 
-
         result = text_search(text, target_genres=sel_genres,
-                             target_artists=sel_artists, popular=True, link=link)
+                             target_artists=sel_artists, popular=popular, link=link)
 
         playlistid = ""
         if result['status']['code'] == '000':
@@ -69,14 +67,14 @@ def search():
         else:
             # handle response error
             print(f"error code: {result['status']['code']}",
-                    f"error message: {result['status']['msg']}")
+                  f"error message: {result['status']['msg']}")
 
         return render_template('output.html', name=project_name, netid=net_id,
                                genres=get_genres(), artists=get_artists(),
                                sel_genres=sel_genres, sel_artists=sel_artists, playlist=playlistid,
                                result=result)
 
-    return render_template('search.html', name=project_name, netid=net_id, output_message='',
+    return render_template('search2.html', name=project_name, netid=net_id, output_message='',
                            data='', genres=get_genres(), artists=get_artists())
 
 
