@@ -198,6 +198,14 @@
           </div>
         </div>
         {% endfor %}
+          <form action= "{{spotify_auth_url}}" class = "button-flex2">
+            <input type="submit" value="Click Here To Create Your Playlist on Spotify" />
+          </form>
+      
+          {% if clicked %}
+            <iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
+              allowtransparency="true" allow="encrypted-media" ></iframe>
+          {% endif %}
 
         <p align="center"><a href= /><button class="return-button">New search</button></a></p>
       </div>

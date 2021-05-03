@@ -1,11 +1,12 @@
 from . import *
 from app.irsystem.models.model import text_search, get_artists, get_genres
 import os
-from flask import current_app, Flask, request, render_template
+from flask import current_app, Flask, request, render_template, redirect
 import sys
 import requests
 import json
 import re
+from app.irsystem.controllers import startup
 
 project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
@@ -41,13 +42,13 @@ def search():
         result = text_search(text, target_genres=sel_genres,
                              target_artists=sel_artists, popular=popular, link=link)
 
-        playlistid = ""
+        #playlistid = ""
         if result['status']['code'] == '000':
             songs = []
             # fetch result here
             # data = [result['fanfic']] + [s for s in result['songs']]
             songs = ["spotify:track:" + x['id'] for x in result['songs']]
-            playlistid = spotify_generator(songs)
+            #playlistid = spotify_generator(songs)
             result['fanfic']['scores']['Sexual'] = int((
                 result['fanfic']['scores']['Sexual'])*100)
             result['fanfic']['scores']['Romance'] = int((
@@ -69,14 +70,38 @@ def search():
             print(f"error code: {result['status']['code']}",
                   f"error message: {result['status']['msg']}")
             return render_template('404.html', code=result['status']['code'], message=result['status']['msg'])
-
+        global results_list
+        results_list = [project_name,net_id,get_genres(),get_artists(),sel_genres,sel_artists,result,startup.getUser()]
         return render_template('output2.html', name=project_name, netid=net_id,
                                genres=get_genres(), artists=get_artists(),
-                               sel_genres=sel_genres, sel_artists=sel_artists, playlist=playlistid,
-                               result=result, song_shown=0)
+                               sel_genres=sel_genres, sel_artists=sel_artists,
+                               result=result, song_shown=0, spotify_auth_url = "http://localhost:5000/spotify/")
 
     return render_template('search2.html', name=project_name, netid=net_id, output_message='',
                            data='', genres=get_genres(), artists=get_artists())
+
+
+@irsystem.route('/spotify/')
+def login():
+    response = startup.getUser()
+    return redirect(response)
+
+@irsystem.route('/callback/')
+def callback():
+    startup.getUserToken(request.args['code'])
+    # print(startup.getAccessToken())
+    global results_list
+    playlistid = ""
+    if results_list[6]['status']['code'] == '000':
+        songs = []
+        # fetch result here
+        songs = ["spotify:track:" + x['id'] for x in results_list[6]['songs']]
+        playlistid = spotify_generator(songs)
+
+    return render_template('output2.html', name=results_list[0], netid=results_list[1],
+                               genres=results_list[2], artists=results_list[3],
+                               sel_genres=results_list[4], sel_artists=results_list[5], playlist=playlistid,
+                               result=results_list[6], spotify_auth_url = results_list[7], song_shown=0, clicked = True)
 
 
 # @irsystem.route('/spotify/', methods=['GET', 'POST'])
@@ -86,16 +111,21 @@ def song_list(result):
         list1.append(tuple1[1])
     return list1
 
-
 def spotify_generator(song_uris):
+    token = startup.getAccessToken()[0]
 
-    user_id = "gxemvx4lf4a2z1bvo33bkxul4"
+    endpoint_url = f"https://api.spotify.com/v1/me"
+    response = requests.get(url=endpoint_url, headers={"Authorization": "Bearer " + token})
+    results = response.json()
+    user_id = results['id']
+
+    #user_id = "gxemvx4lf4a2z1bvo33bkxul4"
     # TOKEN = requests.post("https://accounts.spotify.com/api/token", data = {
     #     "grant_type": "client_credentials"}, headers = {
     # "Authorization":"Basic MzFjZmFiZmM4ZGM4NDIzNmE2ZGU3OGM1N2ExYTg4NmI6NmViZjg4ZjA3ZjgwNGY3MTgxOGUxNGU3NmZlNDU0YzY="
     # })
     # token = json.loads(TOKEN.text)['access_token']
-    token = "BQCujFE2g76NHklpEv6YLKpj7e-WTPvTIGlC4MNfzdUZoJ3omlrNY1RSao9mcTaG6G-J9BW_APOrwAugIlgGfyaQKKJFkAoE_7et1atOnnj8GTbOBBpb5onD1vZqFX39Njqc4pJhgnm2B5BxNkyOkZaZa2HFpu-dIP6RrEEkcMVOCZObVg9qiDv3DhpzbaNwNsWkEVHY0RzulKjel14pg2oLWlWmwcG6P2Vcyd-fwlhqagDo92LU3ichbiWqFN0PckQavVdNb4FpFZKUbOCLl21cBDtOZ_iCjEibvYmi"
+    #token = "BQCujFE2g76NHklpEv6YLKpj7e-WTPvTIGlC4MNfzdUZoJ3omlrNY1RSao9mcTaG6G-J9BW_APOrwAugIlgGfyaQKKJFkAoE_7et1atOnnj8GTbOBBpb5onD1vZqFX39Njqc4pJhgnm2B5BxNkyOkZaZa2HFpu-dIP6RrEEkcMVOCZObVg9qiDv3DhpzbaNwNsWkEVHY0RzulKjel14pg2oLWlWmwcG6P2Vcyd-fwlhqagDo92LU3ichbiWqFN0PckQavVdNb4FpFZKUbOCLl21cBDtOZ_iCjEibvYmi"
 
     # for song in song_names:
     #     payload = {'q': song, 'type': 'track'}
