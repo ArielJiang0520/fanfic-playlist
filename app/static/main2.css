@@ -175,7 +175,7 @@ input[type=submit] {
 
   .autocomplete-items {
     position: relative;
-    border: 1px solid #f8c474;
+    /*border: 1px solid #f8c474;*/
     border-bottom: none;
     border-top: none;
     z-index: 99;
@@ -185,6 +185,7 @@ input[type=submit] {
     right: 0;
 
   }
+
 
   .autocomplete-items div {
     padding: 10px;

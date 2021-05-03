@@ -69,10 +69,10 @@ def search():
             print(f"error code: {result['status']['code']}",
                   f"error message: {result['status']['msg']}")
 
-        return render_template('output.html', name=project_name, netid=net_id,
+        return render_template('output2.html', name=project_name, netid=net_id,
                                genres=get_genres(), artists=get_artists(),
                                sel_genres=sel_genres, sel_artists=sel_artists, playlist=playlistid,
-                               result=result)
+                               result=result, song_shown=0)
 
     return render_template('search2.html', name=project_name, netid=net_id, output_message='',
                            data='', genres=get_genres(), artists=get_artists())

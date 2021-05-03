@@ -1,0 +1,344 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="/static/output2.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Montserrat">
+  <link rel="stylesheet" href="/static/bootstrap.min.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Montserrat:wght@900&display=swap">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="/static/purecss-circular-progress-bar-master/css-circular-prog-bar.css" rel="stylesheet">
+</head>
+
+
+<div class='output'>
+  {% if result %}
+  {% if result['fanfic']['analysis']['sel_cat'] == 'Romance' %}
+  <div class='title-info-r'>
+    {%endif%}
+    {% if result['fanfic']['analysis']['sel_cat'] == 'Emo' %}
+    <div class='title-info-e'>
+      {%endif%}
+      {% if result['fanfic']['analysis']['sel_cat'] == 'Sexual' %}
+      <div class='title-info-s'>
+        {%endif%}
+        <h1 class='result'>Your Results</h1>
+        <p class='info'>Here is everything we know about your fanfic
+        </p>
+        <div class='line'></div>
+        <div class='fic-score-wrapper'>
+          <div class='fic-score-item'>
+            <h3 class='score-label'>S</h3>
+            <p class='score-num'>{{result['fanfic']['scores']['Sexual']}}</p>
+            <p>This score represents how sexual the fanfic is</p>
+          </div>
+          <div class='fic-score-item'>
+            <h3 class='score-label'>R</h3>
+            <p class='score-num'>{{result['fanfic']['scores']['Romance']}}</p>
+            <p>This score represents how much romance is in the fanfic</p>
+          </div>
+          <div class='fic-score-item'>
+            <h3 class='score-label'>E</h3>
+            <p class='score-num'>{{result['fanfic']['scores']['Emo']}}</p>
+            <p>This score represents how sad the fanfic is (high means sad, low means happy)</p>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      <br>
+
+      <div class="sentence-container">
+        {% if result %}
+        <div>
+          <h2 class='sentence-header'>Here are some sentences that we think really capture your fanfic:</h2>
+          <div class='sentence-box'>
+            <ul>
+              {% for sent in result['fanfic']['analysis']['top_sentences'][:10]%}
+              <li class="sentence-list-item">
+                <p class='sentences'>{{sent}}</p>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class='sentence-pic'></div>
+        {% endif %}
+      </div>
+
+      {% if result %}
+
+      <!--uncomment this when the spotify thing works, for now have a button there to show where it will be-->
+      <!--<iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
+    allowtransparency="true" allow="encrypted-media"></iframe>-->
+
+      <div class='background-square-ga'>
+        <ul class='genre-list'>
+          {% if sel_genres %}
+          {% for genre in sel_genres %}
+          <li class='genre'>
+            <p class='genre-text'>{{genre}}</p>
+          </li>
+          {%endfor%}
+          {% endif %}
+          {% if sel_artists %}
+          {% for artist in sel_artists %}
+          <li class='genre'>
+            <p class='genre-text'>{{artist}}</p>
+          </li>
+          {%endfor%}
+          {% endif %}
+        </ul>
+
+        <div class="paddles">
+          <button class="left-paddle paddle">
+            &#8249; </button>
+          <button class="right-paddle paddle">
+            &#8250;
+          </button>
+        </div>
+      </div>
+
+      <div class='arrow-row'>
+        {% if result %}
+        <button id={{result['songs'][0]['id']}} class="arrow-down1" onclick="setColor(event,{{result}})" />
+        {% for song in result['songs'][1:] %}
+        <button id={{song['id']}} class="arrow-down" onclick="setColor(event,{{result}}) 
+        " />
+
+        {% endfor %}
+        {% endif %}
+      </div>
+
+
+
+      <div class='background-square'>
+        {% for song in result['songs'] %}
+        <div class='song-card' {% if loop.index0 !=0%} hidden {%endif%} id={{song['id']}}>
+          <div class='score-types'>
+            <div>
+              <div class='icon-label'>
+                <div class='icon-placeholder'></div>
+                <div class='label-line'>
+                  <p class='score-name'>Sentiment</p>
+                  <div class='score-line'></div>
+
+                  <div class='progress-bars'>
+                    <div class="progress-circle p10">
+                      <span>{{song['scores']['sentiment']}}</span>
+                      <div class="left-half-clipper">
+                        <div class="first50-bar"></div>
+                        <div class="value-bar"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class='icon-label'>
+                <div class='icon-placeholder'></div>
+                <div class='label-line'>
+                  <p class='score-name'>Preference</p>
+                  <div class='score-line'></div>
+                  <div class="progress-circle p10">
+                    <span>{{song['scores']['audio']}}</span>
+                    <div class="left-half-clipper">
+                      <div class="first50-bar"></div>
+                      <div class="value-bar"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class='icon-label'>
+                <div class='icon-placeholder'></div>
+                <div class='label-line'>
+                  <p class='score-name'>Audio</p>
+                  <div class='score-line'></div>
+                  <div class="progress-circle p10">
+                    <span>{{song['scores']['preference']}}</span>
+                    <div class="left-half-clipper">
+                      <div class="first50-bar"></div>
+                      <div class="value-bar"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class='icon-label'>
+                <div class='icon-placeholder'></div>
+                <div class='label-line'>
+                  <p class='score-name'>Lyrics</p>
+                  <div class='score-line'></div>
+                  <div class="progress-circle p10">
+                    <span>{{song['scores']['lyrics']}}</span>
+                    <div class="left-half-clipper">
+                      <div class="first50-bar"></div>
+                      <div class="value-bar"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class='song-info-genius-link-container'>
+            <div class='song-info-square'>
+              <h2 class='song-title'> {{song['title']}} </h2>
+              <p class='song-artist'>by {{song['artist']}}</p>
+            </div>
+            <div class='genius-link-square'>
+              <p class='genius-info'>Check out the lyrics at Genius.com: &nbsp;</p>
+              <a class='genius-link' href={{song['genius_link']}}> {{song['genius_link']}}</a>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <p align="center"><a href= /><button class="return-button">New search</button></a></p>
+      </div>
+
+
+
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  function setColor(e, result) {
+    console.log(result);
+    var target = e.target;
+    $(".song-card").each(function () {
+      if ($(this).attr('id') == target.id) {
+        $(this).removeAttr('hidden');
+      }
+      else {
+        $(this).attr('hidden', true);
+      }
+    }
+    );
+    $(".arrow-down, .arrow-down1").each(function () {
+      if ($(this).attr('id') != target.id) {
+        $(this).css('border-top-color', "#7ed957");
+
+      }
+      else {
+        $(this).css('border-top-color', "#008037");
+      }
+    });
+  }
+</script>
+
+<script>
+  // duration of scroll animation
+  var scrollDuration = 300;
+  // paddles
+  var leftPaddle = document.getElementsByClassName('left-paddle');
+  var rightPaddle = document.getElementsByClassName('right-paddle');
+  // get items dimensions
+  var itemsLength = $('.genre').length;
+  var itemSize = $('.genre').outerWidth(true);
+  // get some relevant size for the paddle triggering point
+  var paddleMargin = 20;
+
+  // get wrapper width
+  var getMenuWrapperSize = function () {
+    return $('.background-square-ga').outerWidth();
+  }
+  var menuWrapperSize = getMenuWrapperSize();
+  // the wrapper is responsive
+  $(window).on('resize', function () {
+    menuWrapperSize = getMenuWrapperSize();
+  });
+  // size of the visible part of the menu is equal as the wrapper size 
+  var menuVisibleSize = menuWrapperSize;
+
+  // get total width of all menu items
+  var getMenuSize = function () {
+    var totalWidth = 0;
+    $(".genre").each(function () {
+      totalWidth += $(this).outerWidth();
+    });
+    return totalWidth;
+  };
+  var menuSize = getMenuSize();
+  // get how much of menu is invisible
+  var menuInvisibleSize = menuSize - menuWrapperSize;
+
+  // get how much have we scrolled to the left
+  var getMenuPosition = function () {
+    return $('.genre-list').scrollLeft();
+  };
+
+  // finally, what happens when we are actually scrolling the menu
+  $('.genre-list').on('scroll', function () {
+
+    // get how much of menu is invisible
+    menuInvisibleSize = menuSize - menuWrapperSize;
+    // get how much have we scrolled so far
+    var menuPosition = getMenuPosition();
+
+    var menuEndOffset = menuInvisibleSize - paddleMargin;
+
+    // show & hide the paddles 
+    // depending on scroll position
+
+    if (menuPosition <= paddleMargin) {
+      $(leftPaddle).addClass('hidden');
+      $(rightPaddle).removeClass('hidden');
+    } else if (menuPosition < menuEndOffset) {
+      // show both paddles in the middle
+      $(leftPaddle).removeClass('hidden');
+      $(rightPaddle).removeClass('hidden');
+    } else if (menuPosition >= menuEndOffset) {
+      $(leftPaddle).removeClass('hidden');
+      $(rightPaddle).addClass('hidden');
+    }
+
+
+  });
+
+  // scroll to left
+  $(rightPaddle).on('click', function () {
+    $('.genre-list').animate({ scrollLeft: '+=400' }, scrollDuration);
+  });
+  // scroll to right
+  $(leftPaddle).on('click', function () {
+    $('.genre-list').animate({ scrollLeft: '-=400' }, scrollDuration);
+  });
+</script>
+
+
+<script>
+  var box = document.querySelector('.popup');
+
+  // When the user clicks to open modal
+  function showSongInfo(song, event) {
+    var elem = event.target;
+    console.log(elem.classList);
+    elem.classList.toggle("show");
+    box.querySelector('h3').innerText = 'Popup Box ' + elem.id;
+    box.querySelector('p').innerText = 'You are currently viewing popup box ' + elem.id + '.';
+  }
+  function showSongInfo2(song, event) {
+    var popup = document.getElementById(song['id']);
+    popup.classList.toggle("show");
+  }
+  // When the user clicks to close modal
+  /*
+    document.querySelector('.close-box').addEventListener('click', function (event) {
+      box.style.display = "none";
+    });
+    */
+  function roundNumber(num, places) {
+    return Math.round(num * Math.pow(10, places)) / Math.pow(10, places);
+  }
+</script>
+
+
+</html>
