@@ -68,6 +68,7 @@ def search():
             # handle response error
             print(f"error code: {result['status']['code']}",
                   f"error message: {result['status']['msg']}")
+            return render_template('404.html', code=result['status']['code'], message=result['status']['msg'])
 
         return render_template('output2.html', name=project_name, netid=net_id,
                                genres=get_genres(), artists=get_artists(),

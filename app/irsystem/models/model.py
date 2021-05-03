@@ -68,7 +68,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
             query = scrape_link(query)
         except:
             result['status']['code'] = '001'
-            result['status']['msg'] = f'link was: {query}'
+            result['status']['msg'] = f'The link you entered, "{query}", is invalid.'
             return result
 
     try:
@@ -76,7 +76,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
         q = concat_proba(embed_input(tokenized_q))
     except:
         result['status']['code'] = '002'
-        result['status']['msg'] = f'input was: {query}'
+        result['status']['msg'] = f'The input you entered, "{query}", is invalid. Possible reason is input length too short.'
         return result
 
     ##
@@ -98,7 +98,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
 
     if len(tokenized_q_lyrics) <= 0:
         result['status']['code'] = '002'
-        result['status']['msg'] = f'input was: {query}'
+        result['status']['msg'] = f'The input you entered, "{query}", is invalid. Possible reason is input length too short.'
         return result
 
     q_e = embed_input(tokenized_q_lyrics)
@@ -114,7 +114,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
 
     if len(rankings) != k:
         result['status']['code'] = '003'
-        result['status']['msg'] = f'fetched result: {len(rankings)}'
+        result['status']['msg'] = f'There are not enough results in our database that matches your query. Please try again with a different query.'
         return result
 
     for doc_id in rankings:
@@ -128,6 +128,9 @@ def text_search(query: str, target_genres=[], target_artists=[],
                 'preference': 0.0,
                 'lyrics': 0.0
             },
+            'artist_genre': '',
+            'artist_popularity': '',
+            'song_popularity': 0,
             'genius_link': ''
         }
 
@@ -140,7 +143,10 @@ def text_search(query: str, target_genres=[], target_artists=[],
         song_result['scores']['preference'] = pref[doc_id]
         song_result['scores']['audio'] = audio[doc_id]
         song_result['scores']['lyrics'] = lyrics[doc_id]
-
+        
+        song_result['artist_genre'] = DB.A_TO_GENRE[DB.MATADATA[doc_id][0]]
+        song_result['artist_popularity'] = DB.ARTIST_POPULARITY[DB.A_TO_IX[DB.MATADATA[doc_id][0]]]
+        song_result['song_popularity'] = DB.SONG_POPULARITY[doc_id]
         song_result['genius_link'] = generate_url(doc_id)
 
         result['songs'].append(song_result)
