@@ -143,11 +143,9 @@ def text_search(query: str, target_genres=[], target_artists=[],
         song_result['scores']['preference'] = pref[doc_id]
         song_result['scores']['audio'] = audio[doc_id]
         song_result['scores']['lyrics'] = lyrics[doc_id]
-
-        a_id = DB.A_TO_IX[DB.MATADATA[doc_id][0]]
         
-        song_result['artist_genre'] = DB.A_TO_GENRE[a_id]
-        song_result['artist_popularity'] = DB.ARTIST_POPULARITY[a_id]
+        song_result['artist_genre'] = DB.A_TO_GENRE[DB.MATADATA[doc_id][0]]
+        song_result['artist_popularity'] = DB.ARTIST_POPULARITY[DB.A_TO_IX[DB.MATADATA[doc_id][0]]]
         song_result['song_popularity'] = DB.SONG_POPULARITY[doc_id]
         song_result['genius_link'] = generate_url(doc_id)
 
