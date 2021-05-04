@@ -1,8 +1,9 @@
 Things not solved:
 - some pictures (fanfic categories icons, album picture (if we decide to use it), sentence score) are not inserted correctly
-- if-else statement for descrpition
-- pop-up window for each scrore explanation
+- description runs out of container
+- need add pop-up window for each scrore explanation
 - everytime the page is refreshed, a new playlist is created (probably needs to revoke the authorization once the playlist is created?)
+- text can run out of text card
 
 
 <html>
@@ -40,18 +41,69 @@ Things not solved:
           <div class='fic-score-item'>
             <h3 class='score-label'>S</h3>
             <p class='score-num'>{{result['fanfic']['scores']['Sexual']}}</p>
-            <p>This score represents how sexual the fanfic is</p>
+            {% if (result['fanfic']['scores']['Sexual'] <= 30) %}
+            <p>This score indicates the amount of sexual content in your fanfiction.
+               Based on our AI prediction, your fanfiction does not have any explicit sexual content. It’s probably PG-13!</p>
+
+            {% elif (result['fanfic']['scores']['Sexual'] > 30) and (result['fanfic']['scores']['Sexual'] <= 70) %}
+            <p>This score indicates the amount of sexual content in your fanfiction. 
+              Based on our AI prediction, your fanfiction has some moderate amount of sexual content, 
+              so it’s probably not suitable for the general audiences, but still not very explicit.
+            </p>
+
+            {% else %}
+            <p>This score indicates the amount of sexual content in your fanfiction. 
+              Based on our AI prediction, your fanfiction has EXPLICIT sexual content, 
+              probably a lot of them, too (⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄
+            </p>
+            {% endif %}
           </div>
+
           <div class='fic-score-item'>
             <h3 class='score-label'>R</h3>
             <p class='score-num'>{{result['fanfic']['scores']['Romance']}}</p>
-            <p>This score represents how much romance is in the fanfic</p>
+            {% if (result['fanfic']['scores']['Romance'] <= 30) %}
+            <p>This score indicates how romantic your fanfiction is. Based on our AI prediction, your fanfiction is not very romantic, 
+              so there’s probably not much kissing, cuddling, or love confessions going on.
+            </p>
+
+            {% elif (result['fanfic']['scores']['Romance'] > 30) and (result['fanfic']['scores']['Romance'] <= 70) %}
+            <p>This score indicates how romantic your fanfiction is. 
+              Based on our AI prediction, your fanfiction probably has
+              moderate amount of romance involved, but it’s not everywhere.
+            </p>
+
+            {% else %}
+            <p>This score indicates how romantic your fanfiction is. 
+              Based on our AI prediction, your fanfiction is very romantic, 
+              meaning the characters are probably madly in love with each other. Awww (♥ω♥ ) ~♪
+            </p>
+            {% endif %}
           </div>
+
           <div class='fic-score-item'>
             <h3 class='score-label'>E</h3>
             <p class='score-num'>{{result['fanfic']['scores']['Emo']}}</p>
-            <p>This score represents how sad the fanfic is (high means sad, low means happy)</p>
+            {% if (result['fanfic']['scores']['Emo'] <= 30) %}
+            <p>This score indicates how sad your fanfiction is. 
+              Based on our AI prediction, your fanfiction is probably 
+              a light-hearted story with little to now angst involved.
+            </p>
+
+            {% elif (result['fanfic']['scores']['Emo'] > 30) and (result['fanfic']['scores']['Emo'] <= 80) %}
+            <p>This score indicates how sad your fanfiction is. 
+              Based on our AI prediction, you have a fanfiction that is neither too sad nor too happy, 
+              which means the emotions are balanced and it could be really well-written!
+            </p>
+
+            {% else %}
+            <p>This score indicates how sad your fanfiction is. 
+              Based on our AI prediction, your fanfiction is very emotional and sad ( ′̥̥̥︹′̥̥̥  ). 
+              Did you cry when you were reading/writing this?
+            </p>
+            {% endif %}
           </div>
+
         </div>
         {% endif %}
       </div>
@@ -85,19 +137,43 @@ Things not solved:
       <div class='background-square-ga'>
         <ul class='genre-list'>
           {% if sel_genres %}
+
           {% for genre in sel_genres %}
           <li class='genre'>
             <p class='genre-text'>{{genre}}</p>
           </li>
           {%endfor%}
+          
+          {% else %}
+          <li class='genre'>
+            <p class='genre-text'>no genre selected</p>
+          </li>
           {% endif %}
+
           {% if sel_artists %}
           {% for artist in sel_artists %}
           <li class='genre'>
             <p class='genre-text'>{{artist}}</p>
           </li>
           {%endfor%}
+
+          {% else %}
+          <li class='genre'>
+            <p class='genre-text'>no artist selected</p>
+          </li>
           {% endif %}
+
+          {% if popular %}
+          <li class='genre'>
+            <p class='genre-text'>prefer popular</p>
+          </li>
+          {% else %}
+          <li class='genre'>
+            <p class='genre-text'>popularity ignored</p>
+          </li>
+          {% endif %}
+
+          
         </ul>
 
         <div class="paddles">

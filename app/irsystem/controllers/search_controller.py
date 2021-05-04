@@ -53,7 +53,7 @@ def search():
         results_list = [project_name,net_id,get_genres(),get_artists(),sel_genres,sel_artists,result,startup.getUser()]
         return render_template('output2.html', name=project_name, netid=net_id,
                                genres=get_genres(), artists=get_artists(),
-                               sel_genres=sel_genres, sel_artists=sel_artists,
+                               sel_genres=sel_genres, sel_artists=sel_artists, popular=popular,
                                result=result, song_shown=0, spotify_auth_url = "http://localhost:5000/spotify/")
 
     return render_template('search2.html', name=project_name, netid=net_id, output_message='',
