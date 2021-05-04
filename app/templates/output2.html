@@ -1,10 +1,7 @@
 Things not solved:
 - some pictures (fanfic categories icons, album picture (if we decide to use it), sentence score) are not inserted correctly
-- description runs out of container
 - need add pop-up window for each scrore explanation
 - everytime the page is refreshed, a new playlist is created (probably needs to revoke the authorization once the playlist is created?)
-- text can run out of text card
-
 
 <html>
 
@@ -39,7 +36,7 @@ Things not solved:
         <div class='line'></div>
         <div class='fic-score-wrapper'>
           <div class='fic-score-item'>
-            <h3 class='score-label'>S</h3>
+            <img class='score-label' src='/static/images/5.png'></img>
             <p class='score-num'>{{result['fanfic']['scores']['Sexual']}}</p>
             {% if (result['fanfic']['scores']['Sexual'] <= 30) %}
             <p>This score indicates the amount of sexual content in your fanfiction.
@@ -61,13 +58,14 @@ Things not solved:
           </div>
 
           <div class='fic-score-item'>
-            <h3 class='score-label'>R</h3>
+            <img class='score-label' src='/static/images/4.png'></img>
             <p class='score-num'>{{result['fanfic']['scores']['Romance']}}</p>
             {% if (result['fanfic']['scores']['Romance'] <= 30) %}
             <p>This score indicates how romantic your fanfiction is. 
               Based on our AI prediction, your fanfiction is not very romantic, 
               so there’s probably not much kissing, cuddling, or love confessions going on.
             </p>
+
 
             {% elif (result['fanfic']['scores']['Romance'] > 30) and (result['fanfic']['scores']['Romance'] <= 70) %}
             <p>This score indicates how romantic your fanfiction is. 
@@ -84,7 +82,7 @@ Things not solved:
           </div>
 
           <div class='fic-score-item'>
-            <h3 class='score-label'>E</h3>
+            <img class='score-label' src='/static/images/3.png'></img>
             <p class='score-num'>{{result['fanfic']['scores']['Emo']}}</p>
             {% if (result['fanfic']['scores']['Emo'] <= 30) %}
             <p>This score indicates how sad your fanfiction is. 
@@ -114,7 +112,7 @@ Things not solved:
       <div class="sentence-container">
         {% if result %}
         <div>
-          <h2 class='sentence-header'><b>Here are some sentences that we think can capture your fanfic:</b></h2>
+          <h2 class='sentence-header'><b>Here are some sentences that we think capture your fanfic:</b></h2>
           <div class='sentence-box'>
             <ul>
               {% for sent in result['fanfic']['analysis']['top_sentences'][:7]%}
@@ -125,7 +123,7 @@ Things not solved:
             </ul>
           </div>
         </div>
-        <img class='sentence-pic' src="/static/images/2.png">
+        <img class='sentence-pic' src="/static/images/books.svg">
         </div>
         {% endif %}
       </div>
@@ -290,7 +288,7 @@ Things not solved:
         {% endfor %}
           <form action= "{{spotify_auth_url}}" class = "button-flex2">
             <!-- <input type="submit" value="Click Here To Create Your Playlist on Spotify" /> -->
-            <input class='spotify-question' type="image" src="/static/images/8.png" />
+            <input class='spotify-question' type="image" src="/static/images/spotify.svg" />
           </form>
       
           {% if clicked %}

@@ -320,6 +320,7 @@
   width: 600px;
   padding-left: 120px;
   font-family: "Montserrat";
+  padding-bottom: 50px;
 }
 
 .sentence-box{
@@ -333,7 +334,7 @@
 
 .sentence-pic{
   height: 700px;
-  width: 500px;
+  width: 700px;
   /* width: 250px; */
   /* background-color: #000; */
 }
@@ -359,20 +360,21 @@
 }
 
 .fic-score-item{
-  width: 180px;
-  height: 190px;
+  width: 250px;
+  height: 290px;
   text-align: center;
   background-color: #e4e0d9;
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 15px;
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 25px;
+  font-family: "Quicksand", "serif";
 }
 
 .score-label{
-  font-size: 25;
+  /* font-size: 25; */
   width: 40px;
   height: 40px;
-  background-color: #fff;
+  /* background-color: #fff; */
   margin: auto;
 }
 
@@ -539,7 +541,7 @@
 }
 
 .spotify-question {
-  height: 400px;
+  height: 200px;
 }
 
 .spotify-player {
