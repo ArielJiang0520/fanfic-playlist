@@ -43,18 +43,19 @@ Things not solved:
             <p class='score-num'>{{result['fanfic']['scores']['Sexual']}}</p>
             {% if (result['fanfic']['scores']['Sexual'] <= 30) %}
             <p>This score indicates the amount of sexual content in your fanfiction.
-               Based on our AI prediction, your fanfiction does not have any explicit sexual content. It’s probably PG-13!</p>
+               Based on our AI prediction, your fanfiction barely has
+               any explicit sexual content. It can be safely rated as PG-13</p>
 
             {% elif (result['fanfic']['scores']['Sexual'] > 30) and (result['fanfic']['scores']['Sexual'] <= 70) %}
             <p>This score indicates the amount of sexual content in your fanfiction. 
-              Based on our AI prediction, your fanfiction has some moderate amount of sexual content, 
+              Based on our AI prediction, your fanfiction has a moderate amount of sexual content, 
               so it’s probably not suitable for the general audiences, but still not very explicit.
             </p>
 
             {% else %}
             <p>This score indicates the amount of sexual content in your fanfiction. 
-              Based on our AI prediction, your fanfiction has EXPLICIT sexual content, 
-              probably a lot of them, too (⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄
+              Based on our AI prediction, your fanfiction probably 
+              has a lot of EXPLICIT sexual content. Definitely NSFW
             </p>
             {% endif %}
           </div>
@@ -63,20 +64,21 @@ Things not solved:
             <h3 class='score-label'>R</h3>
             <p class='score-num'>{{result['fanfic']['scores']['Romance']}}</p>
             {% if (result['fanfic']['scores']['Romance'] <= 30) %}
-            <p>This score indicates how romantic your fanfiction is. Based on our AI prediction, your fanfiction is not very romantic, 
+            <p>This score indicates how romantic your fanfiction is. 
+              Based on our AI prediction, your fanfiction is not very romantic, 
               so there’s probably not much kissing, cuddling, or love confessions going on.
             </p>
 
             {% elif (result['fanfic']['scores']['Romance'] > 30) and (result['fanfic']['scores']['Romance'] <= 70) %}
             <p>This score indicates how romantic your fanfiction is. 
-              Based on our AI prediction, your fanfiction probably has
+              Based on our AI prediction, your fanfiction probably has a
               moderate amount of romance involved, but it’s not everywhere.
             </p>
 
             {% else %}
             <p>This score indicates how romantic your fanfiction is. 
               Based on our AI prediction, your fanfiction is very romantic, 
-              meaning the characters are probably madly in love with each other. Awww (♥ω♥ ) ~♪
+              meaning the characters are probably madly in love with each other
             </p>
             {% endif %}
           </div>
@@ -93,12 +95,12 @@ Things not solved:
             {% elif (result['fanfic']['scores']['Emo'] > 30) and (result['fanfic']['scores']['Emo'] <= 80) %}
             <p>This score indicates how sad your fanfiction is. 
               Based on our AI prediction, you have a fanfiction that is neither too sad nor too happy, 
-              which means the emotions are balanced and it could be really well-written!
+              which means the emotions are well-balanced!
             </p>
 
             {% else %}
             <p>This score indicates how sad your fanfiction is. 
-              Based on our AI prediction, your fanfiction is very emotional and sad ( ′̥̥̥︹′̥̥̥  ). 
+              Based on our AI prediction, your fanfiction is very emotional and sad.
               Did you cry when you were reading/writing this?
             </p>
             {% endif %}
@@ -112,7 +114,7 @@ Things not solved:
       <div class="sentence-container">
         {% if result %}
         <div>
-          <h2 class='sentence-header'>Here are some sentences that we think really capture your fanfic:</h2>
+          <h2 class='sentence-header'><b>Here are some sentences that we think can capture your fanfic:</b></h2>
           <div class='sentence-box'>
             <ul>
               {% for sent in result['fanfic']['analysis']['top_sentences'][:7]%}
