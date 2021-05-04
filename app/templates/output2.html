@@ -31,6 +31,12 @@ Things not solved:
       <div class='title-info-s'>
         {%endif%}
         <h1 class='result'>Your Results</h1>
+              
+        {% if clicked %}
+        <p align="center"><iframe class='spotify-player' src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
+            allowtransparency="true" allow="encrypted-media" ></iframe></p>
+        {% endif %}
+        
         <p class='info'>Here is everything we know about your fanfic
         </p>
         <div class='line'></div>
@@ -290,11 +296,6 @@ Things not solved:
             <!-- <input type="submit" value="Click Here To Create Your Playlist on Spotify" /> -->
             <input class='spotify-question' type="image" src="/static/images/spotify.svg" />
           </form>
-      
-          {% if clicked %}
-          <p align="center"><iframe class='spotify-player' src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
-              allowtransparency="true" allow="encrypted-media" ></iframe></p>
-          {% endif %}
 
         <!-- <p align="center"><a href= /><button class="return-button">New search</button></a></p> -->
         <p align="center"><a href= /><img class='back-button' src="/static/images/back.png" /></a></p>
