@@ -1,6 +1,7 @@
 <html>
 
 <head>
+  <title>FanFiction Playlist</title>
   <link rel="stylesheet" href="/static/bootstrap.min.css">
   <link rel="stylesheet" href="/static/main2.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Montserrat">
@@ -9,19 +10,28 @@
 </head>
 
 <body class="background">
-  <div style="background-color:#fff1d3; width: 800px; height: 700px; margin: auto;">
-
-    <div class="topcorner">
-      <p>Project Name: {{ name }}</p>
-      <p>Student Name: ({{ netid }})</p>
-    </div>
-    <h1>
+  <!-- <div class="topcorner" style="font-size: 10px;"> 
+    <br> <br> Made by <b>Ariel Jiang, Kirk Hachigian, Antonio Dominguez, and Natalie Karlsson</b>
+  </div>  -->
+  <div class="intro">
+    
+    
+    <h1 class="title">
       FanFiction Playlist
     </h1>
 
-    <h2>We generate music playlist for your favorite fanfictions! Having playlists for every type
+    <!-- <h2>We generate music playlist for your favorite fanfictions! Having playlists for every type
       of mood can set the tone for whatever output you're creating. Instead of playing songs on
-      shuffle, curate mood playlists that flow well.</h2>
+      shuffle, curate mood playlists that flow well.</h2> -->
+    <h2 class="intro-text"> Ever wonder what songs fit the mood of this story you've been reading?
+      Our AI-based application, trained on 30,000 real fanfictions and 50,000 songs
+      with a fine-tuned Neutral Network, will hlep you with that!
+
+      <br> <br> (If you like the playlist, you can export it to Spotify and perhaps
+      share it with the fandom communities !)
+    </h2>
+
+    <img class="logo" src="/static/images/1.png">
 
   </div>
 
@@ -30,7 +40,7 @@
   <form method=post class='form' autocomplete="off">
     <ul class="text-or-link-button">
       <li>
-        <input type="radio" id="link" name="text-or-link" value="link" checked>
+        <input type="radio" id="link" name="text-or-link" value="link" checked> 
         <label for="link">LINK INPUT</label><br>
       </li>
       <li>

@@ -46,7 +46,7 @@ class Dataloader:
         ))
         self.G_TO_IX = {g : i for i, g in enumerate(self.GENRE_POOL)}
 
-        self.A_TO_GENRE = {a_df.at[i, 'artist']: ', '.join(a_df.at[i, 'genre']) for i in range(len(a_df))}
+        self.A_TO_GENRE = {a_df.at[i, 'artist']: ', '.join(a_df.at[i, 'genre'][:3]) for i in range(len(a_df))}
         
         del a_df
         del df

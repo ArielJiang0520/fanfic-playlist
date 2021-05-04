@@ -1,8 +1,16 @@
+Things not solved:
+- some pictures (fanfic categories icons, album picture (if we decide to use it), sentence score) are not inserted correctly
+- if-else statement for descrpition
+- pop-up window for each scrore explanation
+- everytime the page is refreshed, a new playlist is created (probably needs to revoke the authorization once the playlist is created?)
+
+
 <html>
 
 <head>
+  <title>Result Page</title>
   <link rel="stylesheet" href="/static/output2.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Montserrat">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico|Montserrat|Quicksand">
   <link rel="stylesheet" href="/static/bootstrap.min.css">
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Montserrat:wght@900&display=swap">
@@ -55,7 +63,7 @@
           <h2 class='sentence-header'>Here are some sentences that we think really capture your fanfic:</h2>
           <div class='sentence-box'>
             <ul>
-              {% for sent in result['fanfic']['analysis']['top_sentences'][:10]%}
+              {% for sent in result['fanfic']['analysis']['top_sentences'][:7]%}
               <li class="sentence-list-item">
                 <p class='sentences'>{{sent}}</p>
               </li>
@@ -63,7 +71,8 @@
             </ul>
           </div>
         </div>
-        <div class='sentence-pic'></div>
+        <img class='sentence-pic' src="/static/images/2.png">
+        </div>
         {% endif %}
       </div>
 
@@ -119,7 +128,7 @@
           <div class='score-types'>
             <div>
               <div class='icon-label'>
-                <div class='icon-placeholder'></div>
+                <img class='icon-placeholder' src='/static/images/6.png'></img>
                 <div class='label-line'>
                   <p class='score-name'>Sentiment</p>
                   <div class='score-line'></div>
@@ -138,7 +147,7 @@
             </div>
             <div>
               <div class='icon-label'>
-                <div class='icon-placeholder'></div>
+                <img class='icon-placeholder' src='/static/images/6.png'></img>
                 <div class='label-line'>
                   <p class='score-name'>Preference</p>
                   <div class='score-line'></div>
@@ -154,7 +163,7 @@
             </div>
             <div>
               <div class='icon-label'>
-                <div class='icon-placeholder'></div>
+                <img class='icon-placeholder' src='/static/images/6.png'></img>
                 <div class='label-line'>
                   <p class='score-name'>Audio</p>
                   <div class='score-line'></div>
@@ -170,7 +179,7 @@
             </div>
             <div>
               <div class='icon-label'>
-                <div class='icon-placeholder'></div>
+                <img class='icon-placeholder' src='/static/images/6.png'></img>
                 <div class='label-line'>
                   <p class='score-name'>Lyrics</p>
                   <div class='score-line'></div>
@@ -188,26 +197,31 @@
 
           <div class='song-info-genius-link-container'>
             <div class='song-info-square'>
-              <h2 class='song-title'> {{song['title']}} </h2>
-              <p class='song-artist'>by {{song['artist']}}</p>
+              <h2 class='song-title'> <b>{{song['title']}}</b> </h2>
+              <p class='song-artist'>by <b>{{song['artist']}}</b> </p>
+              <p class='song-other-info'>Song Popularity: {{song['song_popularity']}}</p>
+              <p class='song-other-info'>Genres: {{song['artist_genre']}}</p>
+              <!-- <img class='album-cover' src='/static/images/7.png'></img> -->
             </div>
             <div class='genius-link-square'>
               <p class='genius-info'>Check out the lyrics at Genius.com: &nbsp;</p>
-              <a class='genius-link' href={{song['genius_link']}}> {{song['genius_link']}}</a>
+              <a class='genius-link' href={{song['genius_link']}} target="_blank"> {{song['genius_link']}}</a>
             </div>
           </div>
         </div>
         {% endfor %}
           <form action= "{{spotify_auth_url}}" class = "button-flex2">
-            <input type="submit" value="Click Here To Create Your Playlist on Spotify" />
+            <!-- <input type="submit" value="Click Here To Create Your Playlist on Spotify" /> -->
+            <input class='spotify-question' type="image" src="/static/images/8.png" />
           </form>
       
           {% if clicked %}
-            <iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
-              allowtransparency="true" allow="encrypted-media" ></iframe>
+          <p align="center"><iframe class='spotify-player' src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
+              allowtransparency="true" allow="encrypted-media" ></iframe></p>
           {% endif %}
 
-        <p align="center"><a href= /><button class="return-button">New search</button></a></p>
+        <!-- <p align="center"><a href= /><button class="return-button">New search</button></a></p> -->
+        <p align="center"><a href= /><img class='back-button' src="/static/images/back.png" /></a></p>
       </div>
 
 
@@ -349,4 +363,12 @@
 </script>
 
 
+
+<!-- <script>
+  var sexualScore = parseInt("{{result['fanfic']['scores']['Sexual']}}", 10);
+  if (sexualScore < 20) {
+    console.log("here");
+    var des = document.getElementById("sexual-score-description").value = "Good Day";
+  }
+</script> -->
 </html>

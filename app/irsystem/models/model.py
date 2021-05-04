@@ -13,7 +13,7 @@ def scrape_link(url: str):
     headers = {'user-agent': 'bot (sj784@cornell.edu)'}
 
     r = requests.get(url, headers=headers)
-    soup = BeautifulSoup(r.text)
+    soup = BeautifulSoup(r.text, features="lxml")
 
     output = ''
     if soup.find_all('div', class_="userstuff module", role='article'):
@@ -63,6 +63,13 @@ def text_search(query: str, target_genres=[], target_artists=[],
         }
     }
 
+    if target_artists or target_genres:
+        if any([a not in DB.ARTIST_POOL for a in target_artists]) or \
+            any([g not in DB.GENRE_POOL for g in target_genres]):
+            result['status']['code'] = '004'
+            result['status']['msg'] = f'The artists you selected ("{target_artists}") or the genres you selected ("{target_genres}") are not in the database.'
+            return result
+
     if link:
         try:
             query = scrape_link(query)
@@ -83,9 +90,9 @@ def text_search(query: str, target_genres=[], target_artists=[],
     pred = q.reshape(-1, )[[1, 3, 5]]
     sel_cat = np.argmax(pred)
 
-    result['fanfic']['scores']['Sexual'] = pred[0]
-    result['fanfic']['scores']['Romance'] = pred[1]
-    result['fanfic']['scores']['Emo'] = pred[2]
+    result['fanfic']['scores']['Sexual'] = int(pred[0] * 100)
+    result['fanfic']['scores']['Romance'] = int(pred[1] * 100)
+    result['fanfic']['scores']['Emo'] = int(pred[2] * 100)
 
     result['fanfic']['analysis']['sel_cat'] = cat_name[sel_cat]
 
@@ -139,14 +146,14 @@ def text_search(query: str, target_genres=[], target_artists=[],
         song_result['artist'] = DB.MATADATA[doc_id][0]
         song_result['title'] = DB.MATADATA[doc_id][1]
 
-        song_result['scores']['sentiment'] = sentiment[doc_id]
-        song_result['scores']['preference'] = pref[doc_id]
-        song_result['scores']['audio'] = audio[doc_id]
-        song_result['scores']['lyrics'] = lyrics[doc_id]
+        song_result['scores']['sentiment'] = int(sentiment[doc_id] * 100)
+        song_result['scores']['preference'] = int(pref[doc_id] * 100)
+        song_result['scores']['audio'] = int(audio[doc_id] * 100)
+        song_result['scores']['lyrics'] = int(lyrics[doc_id] * 100)
         
         song_result['artist_genre'] = DB.A_TO_GENRE[DB.MATADATA[doc_id][0]]
-        song_result['artist_popularity'] = DB.ARTIST_POPULARITY[DB.A_TO_IX[DB.MATADATA[doc_id][0]]]
-        song_result['song_popularity'] = DB.SONG_POPULARITY[doc_id]
+        song_result['artist_popularity'] = int(DB.ARTIST_POPULARITY[DB.A_TO_IX[DB.MATADATA[doc_id][0]]])
+        song_result['song_popularity'] = int(DB.SONG_POPULARITY[doc_id])
         song_result['genius_link'] = generate_url(doc_id)
 
         result['songs'].append(song_result)

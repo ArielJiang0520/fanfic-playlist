@@ -26,6 +26,7 @@ def search():
             text = text_input['text']
         if 'popular' in text_input.keys() and text_input["popular"] == "Popular":
             popular = True
+            
         artist_input = request.form.to_dict()
         if 'artist_search' in artist_input.keys():
             sel_artists = request.form.to_dict()['artist_search']  # 'a,b,
@@ -37,39 +38,17 @@ def search():
             sel_genres = request.form.to_dict()['genre_search']
             sel_genres = sel_genres.split(',') if len(sel_genres) > 0 else []
 
-        print(sel_artists, sel_genres)
+        # print(sel_artists, sel_genres)
 
         result = text_search(text, target_genres=sel_genres,
                              target_artists=sel_artists, popular=popular, link=link)
 
-        #playlistid = ""
-        if result['status']['code'] == '000':
-            songs = []
-            # fetch result here
-            # data = [result['fanfic']] + [s for s in result['songs']]
-            songs = ["spotify:track:" + x['id'] for x in result['songs']]
-            #playlistid = spotify_generator(songs)
-            result['fanfic']['scores']['Sexual'] = int((
-                result['fanfic']['scores']['Sexual'])*100)
-            result['fanfic']['scores']['Romance'] = int((
-                result['fanfic']['scores']['Romance'])*100)
-            result['fanfic']['scores']['Emo'] = int((
-                result['fanfic']['scores']['Emo'])*100)
-            for song in result['songs']:
-                song['scores']['sentiment'] = int((
-                    song['scores']['sentiment'])*100)
-                song['scores']['audio'] = int(
-                    (song['scores']['audio'])*100)
-                song['scores']['preference'] = int((
-                    song['scores']['preference'])*100)
-                song['scores']['lyrics'] = int(
-                    (song['scores']['lyrics'])*100)
-
-        else:
+        if not result['status']['code'] == '000':
             # handle response error
             print(f"error code: {result['status']['code']}",
                   f"error message: {result['status']['msg']}")
             return render_template('404.html', code=result['status']['code'], message=result['status']['msg'])
+
         global results_list
         results_list = [project_name,net_id,get_genres(),get_artists(),sel_genres,sel_artists,result,startup.getUser()]
         return render_template('output2.html', name=project_name, netid=net_id,

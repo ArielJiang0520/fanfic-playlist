@@ -14,18 +14,50 @@
 text-align: right;
 }
 
-textarea.user-text{
-    width: 500px;
-    height: 500px;
-    max-width: 500px;
-    margin:20px;
-    font-family: "Montserrat", serif;
-    font-size: 10px;
-    border-radius: 10px;
-    border-color: #ffa500;
-    flex: 1;
-    background-color: #fff1d3;
+.logo {
+  height: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
+
+.intro {
+  padding-left: 50px;
+  padding-right: 50px;
+  padding-top: 100px;
+  /* background-color:#fff1d3;  */
+  background-image: url("/static/images/background.png");
+  background-size: cover;
+  background-position: center;
+  width: 550px; 
+  height: 600px; 
+  margin: auto;
+}
+
+.title {
+  font-size: 48px;
+  padding-bottom: 10px;
+
+}
+
+.intro-text {
+  font-size: 15px;
+}
+
+
+textarea.user-text{
+  width: 500px;
+  height: 500px;
+  max-width: 500px;
+  margin:20px;
+  font-family: "Montserrat", serif;
+  font-size: 20px;
+  border-radius: 10px;
+  border-color: #ffa500;
+  flex: 1;
+  background-color: #fff1d3;
+}
+
 
 .user-text-box{
   padding-bottom: 40px;
@@ -37,7 +69,7 @@ textarea.user-link{
   max-width: 500px;
   margin:20px;
   font-family: "Montserrat", serif;
-  font-size: 10px;
+  font-size: 20px;
   border-color: #ffa500 ;
   border-style: double;
   border-width: 7px;
