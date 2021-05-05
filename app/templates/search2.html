@@ -17,7 +17,7 @@
     
     
     <h1 class="title">
-      Fanfic Playlist
+      Fanfic Playlisttest
     </h1>
 
     <!-- <h2>We generate music playlist for your favorite fanfictions! Having playlists for every type
@@ -54,14 +54,15 @@
 
     <br>
 
-    <div class='artist-box'>
+    <div class='artist-box' id='artist-box'>
       <h2 class="prefered-heading">PREFERRED ARTISTS</h2>
       <div class="autocomplete-group">
         <input id="autocomplete1" class='form-control' type='text' name='artist_search' />
       </div>
+      
     </div>
     <br>
-    <div class='genre-box'>
+    <div class='genre-box' id='genre-box'>
       <h2 class="prefered-heading">PREFERRED GENRES</h2>
       <div class="autocomplete-group">
         <input id="autocomplete2" class='form-control' type='text' name='genre_search' />
@@ -85,7 +86,39 @@
 
 </body>
 <script>
-  //autocomplete code source: https://dev.to/brunooliveira/flask-series-part-6-improving-user-input-with-autocomplete-4e06
+
+  function deleteCheck(elmt){
+    elmt.remove();
+  }
+  function createCheck(val,id){
+    var lab1=document.createElement("LABEL");
+      lab1.setAttribute("class","contain");
+      lab1.setAttribute("id",val);
+      lab1.setAttribute("onclick",'deleteCheck(this)');
+      if(id==="autocomplete1"){
+        document.getElementById("artist-box").appendChild(lab1);
+      }
+      if(id==="autocomplete2"){
+        document.getElementById("genre-box").appendChild(lab1);
+      }
+      
+     
+    var hidden1=document.createElement("INPUT")
+      hidden1.setAttribute("type", "checkbox");
+      hidden1.setAttribute("name", val);
+      hidden1.setAttribute("checked",'');
+      
+      lab1.appendChild(hidden1);
+      
+      var btn = document.createElement("SPAN");
+        btn.innerHTML = val;
+        btn.setAttribute("class","checkmark");
+        lab1.appendChild(btn);
+
+                
+  }
+
+  //autocomplete code partly based on: https://dev.to/brunooliveira/flask-series-part-6-improving-user-input-with-autocomplete-4e06
   function autocomplete(inp, arr) {
     /*the autocomplete function takes two arguments,
     the text field element and an array of possible autocompleted values:*/
@@ -104,57 +137,71 @@
       /*append the DIV element as a child of the autocomplete container:*/
       this.parentNode.appendChild(a);
       /*for each item in the array...*/
+      var z=0;
+      
       for (i = 0; i < arr.length; i++) {
-        /*check if the item starts with the same letters as the text field value:*/
-        var lastcomma = val.lastIndexOf(",");
-        if (lastcomma !== -1) {
-          if (val.length > lastcomma + 1) {
-            var newval = val.substr(lastcomma + 1, val.length);
-            var oldval = val.substr(0, lastcomma + 1);
+        if(z<5){
+          
+          var lastcomma = val.lastIndexOf(",");
+          if (lastcomma !== -1) {
+            if (val.length > lastcomma + 1) {
+              var newval = val.substr(lastcomma + 2, val.length);
+              var oldval = val.substr(0, lastcomma + 2);
 
 
+              /*check if the item starts with the same letters as the text field value:*/
+              if (arr[i].substr(0, newval.length).toUpperCase() == newval.toUpperCase()) {
+                z=z+1;
+                /*create a DIV element for each matching element:*/
+                b = document.createElement("DIV");
+                /*make the matching letters bold:*/
+                b.innerHTML = "<strong>" + arr[i].substr(0, newval.length) + "</strong>";
+                b.innerHTML += arr[i].substr(newval.length);
+                /*insert a input field that will hold the current array item's value:*/
+                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                /*execute a function when someone clicks on the item value (DIV element):*/
+                b.addEventListener("click", function (e) {
+                  /*insert the value for the autocomplete text field:*/
+                  
+                  inp.value = "";
+                  createCheck(this.getElementsByTagName("input")[0].value,inp.id)
+                  
+                 
+                  /*close the list of autocompleted values,
+                  (or any other open lists of autocompleted values:*/
+                  closeAllLists();
+                });
+                a.appendChild(b);
+              }
 
-            if (arr[i].substr(0, newval.length).toUpperCase() == newval.toUpperCase()) {
-
-              /*create a DIV element for each matching element:*/
-              b = document.createElement("DIV");
-              /*make the matching letters bold:*/
-              b.innerHTML = "<strong>" + arr[i].substr(0, newval.length) + "</strong>";
-              b.innerHTML += arr[i].substr(newval.length);
-              /*insert a input field that will hold the current array item's value:*/
-              b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-              /*execute a function when someone clicks on the item value (DIV element):*/
-              b.addEventListener("click", function (e) {
-                /*insert the value for the autocomplete text field:*/
-
-                inp.value = oldval.concat(this.getElementsByTagName("input")[0].value);
-                /*close the list of autocompleted values,
-                (or any other open lists of autocompleted values:*/
-                closeAllLists();
-              });
-              a.appendChild(b);
             }
 
+          }//actual code below
+          if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+            z=z+1;
+            /*create a DIV element for each matching element:*/
+            b = document.createElement("DIV");
+            /*make the matching letters bold:*/
+            b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+            b.innerHTML += arr[i].substr(val.length);
+            /*insert a input field that will hold the current array item's value:*/
+            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+            /*execute a function when someone clicks on the item value (DIV element):*/
+            b.addEventListener("click", function (e) {
+              /*insert the value for the autocomplete text field:*/
+              
+              
+              inp.value ="";
+              
+              createCheck(this.getElementsByTagName("input")[0].value,inp.id)
+              
+                
+              /*close the list of autocompleted values,
+              (or any other open lists of autocompleted values:*/
+              closeAllLists();
+            });
+            a.appendChild(b);
           }
-
-        }//actual code below
-        if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-          /*create a DIV element for each matching element:*/
-          b = document.createElement("DIV");
-          /*make the matching letters bold:*/
-          b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-          b.innerHTML += arr[i].substr(val.length);
-          /*insert a input field that will hold the current array item's value:*/
-          b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-          /*execute a function when someone clicks on the item value (DIV element):*/
-          b.addEventListener("click", function (e) {
-            /*insert the value for the autocomplete text field:*/
-            inp.value = this.getElementsByTagName("input")[0].value;
-            /*close the list of autocompleted values,
-            (or any other open lists of autocompleted values:*/
-            closeAllLists();
-          });
-          a.appendChild(b);
         }
       }
     });
