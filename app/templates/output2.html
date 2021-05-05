@@ -1,9 +1,5 @@
 Things not solved:
-- some pictures (fanfic categories icons, album picture (if we decide to use it), sentence score) are not inserted
-correctly
 - need add pop-up window for each scrore explanation
-- everytime the page is refreshed, a new playlist is created (probably needs to revoke the authorization once the
-playlist is created?)
 
 <html>
 
@@ -40,6 +36,7 @@ playlist is created?)
       <div class='fic-score-item'>
         <img class='score-label' src='/static/images/5.png'></img>
         <p class='score-num'>{{result['fanfic']['scores']['Sexual']}}</p>
+        <p class='score-cat-name'>Sexual</p>
         {% if (result['fanfic']['scores']['Sexual'] <= 30) %} <p>This score indicates the amount of sexual content in
           your fanfiction.
           Based on our AI prediction, your fanfiction barely has
@@ -62,6 +59,7 @@ playlist is created?)
       <div class='fic-score-item'>
         <img class='score-label' src='/static/images/4.png'></img>
         <p class='score-num'>{{result['fanfic']['scores']['Romance']}}</p>
+        <p class='score-cat-name'>Romance</p>
         {% if (result['fanfic']['scores']['Romance'] <= 30) %} <p>This score indicates how romantic your fanfiction is.
           Based on our AI prediction, your fanfiction is not very romantic,
           so there’s probably not much kissing, cuddling, or love confessions going on.
@@ -85,6 +83,7 @@ playlist is created?)
       <div class='fic-score-item'>
         <img class='score-label' src='/static/images/3.png'></img>
         <p class='score-num'>{{result['fanfic']['scores']['Emo']}}</p>
+        <p class='score-cat-name'>Emotional</p>
         {% if (result['fanfic']['scores']['Emo'] <= 30) %} <p>This score indicates how sad your fanfiction is.
           Based on our AI prediction, your fanfiction is probably
           a light-hearted story with little to now angst involved.
@@ -107,24 +106,6 @@ playlist is created?)
       {% endif %}
     </div>
     <br>
-
-    <!-- <div class="sentence-container">
-        {% if result %}
-        <div>
-          <h2 class='sentence-header'><b>Here are some sentences that we think capture your fanfic:</b></h2>
-          <div class='sentence-box'>
-            <ul>
-              {% for sent in result['fanfic']['analysis']['top_sentences'][:7]%}
-              <li class="sentence-list-item">
-                <p class='sentences'>{{sent}}</p>
-              </li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-        <img class='sentence-pic' src="/static/images/books.svg">
-        </div>
-        {% endif %} -->
   </div>
 
 </div>
@@ -151,9 +132,6 @@ playlist is created?)
 
 {% if result %}
 
-<!--uncomment this when the spotify thing works, for now have a button there to show where it will be-->
-<!--<iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
-    allowtransparency="true" allow="encrypted-media"></iframe>-->
 
 <div class='background-square-ga'>
   <ul class='genre-list'>
@@ -255,11 +233,11 @@ playlist is created?)
             <p class='score-name'>Preference</p>
             <div class='score-line'></div>
             <div class="progress-circle p10">
-              <svg class="radial-progress" data-percentage={{song['scores']['audio']}} viewBox="0 0 80 80">
+              <svg class="radial-progress" data-percentage={{song['scores']['preference']}} viewBox="0 0 80 80">
                 <circle class="incomplete" cx="40" cy="40" r="35"></circle>
                 <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
                 <text class="percentage" x="50%" y="57%"
-                  transform="matrix(0, 1, -1, 0, 80, 0)">{{song['scores']['audio']}}%</text>
+                  transform="matrix(0, 1, -1, 0, 80, 0)">{{song['scores']['preference']}}%</text>
               </svg>
             </div>
           </div>

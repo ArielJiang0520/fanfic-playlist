@@ -40,10 +40,9 @@ def search():
             sel_genres = request.form.to_dict()['genre_search']
             sel_genres = sel_genres.split(',') if len(sel_genres) > 0 else []
 
-        # print(sel_artists, sel_genres)
-
         result = text_search(text, target_genres=sel_genres,
                              target_artists=sel_artists, popular=popular, link=link)
+        
 
         if not result['status']['code'] == '000':
             # handle response error

@@ -322,8 +322,8 @@
 }
 
 .fic-score-item{
-  width: 250px;
-  height: 290px;
+  width: 270px;
+  height: 340px;
   text-align: center;
   background-color: #e4e0d9;
   padding-left: 25px;
@@ -334,22 +334,24 @@
 
 .score-label{
   /* font-size: 25; */
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   /* background-color: #fff; */
   margin: auto;
 }
 
 .score-num{
-  font-size: 24;
+  font-size: 30;
   font-family: "Montserrat";
-  font-weight: 700;
+  font-weight: 600;
 }
 
-/* .score-description {
-  font-size: 15px;
-  font-size: "Varela Round";
-} */
+.score-cat-name{
+  font-size: 20;
+  font-family: "Montserrat";
+}
+
+
 
 .arrow-row{
   display: flex;
@@ -528,7 +530,7 @@
 }
 
 .spotify-question {
-  height: 200px;
+  height: 150px;
 }
 
 .spotify-player {

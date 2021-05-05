@@ -31,7 +31,7 @@ def scrape_link(url: str):
 
 
 def text_search(query: str, target_genres=[], target_artists=[],
-                popular=True, k=10, link=False) -> [dict]:
+                popular=False, k=10, link=False) -> [dict]:
     """
     param:
         query: fanfiction
@@ -136,7 +136,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
                 'lyrics': 0.0
             },
             'artist_genre': '',
-            'artist_popularity': '',
+            'artist_popularity': 0,
             'song_popularity': 0,
             'genius_link': ''
         }
