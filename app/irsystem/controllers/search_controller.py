@@ -1,12 +1,15 @@
 from . import *
-from app.irsystem.models.model import text_search, get_artists, get_genres
+
 import os
 from flask import current_app, Flask, request, render_template, redirect
 import sys
 import requests
 import json
 import re
+
+from app.irsystem.models.model import text_search, get_artists, get_genres
 from app.irsystem.controllers import startup
+from app.irsystem.controllers.startup import CALLBACK
 
 project_name = "FanFiction Playlist Generator"
 net_id = "sj784, kjh233, asd247, nk435"
@@ -56,7 +59,7 @@ def search():
         return render_template('output2.html', name=project_name, netid=net_id,
                                genres=get_genres(), artists=get_artists(),
                                sel_genres=sel_genres, sel_artists=sel_artists, popular=popular,
-                               result=result, song_shown=0, spotify_auth_url="http://localhost:5000/spotify/")
+                               result=result, song_shown=0, spotify_auth_url=f"http://{CALLBACK}/spotify/")
 
     return render_template('search2.html', name=project_name, netid=net_id, output_message='',
                            data='', genres=get_genres(), artists=get_artists())
@@ -107,7 +110,7 @@ def searchv2():
         return render_template('output.html', name=project_name, netid=net_id,
                                genres=get_genres(), artists=get_artists(),
                                sel_genres=sel_genres, sel_artists=sel_artists, popular=popular,
-                               result=result, song_shown=0, spotify_auth_url="http://localhost:5000/spotify/")
+                               result=result, song_shown=0, spotify_auth_url=f"http://{CALLBACK}/spotify/")
 
     return render_template('search.html', name=project_name, netid=net_id, output_message='',
                            data='', genres=get_genres(), artists=get_artists())

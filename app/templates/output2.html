@@ -1,6 +1,3 @@
-Things not solved:
-- need add pop-up window for each scrore explanation
-
 <html>
 
 <head>
@@ -45,7 +42,7 @@ Things not solved:
           {% elif (result['fanfic']['scores']['Sexual'] > 30) and (result['fanfic']['scores']['Sexual'] <= 70) %} <p>
             This score indicates the amount of sexual content in your fanfiction.
             Based on our AI prediction, your fanfiction has a moderate amount of sexual content,
-            so it’s probably not suitable for the general audiences, but still not very explicit.
+            so it’s probably not PG-13, but still not very explicit.
             </p>
 
             {% else %}
@@ -59,7 +56,7 @@ Things not solved:
       <div class='fic-score-item'>
         <img class='score-label' src='/static/images/4.png'></img>
         <p class='score-num'>{{result['fanfic']['scores']['Romance']}}</p>
-        <p class='score-cat-name'>Romance</p>
+        <p class='score-cat-name'>Romantic</p>
         {% if (result['fanfic']['scores']['Romance'] <= 30) %} <p>This score indicates how romantic your fanfiction is.
           Based on our AI prediction, your fanfiction is not very romantic,
           so there’s probably not much kissing, cuddling, or love confessions going on.
@@ -69,7 +66,7 @@ Things not solved:
           {% elif (result['fanfic']['scores']['Romance'] > 30) and (result['fanfic']['scores']['Romance'] <= 70) %} <p>
             This score indicates how romantic your fanfiction is.
             Based on our AI prediction, your fanfiction probably has a
-            moderate amount of romance involved, but it’s not everywhere.
+            moderate amount of romance involved, but it's not the overwhelming theme
             </p>
 
             {% else %}
@@ -86,13 +83,13 @@ Things not solved:
         <p class='score-cat-name'>Emotional</p>
         {% if (result['fanfic']['scores']['Emo'] <= 30) %} <p>This score indicates how sad your fanfiction is.
           Based on our AI prediction, your fanfiction is probably
-          a light-hearted story with little to now angst involved.
+          a light-hearted story with little to no angst involved.
           </p>
 
-          {% elif (result['fanfic']['scores']['Emo'] > 30) and (result['fanfic']['scores']['Emo'] <= 80) %} <p>This
+          {% elif (result['fanfic']['scores']['Emo'] > 30) and (result['fanfic']['scores']['Emo'] <= 75) %} <p>This
             score indicates how sad your fanfiction is.
             Based on our AI prediction, you have a fanfiction that is neither too sad nor too happy,
-            which means the emotions are well-balanced!
+            or it could just be the emotions are well-balanced!
             </p>
 
             {% else %}
