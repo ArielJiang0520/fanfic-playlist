@@ -20,16 +20,14 @@
 
 
     <style>
-        
-
         .autocomplete {
             /*the container must be positioned relative:*/
             position: relative;
             display: inline-block;
         }
 
-        
-        
+
+
 
         .autocomplete-items {
             position: absolute;
@@ -41,7 +39,7 @@
             top: 100%;
             left: 0;
             right: 0;
-            
+
         }
 
         .autocomplete-items div {
@@ -67,7 +65,8 @@
             margin: auto;
             width: 500px;
         }
-        .autocomplete1{
+
+        .autocomplete1 {
             width: 1000px;
         }
     </style>
@@ -80,7 +79,16 @@
 
 
     <form method=post class='form' autocomplete="off">
-
+        <ul class="text-or-link-button">
+            <li>
+                <input type="radio" id="link" name="text-or-link" value="link" checked>
+                <label for="link">LINK INPUT</label><br>
+            </li>
+            <li>
+                <input type="radio" id="text" name="text-or-link" value="text">
+                <label for="text">TEXT INPUT</label><br>
+            </li>
+        </ul>
         <h2 class='text'>Paste Text:</h2>
         <textarea id='text-paste' class='user-text' name="text" type="textarea"
             placeholder="Input text here"></textarea>
@@ -93,16 +101,15 @@
 
 
         <br>
-        
-            <div class='input-group'>
-                <input id="autocomplete1" class='form-control' type='text' name='artist_search'
-                    placeholder='Enter artist' />
-            </div>
-            <div class='input-group'>
-                <input id="autocomplete2" class='form-control' type='text' name='genre_search'
-                    placeholder='Enter genre' />
-            </div>
-       
+
+        <div class='input-group'>
+            <input id="autocomplete1" class='form-control' type='text' name='artist_search'
+                placeholder='Enter artist' />
+        </div>
+        <div class='input-group'>
+            <input id="autocomplete2" class='form-control' type='text' name='genre_search' placeholder='Enter genre' />
+        </div>
+
 
 
 
@@ -140,34 +147,34 @@
             for (i = 0; i < arr.length; i++) {
                 if (z<5){
                 /*check if the item starts with the same letters as the text field value:*/
-                    var lastcomma=val.lastIndexOf(",");
-                    if(lastcomma!==-1){
-                        if(val.length>lastcomma+1){
-                            var newval=val.substr(lastcomma+1,val.length);
-                            var oldval=val.substr(0,lastcomma+1);
-                            
+                var lastcomma = val.lastIndexOf(",");
+                if (lastcomma !== -1) {
+                    if (val.length > lastcomma + 1) {
+                        var newval = val.substr(lastcomma + 1, val.length);
+                        var oldval = val.substr(0, lastcomma + 1);
 
 
-                            if (arr[i].substr(0, newval.length).toUpperCase() == newval.toUpperCase()) {
-                                z=z+1;
-                                /*create a DIV element for each matching element:*/
-                                b = document.createElement("DIV");
-                                /*make the matching letters bold:*/
-                                b.innerHTML = "<strong>" + arr[i].substr(0, newval.length) + "</strong>";
-                                b.innerHTML += arr[i].substr(newval.length);
-                                /*insert a input field that will hold the current array item's value:*/
-                                b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-                                /*execute a function when someone clicks on the item value (DIV element):*/
-                                b.addEventListener("click", function (e) {
-                                    /*insert the value for the autocomplete text field:*/
-                                    
-                                    inp.value = oldval.concat(this.getElementsByTagName("input")[0].value);
-                                    /*close the list of autocompleted values,
-                                    (or any other open lists of autocompleted values:*/
-                                    closeAllLists();
-                                });
-                                a.appendChild(b);
-                            }
+
+                        if (arr[i].substr(0, newval.length).toUpperCase() == newval.toUpperCase()) {
+
+                            /*create a DIV element for each matching element:*/
+                            b = document.createElement("DIV");
+                            /*make the matching letters bold:*/
+                            b.innerHTML = "<strong>" + arr[i].substr(0, newval.length) + "</strong>";
+                            b.innerHTML += arr[i].substr(newval.length);
+                            /*insert a input field that will hold the current array item's value:*/
+                            b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                            /*execute a function when someone clicks on the item value (DIV element):*/
+                            b.addEventListener("click", function (e) {
+                                /*insert the value for the autocomplete text field:*/
+
+                                inp.value = oldval.concat(this.getElementsByTagName("input")[0].value);
+                                /*close the list of autocompleted values,
+                                (or any other open lists of autocompleted values:*/
+                                closeAllLists();
+                            });
+                            a.appendChild(b);
+                        }
 
                         }
                         
@@ -191,6 +198,25 @@
                         });
                         a.appendChild(b);
                     }
+
+                }//actual code below
+                if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    /*create a DIV element for each matching element:*/
+                    b = document.createElement("DIV");
+                    /*make the matching letters bold:*/
+                    b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
+                    b.innerHTML += arr[i].substr(val.length);
+                    /*insert a input field that will hold the current array item's value:*/
+                    b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
+                    /*execute a function when someone clicks on the item value (DIV element):*/
+                    b.addEventListener("click", function (e) {
+                        /*insert the value for the autocomplete text field:*/
+                        inp.value = this.getElementsByTagName("input")[0].value;
+                        /*close the list of autocompleted values,
+                        (or any other open lists of autocompleted values:*/
+                        closeAllLists();
+                    });
+                    a.appendChild(b);
                 }
             });
             /*execute a function presses a key on the keyboard:*/

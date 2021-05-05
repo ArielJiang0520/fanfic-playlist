@@ -21,7 +21,7 @@ def sentiment_score(q, threshold=ta):
     return np.where(cs < ta, 0, cs)
 
 
-def pref_score(artists=[], genres=[], popular=False):
+def pref_score(artists, genres, popular):
     if not artists and not genres and not popular:
         return np.ones(shape=len(DB.MATADATA))
 

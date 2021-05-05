@@ -22,8 +22,8 @@ text-align: right;
 }
 
 .intro {
-  padding-left: 50px;
-  padding-right: 50px;
+  padding-left: 80px;
+  padding-right: 80px;
   padding-top: 100px;
   /* background-color:#fff1d3;  */
   background-image: url("/static/images/background.png");
@@ -42,8 +42,16 @@ text-align: right;
 
 .intro-text {
   font-size: 15px;
+  font-family: "Varela Round", "serif";
 }
 
+.intro-names {
+  position: sticky;
+  font-size: 10px;
+  font-family: "Varela Round", "serif";
+  padding-right: auto;
+  padding-left: auto;
+}
 
 textarea.user-text{
   width: 500px;

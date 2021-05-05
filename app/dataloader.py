@@ -58,9 +58,9 @@ class Dataloader:
         W2V_FOLDER = f'{PRELOAD_FOLDER}/word2vec'
 
         self.EMBED_SIZE = 300
-        self.FEATURE_SIZE = 85000
+        self.FEATURE_SIZE = 20000
 
-        self.EMBED_TABLE = KeyedVectors.load(f'{W2V_FOLDER}/embed85k.kv')
+        self.EMBED_TABLE = KeyedVectors.load(f'{W2V_FOLDER}/embed20k.kv')
         assert self.EMBED_TABLE.vectors.shape == (self.FEATURE_SIZE, self.EMBED_SIZE)
 
         self.MODEL_VOCAB = set(self.EMBED_TABLE.key_to_index.keys())

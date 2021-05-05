@@ -8,53 +8,15 @@
     color:#000;
   }
 .info{
-  font-family: "Quicksand", serif;
-  font-size: 16;
+  font-family: "Varela Round", serif;
+  font-size: 18px;
   background-color: #f3efec;
 }
 
-  .title-info-s{
+  .title-info{
     background-color: #f3efec;
     text-align: center;
     padding-bottom: 40px;
-  }
-  .title-info-r{
-    background-color: #f3efec;
-    text-align: center;
-    padding-bottom: 40px;
-  }
-  .title-info-e{
-    background-color: #f3efec;
-    text-align: center;
-    padding-bottom: 40px;
-  }
-
-  .title-info-s::after{
-    content: "";
-    position: absolute;
-    border-width: 40px;
-    border-style: solid;
-    top: 540px;
-    left: 25%;
-    border-color: #f3efec transparent transparent transparent;
-  }
-  .title-info-r::after{
-    content: "";
-    position: absolute;
-    border-width: 40px;
-    border-style: solid;
-    top: 540px;
-    left: 47%;
-    border-color: #f3efec transparent transparent transparent;
-  }
-  .title-info-e::after{
-    content: "";
-    position: absolute;
-    border-width: 40px;
-    border-style: solid;
-    top: 540px;
-    left: 69%;
-    border-color: #f3efec transparent transparent transparent;
   }
 
   .output{
@@ -222,12 +184,15 @@
 .background-square-ga{
   background-color: #7ed957;
   margin: auto;
-  padding-top: 70px;
+  padding-top: 30px;
   position: relative;
 	overflow-x: hidden;
 	overflow-y: hidden;
-  height: 300px;
+  height: 240px;
   width: 100%;
+  text-align: center;
+  font-size: 20px;
+  font-family: "Varela Round", "serif";
 }
 
 .preferred{
@@ -240,10 +205,10 @@
 }
 
 .genre-list{
-  height: 120px;
+  height: 90px;
 	box-sizing: border-box;
-	padding-bottom: 30px;
-  padding-top: 55px;
+	padding-bottom: 10px;
+  padding-top: 7px;
 	white-space: nowrap;
 	overflow-x: auto;
 	overflow-y: hidden;
@@ -261,6 +226,12 @@
   margin: 10px 0;
   border-radius: 15px;
 	background: #f3f3f3;
+  opacity: 70%;
+}
+
+.genre-description{
+  padding-bottom: 0px;
+  padding-top: 30px;
 }
 
 .genre-text{
@@ -315,11 +286,10 @@
 }
 
 .sentence-header{
-  font-family: "Quicksand", "serif";
+  font-family: "Montserrat";
   color: #f3efec;
   width: 600px;
   padding-left: 120px;
-  font-family: "Montserrat";
   padding-bottom: 50px;
 }
 
@@ -329,6 +299,7 @@
 }
 
 .sentence-list-item{
+  font-family: "Varela Round", "serif";
   color: #f3efec;
 }
 
@@ -360,27 +331,36 @@
 }
 
 .fic-score-item{
-  width: 250px;
-  height: 290px;
+  width: 270px;
+  height: 360px;
   text-align: center;
   background-color: #e4e0d9;
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 25px;
-  font-family: "Quicksand", "serif";
+  font-family: "Varela Round", "serif";
 }
 
 .score-label{
   /* font-size: 25; */
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   /* background-color: #fff; */
   margin: auto;
 }
 
 .score-num{
-  font-size: 20;
+  font-size: 30;
+  font-family: "Montserrat";
+  font-weight: 600;
 }
+
+.score-cat-name{
+  font-size: 20;
+  font-family: "Montserrat";
+}
+
+
 
 .arrow-row{
   display: flex;
@@ -410,6 +390,21 @@
   border-top: 30px solid #008037;
   box-shadow: transparent;
 }
+.arrow-down10 {
+  width: 0; 
+  height: 0; 
+  border-left: 30px solid transparent;
+  border-right: 30px solid transparent;
+  border-bottom: 30px solid transparent;
+  background-color: #f3efec;
+  border-top: 30px solid #7ed957;
+  box-shadow: transparent;
+}
+
+.arrow-down10:focus{
+  outline: transparent;
+  box-shadow: transparent;
+}
 
 .arrow-down:focus{
   outline: transparent;
@@ -426,8 +421,9 @@
   flex-direction: row;
   justify-content: center;
   gap: 70px;
-  padding-bottom: 50px;
+  padding-bottom: 150px;
   height: 100px;
+  margin-top: -70px;
 }
 
 .icon-label{
@@ -526,22 +522,24 @@
   flex-direction: row;
   justify-content: center;
   padding-top: 35px;
+  padding-left: 35px;
+  padding-bottom: 35px;
 }
 
 .genius-info{
   color:#f5f5ef;
-  font-size: 20px;
+  font-size: 16px;
   font-family: "Montserrat";
 }
 
 .genius-link{
   color:#f5f5ef;
-  font-size: 20px;
+  font-size: 16px;
   font-family: "Montserrat";
 }
 
 .spotify-question {
-  height: 200px;
+  height: 150px;
 }
 
 .spotify-player {
@@ -550,4 +548,48 @@
 
 .back-button {
   height:200px;
+}
+
+.number-image{
+  font-size: 25px;
+  color: #fff;
+  width: 20px;
+  line-height: 10px;
+  margin-top: -25px;
+  margin-left: -10px;
+  z-index: 2000;
+}
+
+.number-image-10{
+  font-size: 25px;
+  color: #fff;
+  width: 20px;
+  line-height: 10px;
+  margin-top: -25px;
+  margin-left: -15px;
+  z-index: 2000;
+}
+svg.radial-progress {
+  height: auto;
+  max-width: 100px;
+  height: 100px;
+  padding: 1em;
+  transform: rotate(-90deg);
+  width: 100%;
+}
+
+svg.radial-progress circle {
+  fill: transparent;
+  stroke: #008037;
+  stroke-dashoffset: 219.91148575129; 
+  stroke-width: 10;
+}
+
+svg.radial-progress circle.incomplete { stroke: #e4e0d9 }
+
+svg.radial-progress circle.complete { stroke-dasharray: 219.91148575129; opacity: 100% }
+
+svg.radial-progress text {
+  fill: #008037;
+  text-anchor: middle;
 }
