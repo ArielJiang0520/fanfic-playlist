@@ -103,12 +103,12 @@ playlist is created?)
             </p>
             {% endif %}
 
-        </div>
-        {% endif %}
       </div>
-      <br>
+      {% endif %}
+    </div>
+    <br>
 
-      <!-- <div class="sentence-container">
+    <!-- <div class="sentence-container">
         {% if result %}
         <div>
           <h2 class='sentence-header'><b>Here are some sentences that we think capture your fanfic:</b></h2>
@@ -125,29 +125,28 @@ playlist is created?)
         <img class='sentence-pic' src="/static/images/books.svg">
         </div>
         {% endif %} -->
-      </div>
+  </div>
 
+</div>
+</div>
+
+<div class="sentence-container">
+  {% if result %}
+  <div>
+    <h2 class='sentence-header'><b>Here are some sentences that we think capture your fanfic:</b></h2>
+    <div class='sentence-box'>
+      <ul>
+        {% for sent in result['fanfic']['analysis']['top_sentences'][:7]%}
+        <li class="sentence-list-item">
+          <p class='sentences'>{{sent}}</p>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
-  <br>
-
-  <div class="sentence-container">
-    {% if result %}
-    <div>
-      <h2 class='sentence-header'><b>Here are some sentences that we think capture your fanfic:</b></h2>
-      <div class='sentence-box'>
-        <ul>
-          {% for sent in result['fanfic']['analysis']['top_sentences'][:7]%}
-          <li class="sentence-list-item">
-            <p class='sentences'>{{sent}}</p>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-    </div>
-    <img class='sentence-pic' src="/static/images/books.svg">
-  </div>
-  {% endif %}
+  <img class='sentence-pic' src="/static/images/books.svg">
+</div>
+{% endif %}
 </div>
 
 {% if result %}
