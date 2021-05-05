@@ -32,16 +32,10 @@ def search():
         if 'popular' in text_input.keys() and text_input["popular"] == "Popular":
             popular = True
 
-        artist_input = request.form.to_dict()
-        if 'artist_search' in artist_input.keys():
-            sel_artists = request.form.to_dict()['artist_search']  # 'a,b,
-            sel_artists = sel_artists.split(
-                ',') if len(sel_artists) > 0 else []
+        sel_genres = request.form.getlist('genre-selector')
+        sel_artists = request.form.getlist('artist-selector')
 
-        genre_input = request.form.to_dict()
-        if 'genre_search' in genre_input.keys():
-            sel_genres = request.form.to_dict()['genre_search']
-            sel_genres = sel_genres.split(',') if len(sel_genres) > 0 else []
+        print(sel_genres, sel_artists)
 
         result = text_search(text, target_genres=sel_genres,
                              target_artists=sel_artists, popular=popular, link=link)

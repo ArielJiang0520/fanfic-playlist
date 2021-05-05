@@ -98,18 +98,22 @@ net_id = "sj784, kjh233, asd247, nk435" -->
       lab1.setAttribute("class","contain");
       lab1.setAttribute("id",val);
       lab1.setAttribute("onclick",'deleteCheck(this)');
+
+      var hidden1=document.createElement("INPUT")
+      hidden1.setAttribute("type", "checkbox");
+      hidden1.setAttribute("value", val);
+      hidden1.setAttribute("checked",'');
+      
       if(id==="autocomplete1"){
         document.getElementById("artist-box").appendChild(lab1);
+        hidden1.setAttribute("name", "artist-selector");
+        
       }
       if(id==="autocomplete2"){
         document.getElementById("genre-box").appendChild(lab1);
+        hidden1.setAttribute("name", "genre-selector");
       }
-      
-     
-    var hidden1=document.createElement("INPUT")
-      hidden1.setAttribute("type", "checkbox");
-      hidden1.setAttribute("name", val);
-      hidden1.setAttribute("checked",'');
+
       
       lab1.appendChild(hidden1);
       
