@@ -65,7 +65,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
 
     if target_artists or target_genres:
         if any([a not in DB.ARTIST_POOL for a in target_artists]) or \
-            any([g not in DB.GENRE_POOL for g in target_genres]):
+                any([g not in DB.GENRE_POOL for g in target_genres]):
             result['status']['code'] = '004'
             result['status']['msg'] = f'The artists you selected ("{target_artists}") or the genres you selected ("{target_genres}") are not in the database.'
             return result
@@ -115,7 +115,7 @@ def text_search(query: str, target_genres=[], target_artists=[],
     pref = pref_score(target_artists, target_genres, popular)
     audio = audio_score(q)
     lyrics = lyrics_score(q_e)
-    
+
     ##
     rankings = rank(sentiment, pref, audio, lyrics, k)
 
@@ -150,9 +150,10 @@ def text_search(query: str, target_genres=[], target_artists=[],
         song_result['scores']['preference'] = int(pref[doc_id] * 100)
         song_result['scores']['audio'] = int(audio[doc_id] * 100)
         song_result['scores']['lyrics'] = int(lyrics[doc_id] * 100)
-        
+
         song_result['artist_genre'] = DB.A_TO_GENRE[DB.MATADATA[doc_id][0]]
-        song_result['artist_popularity'] = int(DB.ARTIST_POPULARITY[DB.A_TO_IX[DB.MATADATA[doc_id][0]]])
+        song_result['artist_popularity'] = int(
+            DB.ARTIST_POPULARITY[DB.A_TO_IX[DB.MATADATA[doc_id][0]]])
         song_result['song_popularity'] = int(DB.SONG_POPULARITY[doc_id])
         song_result['genius_link'] = generate_url(doc_id)
 
@@ -170,6 +171,7 @@ def get_genres() -> [str]:
         all genres
     """
     return DB.GENRE_POOL
+
 
 def get_artists() -> [str]:
     """

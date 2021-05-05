@@ -147,3 +147,7 @@ input[type=submit] {
     text-align: center;
     padding-left: 20px;
   }
+
+  .text-or-link-button {
+    list-style-type: none;
+  }

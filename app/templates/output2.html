@@ -1,3 +1,10 @@
+Things not solved:
+- some pictures (fanfic categories icons, album picture (if we decide to use it), sentence score) are not inserted
+correctly
+- need add pop-up window for each scrore explanation
+- everytime the page is refreshed, a new playlist is created (probably needs to revoke the authorization once the
+playlist is created?)
+
 <html>
 
 <head>
@@ -16,89 +23,79 @@
 
 <div class='output'>
   {% if result %}
-  {% if result['fanfic']['analysis']['sel_cat'] == 'Romance' %}
-  <div class='title-info-r'>
-    {%endif%}
-    {% if result['fanfic']['analysis']['sel_cat'] == 'Emo' %}
-    <div class='title-info-e'>
-      {%endif%}
-      {% if result['fanfic']['analysis']['sel_cat'] == 'Sexual' %}
-      <div class='title-info-s'>
-        {%endif%}
-        <h1 class='result'>Your Results</h1>
-              
-        {% if clicked %}
-        <p align="center"><iframe class='spotify-player' src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
-            allowtransparency="true" allow="encrypted-media" ></iframe></p>
-        {% endif %}
-        
-        <p class='info'>Here is everything we know about your fanfic
-        </p>
-        <div class='line'></div>
-        <div class='fic-score-wrapper'>
-          <div class='fic-score-item'>
-            <img class='score-label' src='/static/images/5.png'></img>
-            <p class='score-num'>{{result['fanfic']['scores']['Sexual']}}</p>
-            {% if (result['fanfic']['scores']['Sexual'] <= 30) %}
-            <p>This score indicates the amount of sexual content in your fanfiction.
-               Based on our AI prediction, your fanfiction barely has
-               any explicit sexual content. It can be safely rated as PG-13</p>
+  <div class='title-info'>
+    <h1 class='result'>Your Results</h1>
 
-            {% elif (result['fanfic']['scores']['Sexual'] > 30) and (result['fanfic']['scores']['Sexual'] <= 70) %}
-            <p>This score indicates the amount of sexual content in your fanfiction. 
-              Based on our AI prediction, your fanfiction has a moderate amount of sexual content, 
-              so it’s probably not suitable for the general audiences, but still not very explicit.
+    {% if clicked %}
+    <p align="center"><iframe class='spotify-player' src="https://open.spotify.com/embed/playlist/{{playlist}}"
+        width="400" height="600" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe></p>
+    {% endif %}
+
+    <p class='info'>Here is everything we know about your fanfic
+    </p>
+    <div class='line'></div>
+    <div class='fic-score-wrapper'>
+      <div class='fic-score-item'>
+        <img class='score-label' src='/static/images/5.png'></img>
+        <p class='score-num'>{{result['fanfic']['scores']['Sexual']}}</p>
+        {% if (result['fanfic']['scores']['Sexual'] <= 30) %} <p>This score indicates the amount of sexual content in
+          your fanfiction.
+          Based on our AI prediction, your fanfiction barely has
+          any explicit sexual content. It can be safely rated as PG-13</p>
+
+          {% elif (result['fanfic']['scores']['Sexual'] > 30) and (result['fanfic']['scores']['Sexual'] <= 70) %} <p>
+            This score indicates the amount of sexual content in your fanfiction.
+            Based on our AI prediction, your fanfiction has a moderate amount of sexual content,
+            so it’s probably not suitable for the general audiences, but still not very explicit.
             </p>
 
             {% else %}
-            <p>This score indicates the amount of sexual content in your fanfiction. 
-              Based on our AI prediction, your fanfiction probably 
+            <p>This score indicates the amount of sexual content in your fanfiction.
+              Based on our AI prediction, your fanfiction probably
               has a lot of EXPLICIT sexual content. Definitely NSFW
             </p>
             {% endif %}
-          </div>
+      </div>
 
-          <div class='fic-score-item'>
-            <img class='score-label' src='/static/images/4.png'></img>
-            <p class='score-num'>{{result['fanfic']['scores']['Romance']}}</p>
-            {% if (result['fanfic']['scores']['Romance'] <= 30) %}
-            <p>This score indicates how romantic your fanfiction is. 
-              Based on our AI prediction, your fanfiction is not very romantic, 
-              so there’s probably not much kissing, cuddling, or love confessions going on.
-            </p>
+      <div class='fic-score-item'>
+        <img class='score-label' src='/static/images/4.png'></img>
+        <p class='score-num'>{{result['fanfic']['scores']['Romance']}}</p>
+        {% if (result['fanfic']['scores']['Romance'] <= 30) %} <p>This score indicates how romantic your fanfiction is.
+          Based on our AI prediction, your fanfiction is not very romantic,
+          so there’s probably not much kissing, cuddling, or love confessions going on.
+          </p>
 
 
-            {% elif (result['fanfic']['scores']['Romance'] > 30) and (result['fanfic']['scores']['Romance'] <= 70) %}
-            <p>This score indicates how romantic your fanfiction is. 
-              Based on our AI prediction, your fanfiction probably has a
-              moderate amount of romance involved, but it’s not everywhere.
+          {% elif (result['fanfic']['scores']['Romance'] > 30) and (result['fanfic']['scores']['Romance'] <= 70) %} <p>
+            This score indicates how romantic your fanfiction is.
+            Based on our AI prediction, your fanfiction probably has a
+            moderate amount of romance involved, but it’s not everywhere.
             </p>
 
             {% else %}
-            <p>This score indicates how romantic your fanfiction is. 
-              Based on our AI prediction, your fanfiction is very romantic, 
+            <p>This score indicates how romantic your fanfiction is.
+              Based on our AI prediction, your fanfiction is very romantic,
               meaning the characters are probably madly in love with each other
             </p>
             {% endif %}
-          </div>
+      </div>
 
-          <div class='fic-score-item'>
-            <img class='score-label' src='/static/images/3.png'></img>
-            <p class='score-num'>{{result['fanfic']['scores']['Emo']}}</p>
-            {% if (result['fanfic']['scores']['Emo'] <= 30) %}
-            <p>This score indicates how sad your fanfiction is. 
-              Based on our AI prediction, your fanfiction is probably 
-              a light-hearted story with little to now angst involved.
-            </p>
+      <div class='fic-score-item'>
+        <img class='score-label' src='/static/images/3.png'></img>
+        <p class='score-num'>{{result['fanfic']['scores']['Emo']}}</p>
+        {% if (result['fanfic']['scores']['Emo'] <= 30) %} <p>This score indicates how sad your fanfiction is.
+          Based on our AI prediction, your fanfiction is probably
+          a light-hearted story with little to now angst involved.
+          </p>
 
-            {% elif (result['fanfic']['scores']['Emo'] > 30) and (result['fanfic']['scores']['Emo'] <= 80) %}
-            <p>This score indicates how sad your fanfiction is. 
-              Based on our AI prediction, you have a fanfiction that is neither too sad nor too happy, 
-              which means the emotions are well-balanced!
+          {% elif (result['fanfic']['scores']['Emo'] > 30) and (result['fanfic']['scores']['Emo'] <= 80) %} <p>This
+            score indicates how sad your fanfiction is.
+            Based on our AI prediction, you have a fanfiction that is neither too sad nor too happy,
+            which means the emotions are well-balanced!
             </p>
 
             {% else %}
-            <p>This score indicates how sad your fanfiction is. 
+            <p>This score indicates how sad your fanfiction is.
               Based on our AI prediction, your fanfiction is very emotional and sad.
               Did you cry when you were reading/writing this?
             </p>
@@ -109,7 +106,7 @@
       </div>
       <br>
 
-      <div class="sentence-container">
+      <!-- <div class="sentence-container">
         {% if result %}
         <div>
           <h2 class='sentence-header'><b>Here are some sentences that we think capture your fanfic:</b></h2>
@@ -125,186 +122,215 @@
         </div>
         <img class='sentence-pic' src="/static/images/books.svg">
         </div>
-        {% endif %}
+        {% endif %} -->
       </div>
 
-      {% if result %}
-
-      <!--uncomment this when the spotify thing works, for now have a button there to show where it will be-->
-      <!--<iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
-    allowtransparency="true" allow="encrypted-media"></iframe>-->
-
-      <div class='background-square-ga'>
-        <ul class='genre-list'>
-          {% if sel_genres %}
-
-          {% for genre in sel_genres %}
-          <li class='genre'>
-            <p class='genre-text'>{{genre}}</p>
-          </li>
-          {%endfor%}
-          
-          {% else %}
-          <li class='genre'>
-            <p class='genre-text'>no genre selected</p>
-          </li>
-          {% endif %}
-
-          {% if sel_artists %}
-          {% for artist in sel_artists %}
-          <li class='genre'>
-            <p class='genre-text'>{{artist}}</p>
-          </li>
-          {%endfor%}
-
-          {% else %}
-          <li class='genre'>
-            <p class='genre-text'>no artist selected</p>
-          </li>
-          {% endif %}
-
-          {% if popular %}
-          <li class='genre'>
-            <p class='genre-text'>prefer popular</p>
-          </li>
-          {% else %}
-          <li class='genre'>
-            <p class='genre-text'>popularity ignored</p>
-          </li>
-          {% endif %}
-
-          
-        </ul>
-
-        <div class="paddles">
-          <button class="left-paddle paddle">
-            &#8249; </button>
-          <button class="right-paddle paddle">
-            &#8250;
-          </button>
-        </div>
-      </div>
-
-      <div class='arrow-row'>
-        {% if result %}
-        <button id={{result['songs'][0]['id']}} class="arrow-down1" onclick="setColor(event,{{result}})" />
-        {% for song in result['songs'][1:] %}
-        <button id={{song['id']}} class="arrow-down" onclick="setColor(event,{{result}}) 
-        " />
-
-        {% endfor %}
-        {% endif %}
-      </div>
-
-
-
-      <div class='background-square'>
-        {% for song in result['songs'] %}
-        <div class='song-card' {% if loop.index0 !=0%} hidden {%endif%} id={{song['id']}}>
-          <div class='score-types'>
-            <div>
-              <div class='icon-label'>
-                <img class='icon-placeholder' src='/static/images/6.png'></img>
-                <div class='label-line'>
-                  <p class='score-name'>Sentiment</p>
-                  <div class='score-line'></div>
-
-                  <div class='progress-bars'>
-                    <div class="progress-circle p10">
-                      <span>{{song['scores']['sentiment']}}</span>
-                      <div class="left-half-clipper">
-                        <div class="first50-bar"></div>
-                        <div class="value-bar"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class='icon-label'>
-                <img class='icon-placeholder' src='/static/images/6.png'></img>
-                <div class='label-line'>
-                  <p class='score-name'>Preference</p>
-                  <div class='score-line'></div>
-                  <div class="progress-circle p10">
-                    <span>{{song['scores']['audio']}}</span>
-                    <div class="left-half-clipper">
-                      <div class="first50-bar"></div>
-                      <div class="value-bar"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class='icon-label'>
-                <img class='icon-placeholder' src='/static/images/6.png'></img>
-                <div class='label-line'>
-                  <p class='score-name'>Audio</p>
-                  <div class='score-line'></div>
-                  <div class="progress-circle p10">
-                    <span>{{song['scores']['preference']}}</span>
-                    <div class="left-half-clipper">
-                      <div class="first50-bar"></div>
-                      <div class="value-bar"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class='icon-label'>
-                <img class='icon-placeholder' src='/static/images/6.png'></img>
-                <div class='label-line'>
-                  <p class='score-name'>Lyrics</p>
-                  <div class='score-line'></div>
-                  <div class="progress-circle p10">
-                    <span>{{song['scores']['lyrics']}}</span>
-                    <div class="left-half-clipper">
-                      <div class="first50-bar"></div>
-                      <div class="value-bar"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class='song-info-genius-link-container'>
-            <div class='song-info-square'>
-              <h2 class='song-title'> <b>{{song['title']}}</b> </h2>
-              <p class='song-artist'>by <b>{{song['artist']}}</b> </p>
-              <p class='song-other-info'>Song Popularity: {{song['song_popularity']}}</p>
-              <p class='song-other-info'>Genres: {{song['artist_genre']}}</p>
-              <!-- <img class='album-cover' src='/static/images/7.png'></img> -->
-            </div>
-            <div class='genius-link-square'>
-              <p class='genius-info'>Check out the lyrics at Genius.com: &nbsp;</p>
-              <a class='genius-link' href={{song['genius_link']}} target="_blank"> {{song['genius_link']}}</a>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-          <form action= "{{spotify_auth_url}}" class = "button-flex2">
-            <!-- <input type="submit" value="Click Here To Create Your Playlist on Spotify" /> -->
-            <input class='spotify-question' type="image" src="/static/images/spotify.svg" />
-          </form>
-
-        <!-- <p align="center"><a href= /><button class="return-button">New search</button></a></p> -->
-        <p align="center"><a href= /><img class='back-button' src="/static/images/back.png" /></a></p>
-      </div>
-
-
-
-      {% endif %}
     </div>
   </div>
+  <br>
+
+  <div class="sentence-container">
+    {% if result %}
+    <div>
+      <h2 class='sentence-header'><b>Here are some sentences that we think capture your fanfic:</b></h2>
+      <div class='sentence-box'>
+        <ul>
+          {% for sent in result['fanfic']['analysis']['top_sentences'][:7]%}
+          <li class="sentence-list-item">
+            <p class='sentences'>{{sent}}</p>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    <img class='sentence-pic' src="/static/images/books.svg">
+  </div>
+  {% endif %}
+</div>
+
+{% if result %}
+
+<!--uncomment this when the spotify thing works, for now have a button there to show where it will be-->
+<!--<iframe src="https://open.spotify.com/embed/playlist/{{playlist}}" width="400" height="600" frameborder="0"
+    allowtransparency="true" allow="encrypted-media"></iframe>-->
+
+<div class='background-square-ga'>
+  <ul class='genre-list'>
+    {% if sel_genres %}
+
+    {% for genre in sel_genres %}
+    <li class='genre'>
+      <p class='genre-text'>{{genre}}</p>
+    </li>
+    {%endfor%}
+
+    {% else %}
+    <li class='genre'>
+      <p class='genre-text'>no genre selected</p>
+    </li>
+    {% endif %}
+
+    {% if sel_artists %}
+    {% for artist in sel_artists %}
+    <li class='genre'>
+      <p class='genre-text'>{{artist}}</p>
+    </li>
+    {%endfor%}
+
+    {% else %}
+    <li class='genre'>
+      <p class='genre-text'>no artist selected</p>
+    </li>
+    {% endif %}
+
+    {% if popular %}
+    <li class='genre'>
+      <p class='genre-text'>prefer popular</p>
+    </li>
+    {% else %}
+    <li class='genre'>
+      <p class='genre-text'>popularity ignored</p>
+    </li>
+    {% endif %}
+
+
+  </ul>
+
+  <div class="paddles">
+    <button class="left-paddle paddle">
+      &#8249; </button>
+    <button class="right-paddle paddle">
+      &#8250;
+    </button>
+  </div>
+</div>
+
+<div class='arrow-row'>
+  {% if result %}
+  <button id={{result['songs'][0]['id']}} class="arrow-down1" onclick="setColor(event,{{result}})">
+    <p class='number-image' id={{result['songs'][0]['id']}}>1</p>
+  </button>
+  {% for song in result['songs'][1:9] %}
+  <button id={{song['id']}} class="arrow-down" onclick="setColor(event,{{result}}) 
+        ">
+    <p class='number-image' id={{song['id']}}>{{loop.index0+2}}</p>
+  </button>
+  {% endfor %}
+  <button id={{result['songs'][9]['id']}} class="arrow-down10" onclick="setColor(event,{{result}}) 
+        ">
+    <p class='number-image-10' id={{result['songs'][9]['id']}}>10</p>
+  </button>
+  {% endif %}
+</div>
+
+
+
+<div class='background-square'>
+  {% for song in result['songs'] %}
+  <div class='song-card' {% if loop.index0 !=0%} hidden {%endif%} id={{song['id']}}>
+    <div class='score-types'>
+      <div>
+        <div class='icon-label'>
+          <img class='icon-placeholder' src='/static/images/6.png'></img>
+          <div class='label-line'>
+            <p class='score-name'>Sentiment</p>
+            <div class='score-line'></div>
+
+            <div class='progress-bars'>
+              <div class="progress-circle p10">
+                <span>{{song['scores']['sentiment']}}</span>
+                <div class="left-half-clipper">
+                  <div class="first50-bar"></div>
+                  <div class="value-bar"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class='icon-label'>
+          <img class='icon-placeholder' src='/static/images/6.png'></img>
+          <div class='label-line'>
+            <p class='score-name'>Preference</p>
+            <div class='score-line'></div>
+            <div class="progress-circle p10">
+              <span>{{song['scores']['audio']}}</span>
+              <div class="left-half-clipper">
+                <div class="first50-bar"></div>
+                <div class="value-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class='icon-label'>
+          <img class='icon-placeholder' src='/static/images/6.png'></img>
+          <div class='label-line'>
+            <p class='score-name'>Audio</p>
+            <div class='score-line'></div>
+            <div class="progress-circle p10">
+              <span>{{song['scores']['preference']}}</span>
+              <div class="left-half-clipper">
+                <div class="first50-bar"></div>
+                <div class="value-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class='icon-label'>
+          <img class='icon-placeholder' src='/static/images/6.png'></img>
+          <div class='label-line'>
+            <p class='score-name'>Lyrics</p>
+            <div class='score-line'></div>
+            <div class="progress-circle p10">
+              <span>{{song['scores']['lyrics']}}</span>
+              <div class="left-half-clipper">
+                <div class="first50-bar"></div>
+                <div class="value-bar"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class='song-info-genius-link-container'>
+      <div class='song-info-square'>
+        <h2 class='song-title'> <b>{{song['title']}}</b> </h2>
+        <p class='song-artist'>by <b>{{song['artist']}}</b> </p>
+        <p class='song-other-info'>Song Popularity: {{song['song_popularity']}}</p>
+        <p class='song-other-info'>Genres: {{song['artist_genre']}}</p>
+        <!-- <img class='album-cover' src='/static/images/7.png'></img> -->
+      </div>
+      <div class='genius-link-square'>
+        <p class='genius-info'>Check out the lyrics at Genius.com: &nbsp;</p>
+        <a class='genius-link' href={{song['genius_link']}} target="_blank"> {{song['genius_link']}}</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <form action="{{spotify_auth_url}}" class="button-flex2">
+    <!-- <input type="submit" value="Click Here To Create Your Playlist on Spotify" /> -->
+    <input class='spotify-question' type="image" src="/static/images/spotify.svg" />
+  </form>
+
+  <!-- <p align="center"><a href= /><button class="return-button">New search</button></a></p> -->
+  <p align="center"><a href= /><img class='back-button' src="/static/images/back.png" /></a></p>
+</div>
+
+
+
+{% endif %}
+</div>
+</div>
 </div>
 
 <script>
   function setColor(e, result) {
-    console.log(result);
     var target = e.target;
     $(".song-card").each(function () {
       if ($(this).attr('id') == target.id) {
@@ -315,7 +341,7 @@
       }
     }
     );
-    $(".arrow-down, .arrow-down1").each(function () {
+    $(".arrow-down, .arrow-down1, .arrow-down10, .number-image, .number-image10").each(function () {
       if ($(this).attr('id') != target.id) {
         $(this).css('border-top-color', "#7ed957");
 
@@ -442,4 +468,5 @@
     var des = document.getElementById("sexual-score-description").value = "Good Day";
   }
 </script> -->
+
 </html>

@@ -21,12 +21,14 @@ def search():
         if text_input['text-or-link'] == "link":
             link = True
             text = text_input['text']
+            if text == "" and 'link' in text_input:  # this is for easy toggling between old and new ui
+                text = text_input['link']
         if text_input['text-or-link'] == "text":
             link = False
             text = text_input['text']
         if 'popular' in text_input.keys() and text_input["popular"] == "Popular":
             popular = True
-            
+
         artist_input = request.form.to_dict()
         if 'artist_search' in artist_input.keys():
             sel_artists = request.form.to_dict()['artist_search']  # 'a,b,
@@ -50,13 +52,65 @@ def search():
             return render_template('404.html', code=result['status']['code'], message=result['status']['msg'])
 
         global results_list
-        results_list = [project_name,net_id,get_genres(),get_artists(),sel_genres,sel_artists,result,startup.getUser()]
+        results_list = [project_name, net_id, get_genres(), get_artists(
+        ), sel_genres, sel_artists, result, startup.getUser()]
         return render_template('output2.html', name=project_name, netid=net_id,
                                genres=get_genres(), artists=get_artists(),
                                sel_genres=sel_genres, sel_artists=sel_artists, popular=popular,
-                               result=result, song_shown=0, spotify_auth_url = "http://localhost:5000/spotify/")
+                               result=result, song_shown=0, spotify_auth_url="http://localhost:5000/spotify/")
 
     return render_template('search2.html', name=project_name, netid=net_id, output_message='',
+                           data='', genres=get_genres(), artists=get_artists())
+
+
+@irsystem.route('/v2', methods=['GET', 'POST'])
+def searchv2():
+    text_input = request.form.to_dict()
+    link = False
+    popular = False
+    if request.method == 'POST':
+        if text_input['text-or-link'] == "link":
+            link = True
+            text = text_input['text']
+            if text == "" and 'link' in text_input:  # this is for easy toggling between old and new ui
+                text = text_input['link']
+        if text_input['text-or-link'] == "text":
+            link = False
+            text = text_input['text']
+        if 'popular' in text_input.keys() and text_input["popular"] == "Popular":
+            popular = True
+
+        artist_input = request.form.to_dict()
+        if 'artist_search' in artist_input.keys():
+            sel_artists = request.form.to_dict()['artist_search']  # 'a,b,
+            sel_artists = sel_artists.split(
+                ',') if len(sel_artists) > 0 else []
+
+        genre_input = request.form.to_dict()
+        if 'genre_search' in genre_input.keys():
+            sel_genres = request.form.to_dict()['genre_search']
+            sel_genres = sel_genres.split(',') if len(sel_genres) > 0 else []
+
+        # print(sel_artists, sel_genres)
+
+        result = text_search(text, target_genres=sel_genres,
+                             target_artists=sel_artists, popular=popular, link=link)
+
+        if not result['status']['code'] == '000':
+            # handle response error
+            print(f"error code: {result['status']['code']}",
+                  f"error message: {result['status']['msg']}")
+            return render_template('404.html', code=result['status']['code'], message=result['status']['msg'])
+
+        global results_list
+        results_list = [project_name, net_id, get_genres(), get_artists(
+        ), sel_genres, sel_artists, result, startup.getUser()]
+        return render_template('output.html', name=project_name, netid=net_id,
+                               genres=get_genres(), artists=get_artists(),
+                               sel_genres=sel_genres, sel_artists=sel_artists, popular=popular,
+                               result=result, song_shown=0, spotify_auth_url="http://localhost:5000/spotify/")
+
+    return render_template('search.html', name=project_name, netid=net_id, output_message='',
                            data='', genres=get_genres(), artists=get_artists())
 
 
@@ -64,6 +118,7 @@ def search():
 def login():
     response = startup.getUser()
     return redirect(response)
+
 
 @irsystem.route('/callback/')
 def callback():
@@ -78,9 +133,9 @@ def callback():
         playlistid = spotify_generator(songs)
 
     return render_template('output2.html', name=results_list[0], netid=results_list[1],
-                               genres=results_list[2], artists=results_list[3],
-                               sel_genres=results_list[4], sel_artists=results_list[5], playlist=playlistid,
-                               result=results_list[6], spotify_auth_url = results_list[7], song_shown=0, clicked = True)
+                           genres=results_list[2], artists=results_list[3],
+                           sel_genres=results_list[4], sel_artists=results_list[5], playlist=playlistid,
+                           result=results_list[6], spotify_auth_url=results_list[7], song_shown=0, clicked=True)
 
 
 # @irsystem.route('/spotify/', methods=['GET', 'POST'])
@@ -90,11 +145,13 @@ def song_list(result):
         list1.append(tuple1[1])
     return list1
 
+
 def spotify_generator(song_uris):
     token = startup.getAccessToken()[0]
 
     endpoint_url = f"https://api.spotify.com/v1/me"
-    response = requests.get(url=endpoint_url, headers={"Authorization": "Bearer " + token})
+    response = requests.get(url=endpoint_url, headers={
+                            "Authorization": "Bearer " + token})
     results = response.json()
     user_id = results['id']
 
