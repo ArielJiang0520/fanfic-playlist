@@ -8,8 +8,8 @@
     color:#000;
   }
 .info{
-  font-family: "Quicksand", serif;
-  font-size: 16;
+  font-family: "Varela Round", serif;
+  font-size: 18px;
   background-color: #f3efec;
 }
 
@@ -277,11 +277,10 @@
 }
 
 .sentence-header{
-  font-family: "Quicksand", "serif";
+  font-family: "Montserrat";
   color: #f3efec;
   width: 600px;
   padding-left: 120px;
-  font-family: "Montserrat";
   padding-bottom: 50px;
 }
 
@@ -291,6 +290,7 @@
 }
 
 .sentence-list-item{
+  font-family: "Varela Round", "serif";
   color: #f3efec;
 }
 
@@ -329,7 +329,7 @@
   padding-left: 25px;
   padding-right: 25px;
   padding-top: 25px;
-  font-family: "Quicksand", "serif";
+  font-family: "Varela Round", "serif";
 }
 
 .score-label{
@@ -341,8 +341,15 @@
 }
 
 .score-num{
-  font-size: 20;
+  font-size: 24;
+  font-family: "Montserrat";
+  font-weight: 700;
 }
+
+/* .score-description {
+  font-size: 15px;
+  font-size: "Varela Round";
+} */
 
 .arrow-row{
   display: flex;
@@ -503,17 +510,19 @@
   flex-direction: row;
   justify-content: center;
   padding-top: 35px;
+  padding-left: 35px;
+  padding-bottom: 35px;
 }
 
 .genius-info{
   color:#f5f5ef;
-  font-size: 20px;
+  font-size: 16px;
   font-family: "Montserrat";
 }
 
 .genius-link{
   color:#f5f5ef;
-  font-size: 20px;
+  font-size: 16px;
   font-family: "Montserrat";
 }
 
