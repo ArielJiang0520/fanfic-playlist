@@ -238,10 +238,11 @@ playlist is created?)
             <div class='score-line'></div>
 
             <div class='progress-bars'>
-              <svg class="radial-progress" data-percentage="82" viewBox="0 0 80 80">
+              <svg class="radial-progress" data-percentage={{song['scores']['sentiment']}} viewBox="0 0 80 80">
                 <circle class="incomplete" cx="40" cy="40" r="35"></circle>
                 <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
-                <text class="percentage" x="50%" y="57%" transform="matrix(0, 1, -1, 0, 80, 0)">82%</text>
+                <text class="percentage" x="50%" y="57%"
+                  transform="matrix(0, 1, -1, 0, 80, 0)">{{song['scores']['sentiment']}}%</text>
               </svg>
             </div>
           </div>
@@ -254,11 +255,12 @@ playlist is created?)
             <p class='score-name'>Preference</p>
             <div class='score-line'></div>
             <div class="progress-circle p10">
-              <span>{{song['scores']['audio']}}</span>
-              <div class="left-half-clipper">
-                <div class="first50-bar"></div>
-                <div class="value-bar"></div>
-              </div>
+              <svg class="radial-progress" data-percentage={{song['scores']['audio']}} viewBox="0 0 80 80">
+                <circle class="incomplete" cx="40" cy="40" r="35"></circle>
+                <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
+                <text class="percentage" x="50%" y="57%"
+                  transform="matrix(0, 1, -1, 0, 80, 0)">{{song['scores']['audio']}}%</text>
+              </svg>
             </div>
           </div>
         </div>
@@ -270,11 +272,12 @@ playlist is created?)
             <p class='score-name'>Audio</p>
             <div class='score-line'></div>
             <div class="progress-circle p10">
-              <span>{{song['scores']['preference']}}</span>
-              <div class="left-half-clipper">
-                <div class="first50-bar"></div>
-                <div class="value-bar"></div>
-              </div>
+              <svg class="radial-progress" data-percentage={{song['scores']['audio']}} viewBox="0 0 80 80">
+                <circle class="incomplete" cx="40" cy="40" r="35"></circle>
+                <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
+                <text class="percentage" x="50%" y="57%"
+                  transform="matrix(0, 1, -1, 0, 80, 0)">{{song['scores']['audio']}}%</text>
+              </svg>
             </div>
           </div>
         </div>
@@ -286,11 +289,12 @@ playlist is created?)
             <p class='score-name'>Lyrics</p>
             <div class='score-line'></div>
             <div class="progress-circle p10">
-              <span>{{song['scores']['lyrics']}}</span>
-              <div class="left-half-clipper">
-                <div class="first50-bar"></div>
-                <div class="value-bar"></div>
-              </div>
+              <svg class="radial-progress" data-percentage={{song['scores']['lyrics']}} viewBox="0 0 80 80">
+                <circle class="incomplete" cx="40" cy="40" r="35"></circle>
+                <circle class="complete" cx="40" cy="40" r="35" style="stroke-dashoffset: 39.58406743523136;"></circle>
+                <text class="percentage" x="50%" y="57%"
+                  transform="matrix(0, 1, -1, 0, 80, 0)">{{song['scores']['lyrics']}}%</text>
+              </svg>
             </div>
           </div>
         </div>
@@ -354,30 +358,23 @@ playlist is created?)
 
 <script>
 
-  $('svg.radial-progress').each(function (index, value) {
-    $(this).find($('circle.complete')).removeAttr('style');
-  });
 
-  $(window).scroll(function () {
-    $('svg.radial-progress').each(function (index, value) {
-      // If svg.radial-progress is approximately 25% vertically into the window when scrolling from the top or the bottom
-      if (
-        $(window).scrollTop() > $(this).offset().top - ($(window).height() * 0.75) &&
-        $(window).scrollTop() < $(this).offset().top + $(this).height() - ($(window).height() * 0.25)
-      ) {
-        // Get percentage of progress
-        percent = $(value).data('percentage');
-        // Get radius of the svg's circle.complete
-        radius = $(this).find($('circle.complete')).attr('r');
-        // Get circumference (2πr)
-        circumference = 2 * Math.PI * radius;
-        // Get stroke-dashoffset value based on the percentage of the circumference
-        strokeDashOffset = circumference - ((percent * circumference) / 100);
-        // Transition progress for 1.25 seconds
-        $(this).find($('circle.complete')).animate({ 'stroke-dashoffset': strokeDashOffset }, 1250);
-      }
-    });
-  }).trigger('scroll');
+  $('svg.radial-progress').each(function (index, value) {
+
+    // Get percentage of progress
+    percent = $(value).data('percentage');
+    // Get radius of the svg's circle.complete
+    radius = $(this).find($('circle.complete')).attr('r');
+    // Get circumference (2πr)
+    circumference = 2 * Math.PI * radius;
+    // Get stroke-dashoffset value based on the percentage of the circumference
+    strokeDashOffset = circumference - ((percent * circumference) / 100);
+    console.log(strokeDashOffset);
+    // Transition progress for 1.25 seconds
+    $(this).find($('circle.complete')).animate({ 'stroke-dashoffset': strokeDashOffset }, 1250);
+  }
+  );
+
 </script>
 
 <script>
