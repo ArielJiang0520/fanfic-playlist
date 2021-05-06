@@ -83,51 +83,6 @@
     min-width: 220px;
   }
 
-  .popup .return-button{
-    height:150px;
-    width:150px;
-    flex: 50%;
-    border-color: #ffa500 ;
-    border-style: double;
-    border-width: 7px;
-    color:#000;
-    background-color: #FFF;
-  }
-.popup {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.popup-flex-child{
-  flex: 50%;
-}
-
-.popup-button{
-  flex:50%;
-}
-
-  /* The actual popup */
-.popup .popuptext {
-  visibility: hidden;
-  width: 215px;
-  height: 125px;
-  background-color:  #ffa500;
-  color: #000;
-  text-align: center;
-  border-radius: 6px;
-  z-index: 1;
-  bottom: 50%;
-  margin-top: 20px;
-  padding-top: 21px;
-  /*flex: 50%;*/
-}
 
 .popup-text-wrapper{
   display: flex;
@@ -135,37 +90,7 @@
   justify-content: center;
 }
 
-/* Popup arrow */
-.popup .popuptext::before {
-  border: solid 15px transparent;
-  border-bottom-color: #ffa500;
-  content: "";
-  position: absolute;
-  bottom: 42%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 10px;
-  border-style: solid;
-}
 
-
-/* Toggle this class - hide and show the popup */
-.popup .show {
-  visibility: visible;
-  -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
-}
-
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-  from {opacity: 0;} 
-  to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
-}
 
 .spotify-placeholder{
   height: 600px;
@@ -439,6 +364,13 @@
   width:20px;
 }
 
+.icon-button{
+  height: 20px;
+  width: 20px;
+  background-color: transparent;
+  border: transparent;
+}
+
 .score-name{
   color: #008037;
   font-family: "Montserrat";
@@ -576,6 +508,7 @@ svg.radial-progress {
   padding: 1em;
   transform: rotate(-90deg);
   width: 100%;
+  z-index: 1;
 }
 
 svg.radial-progress circle {
@@ -583,13 +516,75 @@ svg.radial-progress circle {
   stroke: #008037;
   stroke-dashoffset: 219.91148575129; 
   stroke-width: 10;
+  z-index: 1;
 }
 
-svg.radial-progress circle.incomplete { stroke: #e4e0d9 }
+svg.radial-progress circle.incomplete { stroke: #e4e0d9; z-index: 1; }
 
-svg.radial-progress circle.complete { stroke-dasharray: 219.91148575129; opacity: 100% }
+svg.radial-progress circle.complete { stroke-dasharray: 219.91148575129; opacity: 100%; z-index: 1; }
 
 svg.radial-progress text {
   fill: #008037;
   text-anchor: middle;
+  z-index: 2;
+}
+
+.popup {
+position: relative;
+cursor: pointer;
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;
+padding-right: 15px;
+padding-top: 2px;
+z-index: 3000;
+}
+
+.popup-flex-child{
+position: absolute;
+}
+
+
+/* The actual popup */
+.popup .popuptext {
+visibility: hidden;
+width: 230px;
+height: 350px;
+background-color: #e4e0d9;
+color: #000;
+text-align: center;
+border-radius: 6px;
+z-index: 2000;
+bottom: 50%;
+margin-top: 20px;
+padding-top: 10px;
+padding-left: 10px;
+padding-right: 10px;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+visibility: visible;
+-webkit-animation: fadeIn 1s;
+animation: fadeIn 1s;
+z-index: 3000;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+from {opacity: 0;} 
+to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+from {opacity: 0;}
+to {opacity:1 ;}
+}
+
+.x-button{
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  margin: auto;
 }

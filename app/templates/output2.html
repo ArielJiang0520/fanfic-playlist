@@ -208,7 +208,23 @@
     <div class='score-types'>
       <div>
         <div class='icon-label'>
-          <img class='icon-placeholder' src='/static/images/6.png'></img>
+          <div class="popup" onclick="showSongInfo2('sentiment-info',event)">
+            <div class='popup-flex-child'>
+              <button class="icon-button">
+                <img class='icon-placeholder' src='/static/images/6.png'></img>
+              </button>
+            </div>
+            <div class='popup-flex-child'>
+              <span class="popuptext" id="sentiment-info">
+                This score indicates how well the sentiment of the lyrics matches your fanfiction. This is not exact
+                word matching in a traditional Information Retrieval sense, rather, it reflects if the lyrics match
+                the
+                sexual/romance/emotional scores we give your fanfiction. By the way, we also captured the annotations
+                of
+                each song as part of the sentiments using the community data provided by Genius.com.
+              </span>
+            </div>
+          </div>
           <div class='label-line'>
             <p class='score-name'>Sentiment</p>
             <div class='score-line'></div>
@@ -226,7 +242,20 @@
       </div>
       <div>
         <div class='icon-label'>
-          <img class='icon-placeholder' src='/static/images/6.png'></img>
+          <div class="popup" onclick="showSongInfo2('preference-info',event)">
+            <div class='popup-flex-child'>
+              <button class="icon-button">
+                <img class='icon-placeholder' src='/static/images/6.png'></img>
+              </button>
+            </div>
+            <div class='popup-flex-child'>
+              <span class="popuptext" id="preference-info">
+                This score indicates how well the metadata of the song matches your preferences. For example, if you
+                chose “Harry Styles” as your preferred artist, then songs made by similar artists would score higher in
+                this category. If you select multiple genres or artists, all of them will be considered equally.
+              </span>
+            </div>
+          </div>
           <div class='label-line'>
             <p class='score-name'>Preference</p>
             <div class='score-line'></div>
@@ -243,7 +272,20 @@
       </div>
       <div>
         <div class='icon-label'>
-          <img class='icon-placeholder' src='/static/images/6.png'></img>
+          <div class="popup" onclick="showSongInfo2('audio-info',event)">
+            <div class='popup-flex-child'>
+              <button class="icon-button">
+                <img class='icon-placeholder' src='/static/images/6.png'></img>
+              </button>
+            </div>
+            <div class='popup-flex-child'>
+              <span class="popuptext" id="audio-info">
+                This score is calculated based on the audio features provided by Spotify. Basically, each song has
+                “valence”, “energy”, and “dancibility” as their audio features, so we try to match these to the
+                emotional level of your fanfiction.
+              </span>
+            </div>
+          </div>
           <div class='label-line'>
             <p class='score-name'>Audio</p>
             <div class='score-line'></div>
@@ -260,7 +302,20 @@
       </div>
       <div>
         <div class='icon-label'>
-          <img class='icon-placeholder' src='/static/images/6.png'></img>
+          <div class="popup" onclick="showSongInfo2('lyrics-info',event)">
+            <div class='popup-flex-child'>
+              <button class="icon-button">
+                <img class='icon-placeholder' src='/static/images/6.png'></img>
+              </button>
+            </div>
+            <div class='popup-flex-child'>
+              <span class="popuptext" id="lyrics-info">
+                This is the exact word match you are looking for, but with a twist. We used our trained AI model to
+                recognize words that have similar sense, so if your fanfiction has the word “fire”, the songs with words
+                like “burn”, “light”, “melt” will also score higher.
+              </span>
+            </div>
+          </div>
           <div class='label-line'>
             <p class='score-name'>Lyrics</p>
             <div class='score-line'></div>
@@ -444,8 +499,8 @@
     box.querySelector('h3').innerText = 'Popup Box ' + elem.id;
     box.querySelector('p').innerText = 'You are currently viewing popup box ' + elem.id + '.';
   }
-  function showSongInfo2(song, event) {
-    var popup = document.getElementById(song['id']);
+  function showSongInfo2(popupId, event) {
+    var popup = document.getElementById(popupId);
     popup.classList.toggle("show");
   }
   // When the user clicks to close modal
